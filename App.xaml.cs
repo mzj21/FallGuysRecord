@@ -1,14 +1,10 @@
-﻿using System.IO;
-using System.Reflection;
-using System;
-using System.Windows;
+﻿using System;
+using System.IO;
 using System.Linq;
-using FallGuysRecord_WPF_Framework.Properties;
-using System.Resources;
-using System.Drawing;
-using System.Windows.Documents;
+using System.Reflection;
+using System.Windows;
 
-namespace FallGuysRecord_WPF_Framework
+namespace FallGuysRecord
 {
     /// <summary>
     /// App.xaml 的交互逻辑
@@ -21,7 +17,7 @@ namespace FallGuysRecord_WPF_Framework
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
         }
 
-        private System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             string resources = null;
             foreach (var item in dlls)

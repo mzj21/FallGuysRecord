@@ -1,10 +1,8 @@
-﻿using FallGuysRecord_WPF_Framework.resources;
-using System;
+﻿using System;
 using System.Drawing;
 using System.IO;
 using System.Timers;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -13,7 +11,7 @@ using Color = System.Windows.Media.Color;
 using FontFamily = System.Windows.Media.FontFamily;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
-namespace FallGuysRecord_WPF_Framework
+namespace FallGuysRecord
 {
     public partial class MainWindow : Window, ReaderListener
     {
@@ -59,8 +57,6 @@ namespace FallGuysRecord_WPF_Framework
             logReader.Start();
             #endregion
         }
-
-
         #endregion
         #region [窗口置顶]
         private void Window_Deactivated(object sender, EventArgs e)

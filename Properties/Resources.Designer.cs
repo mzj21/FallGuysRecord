@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FallGuysRecord_WPF_Framework.Properties {
+namespace FallGuysRecord.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace FallGuysRecord_WPF_Framework.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FallGuysRecord_WPF_Framework.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FallGuysRecord.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,16 +57,6 @@ namespace FallGuysRecord_WPF_Framework.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Icon FallGuysRecord {
-            get {
-                object obj = ResourceManager.GetObject("FallGuysRecord", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
             }
         }
     }
