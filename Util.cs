@@ -27,7 +27,7 @@ namespace FallGuysRecord_WPF_Framework
                 userSettingData.Height = 83;
                 userSettingData.levelPath = levelFile;
                 userSettingData.TextColor = Color.Black;
-                userSettingData.TextFont = new Font("Segoe UI", 12, FontStyle.Bold, GraphicsUnit.Pixel);
+                userSettingData.TextFont = new Font("Segoe UI", 12, FontStyle.Bold, GraphicsUnit.Point);
                 File.WriteAllText(settingFile, JsonConvert.SerializeObject(userSettingData, Formatting.Indented));
             }
         }
