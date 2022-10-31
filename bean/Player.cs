@@ -1,0 +1,36 @@
+﻿using System;
+using static FallGuysRecord_WPF_Framework.Player;
+
+namespace FallGuysRecord_WPF_Framework
+{
+    public class Player
+    {
+        public string playerName { get; set; }
+        public String name { get; set; }
+        public String platform { get; set; }
+        public int partyId { get; set; }
+        public int squadID { get; set; }
+        public int playerId { get; set; }
+        public PlayerState playerState { get; set; }
+        public enum PlayerState
+        {
+            QUALIFIED, PLAYING, ELIMINATED
+        }
+
+        public Player(string playerName, string name, string platform, int partyId, int squadID, int playerId)
+        {
+            this.playerName = playerName;
+            this.name = name;
+            this.platform = platform;
+            this.partyId = partyId;
+            this.squadID = squadID;
+            this.playerId = playerId;
+            this.playerState = PlayerState.PLAYING;
+        }
+
+        public override string ToString()
+        {
+            return $"{{{nameof(playerName)}={playerName}, {nameof(name)}={name}, {nameof(platform)}={platform}, {nameof(partyId)}={partyId.ToString()}, {nameof(squadID)}={squadID.ToString()}, {nameof(playerId)}={playerId.ToString()}, {nameof(playerState)}={playerState.ToString()}}}";
+        }
+    }
+}
