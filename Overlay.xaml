@@ -39,14 +39,14 @@
             <WrapPanel Orientation="Vertical" Height="68" Margin="0,8,10,7" Width="125" HorizontalAlignment="Right" ItemHeight="17" ItemWidth="125">
                 <TextBlock x:Name="t2" Text="Ping:ms" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t2}" TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
                 <TextBlock x:Name="t4"  Text="------" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t4}"  TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
-                <TextBlock x:Name="t6"  Text="00:00:00" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t6}"  TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
+                <TextBlock x:Name="t6"  Text="--:--:--" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t6}"  TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
                 <TextBlock x:Name="t8"  Text="------" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t8}"  TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
             </WrapPanel>
             <WrapPanel Orientation="Vertical" ItemHeight="17" Height="68" Margin="101,8,80,7" ItemWidth="101">
                 <TextBlock x:Name="t1" Text="win(0/0)" VerticalAlignment="Center"  TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t1}"/>
                 <TextBlock x:Name="t3"  Text="------" VerticalAlignment="Center"  TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t3}"/>
-                <TextBlock x:Name="t5"  Text="00:00:00" VerticalAlignment="Center"  TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t5}"/>
-                <TextBlock x:Name="t7"  Text="00:00:00" VerticalAlignment="Center"  TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t7}"/>
+                <TextBlock x:Name="t5"  Text="--:--:--" VerticalAlignment="Center"  TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t5}"/>
+                <TextBlock x:Name="t7"  Text="--:--:--" VerticalAlignment="Center"  TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t7}"/>
             </WrapPanel>
         </Grid>
     </Viewbox>

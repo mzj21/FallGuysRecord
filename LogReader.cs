@@ -25,6 +25,7 @@ public class LogReader
     private String roundName;
     private int interval = 10; //计时器运行间隔
     private Boolean isRun; //保证线程安全无重复
+    private FileStream fs;
 
     enum ReadState
     {
@@ -39,6 +40,7 @@ public class LogReader
 
     public void Start()
     {
+        fs = new FileStream(Xing.LogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         timer = new Timer();
         timer.Interval = interval;
         timerThread = new Timer();
@@ -54,19 +56,16 @@ public class LogReader
     {
         if (isRun)
             return;
-        using (FileStream fs = new FileStream(Xing.LogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        fs.Seek(seek, SeekOrigin.Begin);
+        StreamReader reader = new StreamReader(fs);
+        isRun = true;
+        String line;
+        while ((line = reader.ReadLine()) != null)
         {
-            fs.Seek(seek, SeekOrigin.Begin);
-            StreamReader reader = new StreamReader(fs);
-            isRun = true;
-            String line;
-            while ((line = reader.ReadLine()) != null)
-            {
-                seek += line.Length;
-                parseLine(line);
-            }
-            isRun = false;
+            seek += line.Length;
+            parseLine(line);
         }
+        isRun = false;
     }
 
     void parseLine(String line)
