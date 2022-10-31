@@ -9,6 +9,6 @@
 ## 使用
 解压即用，如果出现窗口不显示不运行的问题，请删除Setting.json后重新打开即可。
 ## 截图和说明
-![中文](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/images/%E4%B8%AD%E6%96%87.png)
-![English](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/images/%E8%8B%B1%E6%96%87.png)
-![改变](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/images/%E6%94%B9%E5%8F%98.png)
+![中文](https://github.com/mzj21/FallGuysRecord/blob/main/images/zh.png)
+![English](https://github.com/mzj21/FallGuysRecord/blob/main/images/en.png)
+![改变](https://github.com/mzj21/FallGuysRecord/blob/main/images/change.png)
