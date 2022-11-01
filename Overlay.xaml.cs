@@ -36,6 +36,22 @@ namespace FallGuysRecord
             overlay_window.Top = userSettingData.Y;
             overlay_window.Width = userSettingData.Width;
             overlay_window.Height = userSettingData.Height;
+            if (overlay_window.Left < 0)
+            {
+                overlay_window.Left = 0;
+            }
+            if (overlay_window.Left > SystemParameters.PrimaryScreenWidth - overlay_window.Width)
+            {
+                overlay_window.Left = SystemParameters.PrimaryScreenWidth - overlay_window.Width;
+            }
+            if (overlay_window.Top < 0)
+            {
+                overlay_window.Top = 0;
+            }
+            if (overlay_window.Top > SystemParameters.PrimaryScreenHeight - overlay_window.Height)
+            {
+                overlay_window.Top = SystemParameters.PrimaryScreenHeight - overlay_window.Height;
+            }
             SolidBrush sb = new SolidBrush(userSettingData.TextColor);
             overlay_window.Foreground = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
             overlay_window.FontFamily = new FontFamily(userSettingData.TextFont.FontFamily.Name);
@@ -48,11 +64,12 @@ namespace FallGuysRecord
                 textDecorations.Add(TextDecorations.Strikethrough);
             t1.TextDecorations = textDecorations;
             overlay_window.FontSize = userSettingData.TextFont.Size;
-
-            #region [开启线程读取log]
+            #region [秒表计时器]
             timer = new System.Timers.Timer();
             timer.Interval = 1000;
             timer.Elapsed += Timer_Elapsed;
+            #endregion
+            #region [开启线程读取log]
             LogReader logReader = new LogReader(this);
             logReader.Start();
             #endregion
@@ -66,7 +83,7 @@ namespace FallGuysRecord
         }
         #endregion
         #region [拖动窗口,禁止最大化]
-        private void DragMove_Border(object sender, MouseButtonEventArgs e)
+        private void overlay_window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
             {
@@ -84,6 +101,33 @@ namespace FallGuysRecord
                         this.ResizeMode = windowMode;
                     }
                     this.UpdateLayout();
+                }
+            }
+        }
+        #endregion
+        #region [窗口贴边]
+        private void overlay_window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                if (Mouse.LeftButton == MouseButtonState.Released)
+                {
+                    if (overlay_window.Left < 0)
+                    {
+                        overlay_window.Left = 0;
+                    }
+                    if (overlay_window.Left > SystemParameters.PrimaryScreenWidth - overlay_window.Width)
+                    {
+                        overlay_window.Left = SystemParameters.PrimaryScreenWidth - overlay_window.Width;
+                    }
+                    if (overlay_window.Top < 0)
+                    {
+                        overlay_window.Top = 0;
+                    }
+                    if (overlay_window.Top > SystemParameters.PrimaryScreenHeight - overlay_window.Height)
+                    {
+                        overlay_window.Top = SystemParameters.PrimaryScreenHeight - overlay_window.Height;
+                    }
                 }
             }
         }
@@ -143,6 +187,31 @@ namespace FallGuysRecord
                 overlay_window.Foreground = solidColorBrush;
                 userSettingData.TextColor = colorDialog.Color;
                 Util.Save_UserSettingData(userSettingData);
+            }
+        }
+        #endregion
+        #region [修改地图语言文件]
+        private void MenuItem_Click3(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = userSettingData.OverlayBackground,
+                Filter = @"(*.json)|*.json"
+            };
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                userSettingData.levelPath = openFileDialog.FileName;
+                Util.Save_UserSettingData(userSettingData);
+                Xing.list_LevelMap = Util.Read_LevelMap(openFileDialog.FileName);
+                LevelMap levelMap = new LevelMap();
+                foreach (LevelMap l in Xing.list_LevelMap)
+                {
+                    if (l.name.Equals(roundName))
+                    {
+                        levelMap = l;
+                    }
+                }
+                SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "", "", "", "");
             }
         }
         #endregion
@@ -275,31 +344,6 @@ namespace FallGuysRecord
                 t5.Text = string.Format("{0:00}:{1:00}", timeSpan.Minutes, timeSpan.Seconds) + ":00";
             });
 
-        }
-        #endregion
-        #region [修改地图语言文件]
-        private void MenuItem_Click3(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                InitialDirectory = userSettingData.OverlayBackground,
-                Filter = @"(*.json)|*.json"
-            };
-            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                userSettingData.levelPath = openFileDialog.FileName;
-                Util.Save_UserSettingData(userSettingData);
-                Xing.list_LevelMap = Util.Read_LevelMap(openFileDialog.FileName);
-                LevelMap levelMap = new LevelMap();
-                foreach (LevelMap l in Xing.list_LevelMap)
-                {
-                    if (l.name.Equals(roundName))
-                    {
-                        levelMap = l;
-                    }
-                }
-                SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "", "", "", "");
-            }
         }
         #endregion
     }

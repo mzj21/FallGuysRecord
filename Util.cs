@@ -19,10 +19,10 @@ public class Util
         {
             UserSettingData userSettingData = new UserSettingData();
             userSettingData.OverlayBackground = "";
-            userSettingData.X = SystemParameters.WorkArea.Width / 2;
-            userSettingData.Y = SystemParameters.WorkArea.Height / 2;
             userSettingData.Width = 303;
             userSettingData.Height = 83;
+            userSettingData.X = (SystemParameters.WorkArea.Width - userSettingData.Width) / 2;
+            userSettingData.Y = (SystemParameters.WorkArea.Height - userSettingData.Height) / 2;
             userSettingData.levelPath = levelFile;
             userSettingData.TextColor = Color.Black;
             userSettingData.TextFont = new Font("Segoe UI", 12, FontStyle.Bold, GraphicsUnit.Point);
