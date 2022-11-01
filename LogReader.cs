@@ -23,7 +23,7 @@ public class LogReader
     private int seek;
     private ReadState readState = ReadState.ROUND_EXIT;
     private String roundName;
-    private int interval = 10; //计时器运行间隔
+    private int interval = 1; //计时器运行间隔, 不影响性能
     private Boolean isRun; //保证线程安全无重复
     private FileStream fs;
 
