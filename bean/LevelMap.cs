@@ -8,8 +8,8 @@ public class LevelMap
 
     public LevelMap()
     {
-        this.name = "未知";
-        this.showname = "未知";
-        this.type = "未知";
+        this.name = "";
+        this.showname = "";
+        this.type = "";
     }
 }

@@ -29,4 +29,18 @@ public class Player
     {
         return $"{{{nameof(playerName)}={playerName}, {nameof(name)}={name}, {nameof(platform)}={platform}, {nameof(partyId)}={partyId.ToString()}, {nameof(squadID)}={squadID.ToString()}, {nameof(playerId)}={playerId.ToString()}, {nameof(playerState)}={playerState.ToString()}}}";
     }
+
+    public string ToLog()
+    {
+        String r = playerName + " (" + platform + ") ";
+        if (partyId > 0)
+        {
+            r += " partyId=" + partyId;
+        }
+        if (squadID > 0)
+        {
+            r += " squadID=" + squadID;
+        }
+        return r;
+    }
 }

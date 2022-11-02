@@ -122,9 +122,11 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -132,7 +134,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="bean\UserSettingData.cs" />
-    <Page Include="Overlay.xaml">
+    <Page Include="Window_Overlay.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -140,10 +142,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="interface\Interface1.cs" />
     <Compile Include="LogReader.cs" />
     <Compile Include="interface\ReaderListener.cs" />
     <Compile Include="bean\LevelMap.cs" />
     <Compile Include="bean\Player.cs" />
+    <Compile Include="Window_ListView.xaml.cs">
+      <DependentUpon>Window_ListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -151,10 +157,14 @@
     </Compile>
     <Compile Include="Xing.cs" />
     <Compile Include="Util.cs" />
-    <Compile Include="Overlay.xaml.cs">
-      <DependentUpon>Overlay.xaml</DependentUpon>
+    <Compile Include="Window_Overlay.xaml.cs">
+      <DependentUpon>Window_Overlay.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Window_ListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -208,7 +218,6 @@
   <ItemGroup>
     <None Include="resources\FallGuysRecord-512x512.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="background\nameplate_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

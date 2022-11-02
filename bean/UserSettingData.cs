@@ -14,4 +14,8 @@ public class UserSettingData
     public String levelPath { get; set; }
     public Color TextColor { get; set; }
     public Font TextFont { get; set; }
+    public double X_Info { get; set; }
+    public double Y_Info { get; set; }
+    public double Width_Info { get; set; }
+    public double Height_Info { get; set; }
 }

@@ -13,7 +13,7 @@ using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
 namespace FallGuysRecord
 {
-    public partial class MainWindow : Window, ReaderListener
+    public partial class Window_Overlay : Window, ReaderListener
     {
         UserSettingData userSettingData;
         System.Timers.Timer timer;
@@ -21,8 +21,10 @@ namespace FallGuysRecord
         TimeSpan timeSpan;
         private int num;
         private String roundName;
+        private Window_ListView listView;
+
         #region [初始化界面]
-        public MainWindow()
+        public Window_Overlay()
         {
             InitializeComponent();
 
@@ -69,6 +71,7 @@ namespace FallGuysRecord
             timer.Interval = 1000;
             timer.Elapsed += Timer_Elapsed;
             #endregion
+
             #region [开启线程读取log]
             LogReader logReader = new LogReader(this);
             logReader.Start();
@@ -191,7 +194,7 @@ namespace FallGuysRecord
         }
         #endregion
         #region [修改地图语言文件]
-        private void MenuItem_Click3(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -203,15 +206,26 @@ namespace FallGuysRecord
                 userSettingData.levelPath = openFileDialog.FileName;
                 Util.Save_UserSettingData(userSettingData);
                 Xing.list_LevelMap = Util.Read_LevelMap(openFileDialog.FileName);
-                LevelMap levelMap = new LevelMap();
-                foreach (LevelMap l in Xing.list_LevelMap)
-                {
-                    if (l.name.Equals(roundName))
-                    {
-                        levelMap = l;
-                    }
-                }
+                LevelMap levelMap = Util.GetLevelMap(roundName);
                 SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "", "", "", "");
+            }
+        }
+        #endregion
+        #region [开启回合信息流]
+        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
+        {
+            if (listView == null)
+            {
+                listView = new Window_ListView();
+            }
+            if (listView.IsVisible)
+            {
+                listView.Hide();
+            }
+            else
+            {
+                listView = new Window_ListView();
+                listView.Show();
             }
         }
         #endregion
@@ -273,26 +287,12 @@ namespace FallGuysRecord
         {
             this.num = num;
             this.roundName = roundName;
-            LevelMap levelMap = new LevelMap();
-            if (Xing.list_LevelMap != null && Xing.list_LevelMap.Count > 0)
+            LevelMap levelMap = Util.GetLevelMap(roundName);
+            SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "--:--:--", "--:--:--", "--:--:--", "");
+            App.Current.Dispatcher.Invoke(() =>
             {
-                foreach (LevelMap l in Xing.list_LevelMap)
-                {
-                    if (l.name.Equals(roundName))
-                    {
-                        levelMap = l;
-                    }
-                }
-                SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "--:--:--", "--:--:--", "--:--:--", "");
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    t8.Text = "";
-                });
-            }
-            else
-            {
-                SetText("", "", "(" + num + ")", "", "--:--:--", "--:--:--", "--:--:--", "");
-            }
+                t8.Text = "";
+            });
         }
 
         public void RoundStart()

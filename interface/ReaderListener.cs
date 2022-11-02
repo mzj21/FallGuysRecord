@@ -8,12 +8,10 @@ public interface ReaderListener
     /// <param name="num">回合数</param>
     /// <param name="roundName">地图名</param>
     void RoundInit(int num, String roundName);
-
     /// <summary>
     /// 回合开始
     /// </summary>
     void RoundStart();
-
     /// <summary>
     /// 回合更新(第一)
     /// </summary>
@@ -36,7 +34,6 @@ public interface ReaderListener
     /// </summary>
     /// <param name="endtime">结束时间</param>
     void RoundEnd(String endtime);
-
     /// <summary>
     /// 回合中途掉线、退出
     /// </summary>
@@ -44,7 +41,6 @@ public interface ReaderListener
     /// <param name="win">获胜数</param>
     /// <param name="wins">获胜人数</param>
     void RoundExit(int match, int win, String wins);
-
     /// <summary>
     /// 更新PING
     /// </summary>
