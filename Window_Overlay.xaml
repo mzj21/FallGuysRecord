@@ -20,7 +20,7 @@
         Deactivated="Window_Deactivated"
         MouseLeftButtonDown="overlay_window_MouseLeftButtonDown"
         MouseLeftButtonUp="overlay_window_MouseLeftButtonUp"
->
+        Closing="overlay_window_Closing">
 
     <Window.Resources>
         <ContextMenu x:Key="ContextMenu">

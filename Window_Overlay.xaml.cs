@@ -343,5 +343,11 @@ namespace FallGuysRecord
 
         }
         #endregion
+        #region [修复进程依旧存在的问题]
+        private void overlay_window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            listView.Close();
+        }
+        #endregion
     }
 }
