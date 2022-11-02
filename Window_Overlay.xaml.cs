@@ -22,6 +22,7 @@ namespace FallGuysRecord
         private int num;
         private String roundName;
         private Window_ListView listView;
+        private LogReader logReader;
 
         #region [初始化界面]
         public Window_Overlay()
@@ -73,7 +74,8 @@ namespace FallGuysRecord
             #endregion
 
             #region [开启线程读取log]
-            LogReader logReader = new LogReader(this);
+            listView = new Window_ListView();
+            logReader = new LogReader(this, listView);
             logReader.Start();
             #endregion
         }
@@ -214,17 +216,12 @@ namespace FallGuysRecord
         #region [开启回合信息流]
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)
         {
-            if (listView == null)
-            {
-                listView = new Window_ListView();
-            }
             if (listView.IsVisible)
             {
                 listView.Hide();
             }
             else
             {
-                listView = new Window_ListView();
                 listView.Show();
             }
         }

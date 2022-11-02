@@ -51,7 +51,6 @@ namespace FallGuysRecord
             list_header.Text = Xing.LogFileHeader;
             list_detail.Text = Xing.LogFileDetail;
             list_detail.ScrollToEnd();
-            LogReader.logListener = this;
         }
         #region [窗口置顶]
         private void window_listview_Deactivated(object sender, EventArgs e)

@@ -9,7 +9,7 @@ using static Player;
 public class LogReader
 {
     private ReaderListener readerListener;
-    public static LogListener logListener { set; get; }
+    private LogListener logListener;
     private Match m;
     private List<Player> list_player = new List<Player>();
     private List<Player> list_player_QUALIFIED = new List<Player>();
@@ -35,28 +35,23 @@ public class LogReader
         ROUND_INIT, ROUND_START, ROUND_UPDATED, ROUND_END, ROUND_EXIT
     }
 
-    public LogReader(ReaderListener listener)
+    public LogReader(ReaderListener Rlistener, LogListener lListener)
     {
-        readerListener = listener;
+        readerListener = Rlistener;
+        logListener = lListener;
         list_player = new List<Player>();
     }
 
     private void LogHeader(string head)
     {
         Xing.LogFileHeader = mode + " " + head;
-        if (logListener != null)
-        {
-            logListener.Header(head);
-        }
+        logListener.Header(head);
     }
 
     private void LogDetail(string detail)
     {
         Xing.LogFileDetail += detail + Environment.NewLine;
-        if (logListener != null)
-        {
-            logListener.Detail(detail);
-        }
+        logListener.Detail(detail);
     }
 
     public void Start()
@@ -243,6 +238,7 @@ public class LogReader
                                     }
                                     player.playerState = PlayerState.ELIMINATED;
                                     list_player_ELIMINATED.Add(player);
+                                    LogDetail("× " + player.ToLog() + "  " + time_out);
                                     Debug.Write("× " + player + "  " + time_out + Environment.NewLine);
                                 }
                             }
@@ -256,10 +252,6 @@ public class LogReader
                     String time_out = timeSpan.ToString(@"mm\:ss\:ff");
                     timer.Stop();
                     readerListener.RoundEnd(time_out);
-                    foreach (Player player in list_player_ELIMINATED)
-                    {
-                        LogDetail("× " + player.ToLog());
-                    }
                     foreach (Player player in list_player)
                     {
                         if (player.playerState == PlayerState.PLAYING)

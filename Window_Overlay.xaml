@@ -37,7 +37,7 @@
     </Window.Resources>
 
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="0" ResizeBorderThickness="20"/>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="10"/>
     </WindowChrome.WindowChrome>
 
     <Viewbox Stretch="Fill" ContextMenu="{StaticResource ContextMenu}">
