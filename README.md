@@ -10,7 +10,7 @@
 ## 使用
 解压即用，右键浮窗可以设置。~~如果出现窗口不显示不运行的问题，请删除Setting.json后重新打开即可。~~(已修复)
 ## 截图和说明
+1.1.1版本演示视频https://www.bilibili.com/video/BV14V4y137yS/
 ![中文](https://github.com/mzj21/FallGuysRecord/blob/main/images/zh.png)
 ![English](https://github.com/mzj21/FallGuysRecord/blob/main/images/en.png)
 ![改变](https://github.com/mzj21/FallGuysRecord/blob/main/images/change.png)
-![1.1.1演示视频](https://www.bilibili.com/video/BV14V4y137yS/)
