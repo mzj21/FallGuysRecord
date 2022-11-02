@@ -13,3 +13,4 @@
 ![中文](https://github.com/mzj21/FallGuysRecord/blob/main/images/zh.png)
 ![English](https://github.com/mzj21/FallGuysRecord/blob/main/images/en.png)
 ![改变](https://github.com/mzj21/FallGuysRecord/blob/main/images/change.png)
+![1.1.1演示视频](https://www.bilibili.com/video/BV14V4y137yS/)
