@@ -75,7 +75,6 @@ namespace FallGuysRecord
 
             #region [开启线程读取log]
             listView = new Window_ListView();
-            listView.Show();
             logReader = new LogReader(this, listView);
             logReader.Start();
             #endregion
