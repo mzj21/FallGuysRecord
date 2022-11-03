@@ -30,6 +30,7 @@ public class LogReader
     private int interval = 1; //计时器运行间隔, 不影响性能
     private Boolean isRun; //保证线程安全无重复
     private FileStream fs;
+    private Boolean isMatchStart;
 
     enum ReadState
     {
@@ -107,19 +108,24 @@ public class LogReader
         }
         if (line.Contains("Client has been disconnected"))
         {
-            round = 0;
-            ++match;
-            if (isWin) { win++; }
-            if (isFinal && readState != ReadState.ROUND_UPDATED)
+            if (isMatchStart)
             {
-                readerListener.RoundExit(match, win, Util.GetLevelMap(roundName).showname + "(" + list_player_QUALIFIED.Count + ")");
-            }
-            else
-            {
-                readerListener.RoundExit(match, win, "");
+                round = 0;
+                ++match;
+                if (isWin) { win++; }
+                if (isFinal && readState != ReadState.ROUND_UPDATED)
+                {
+                    readerListener.RoundExit(match, win, Util.GetLevelMap(roundName).showname + "(" + list_player_QUALIFIED.Count + ")");
+                }
+                else
+                {
+                    readerListener.RoundExit(match, win, "");
+                }
+                Debug.Write("与服务器连接中断，是一场比赛" + Environment.NewLine);
+                isMatchStart = false;
             }
             //LogDetail("××××××××××××××××××××");
-            Debug.Write("与服务器连接中断" + Environment.NewLine);
+            Debug.Write("与服务器连接中断，是否是一场比赛：" + Environment.NewLine);
             readState = ReadState.ROUND_EXIT;
         }
         switch (readState)
@@ -131,6 +137,7 @@ public class LogReader
                     LogDetail("≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡");
                     LogDetail("IP：" + m.Groups[1]);
                     Debug.Write("服务器：ip:" + m.Groups[1] + Environment.NewLine);
+                    isMatchStart = true;
                     readState = ReadState.ROUND_INIT;
                 }
                 break;
@@ -288,6 +295,7 @@ public class LogReader
                 {
                     LogDetail("==============================");
                     Debug.Write("整场比赛结束" + Environment.NewLine);
+                    readState = ReadState.ROUND_EXIT;
                 }
                 break;
         }
