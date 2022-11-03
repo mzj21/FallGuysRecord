@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Timers;
 using static Player;
@@ -50,6 +51,7 @@ public class LogReader
 
     private void LogDetail(string detail)
     {
+        detail = Util.ToDBC(detail);
         Xing.LogFileDetail += detail + Environment.NewLine;
         logListener.Detail(detail);
     }
@@ -180,7 +182,7 @@ public class LogReader
                 {
                     Debug.Write("游戏开始：可以转镜头了" + Environment.NewLine);
                     Debug.Write("共计" + list_player.Count + "个玩家" + Environment.NewLine);
-                    LogDetail("共计" + list_player.Count + "个玩家");
+                    LogDetail("Players(" + list_player.Count + ")");
                     readState = ReadState.ROUND_START;
                 }
                 break;
@@ -225,7 +227,14 @@ public class LogReader
                                     readerListener.RoundUpdateMe(player, time_out);
                                 }
                                 list_player_QUALIFIED.Add(player);
-                                LogDetail("#" + rank + "  " + player.ToLog() + "  " + time_out);
+                                if (rank < 10)
+                                {
+                                    LogDetail("#" + rank + "   " + player.ToLog() + "  " + time_out);
+                                }
+                                else
+                                {
+                                    LogDetail("#" + rank + " " + player.ToLog() + "  " + time_out);
+                                }
                                 Debug.Write("达标了：排名为" + rank + "  " + player + "  " + time_out + Environment.NewLine);
                             }
                             else
@@ -238,7 +247,7 @@ public class LogReader
                                     }
                                     player.playerState = PlayerState.ELIMINATED;
                                     list_player_ELIMINATED.Add(player);
-                                    LogDetail("× " + player.ToLog() + "  " + time_out);
+                                    LogDetail("×    " + player.ToLog() + "  " + time_out);
                                     Debug.Write("× " + player + "  " + time_out + Environment.NewLine);
                                 }
                             }
@@ -256,7 +265,7 @@ public class LogReader
                     {
                         if (player.playerState == PlayerState.PLAYING)
                         {
-                            LogDetail("× " + player.ToLog());
+                            LogDetail("×     " + player.ToLog());
                         }
                     }
                     LogDetail("--------------------");

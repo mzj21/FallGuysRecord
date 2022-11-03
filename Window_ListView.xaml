@@ -28,6 +28,6 @@
 
     <Grid>
         <TextBlock x:Name="list_header" VerticalAlignment="Top" Height="20" Margin="5,5,5,5"/>
-        <TextBox x:Name="list_detail" Text="" Margin="5,30,5,5" VerticalScrollBarVisibility="Visible" TextChanged="list_detail_TextChanged" Loaded="list_detail_Loaded"/>
+        <TextBox x:Name="list_detail" Margin="5,30,5,5" VerticalScrollBarVisibility="Visible" TextChanged="list_detail_TextChanged" Loaded="list_detail_Loaded" FontFamily="{Binding FontFamily, ElementName=window_listview}" FontSize="{Binding FontSize, ElementName=window_listview}" FontWeight="{Binding FontWeight, ElementName=window_listview}" FontStyle="{Binding FontStyle, ElementName=window_listview}" Foreground="{Binding Foreground, ElementName=window_listview}"/>
     </Grid>
 </Window>

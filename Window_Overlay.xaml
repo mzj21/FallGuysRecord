@@ -24,7 +24,7 @@
 
     <Window.Resources>
         <ContextMenu x:Key="ContextMenu">
-            <MenuItem Header="Bcckground" Click="MenuItem_Click_0"/>
+            <MenuItem Header="Background" Click="MenuItem_Click_0"/>
             <Separator/>
             <MenuItem Header="Font" Click="MenuItem_Click_1"/>
             <Separator/>
