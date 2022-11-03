@@ -75,6 +75,7 @@ namespace FallGuysRecord
 
             #region [开启线程读取log]
             listView = new Window_ListView();
+            listView.Show();
             logReader = new LogReader(this, listView);
             logReader.Start();
             #endregion
@@ -258,7 +259,7 @@ namespace FallGuysRecord
         /// 
         private void SetText(String win, String ping, String roundName, String roundType, String timeAll, String timeMe, String timeFirst, String firstName)
         {
-            App.Current.Dispatcher.Invoke(() =>
+            App.Current.Dispatcher.BeginInvoke(new Action(delegate
             {
                 if (!string.IsNullOrEmpty(win))
                     t1.Text = win;
@@ -276,7 +277,7 @@ namespace FallGuysRecord
                     t7.Text = timeFirst;
                 if (!string.IsNullOrEmpty(firstName))
                     t8.Text = firstName;
-            });
+            }));
         }
         #endregion
         #region [回合监听事件]
@@ -285,11 +286,7 @@ namespace FallGuysRecord
             this.num = num;
             this.roundName = roundName;
             LevelMap levelMap = Util.GetLevelMap(roundName);
-            SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "--:--:--", "--:--:--", "--:--:--", "");
-            App.Current.Dispatcher.Invoke(() =>
-            {
-                t8.Text = "";
-            });
+            SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "--:--:--", "--:--:--", "--:--:--", "------");
         }
 
         public void RoundStart()
@@ -302,7 +299,6 @@ namespace FallGuysRecord
 
         public void RoundUpdateFirst(Player player, string time)
         {
-            //SetText("", "", "", "", "", "", time, player.playerName + "(" + player.platform + ")");
             SetText("", "", "", "", "", "", time, player.playerName);
         }
         public void RoundUpdateMe(Player player, string time)
@@ -312,7 +308,6 @@ namespace FallGuysRecord
 
         public void RoundUpdateTotal(string time)
         {
-            //SetText("", "", "", "", time, "", "", "");
 
         }
 
@@ -336,11 +331,10 @@ namespace FallGuysRecord
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             timeSpan = DateTime.Now - startTime;
-            App.Current.Dispatcher.Invoke(() =>
+            App.Current.Dispatcher.BeginInvoke(new Action(delegate
             {
                 t5.Text = string.Format("{0:00}:{1:00}", timeSpan.Minutes, timeSpan.Seconds) + ":00";
-            });
-
+            }));
         }
         #endregion
         #region [修复进程依旧存在的问题]

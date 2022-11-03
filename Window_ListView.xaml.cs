@@ -128,17 +128,17 @@ namespace FallGuysRecord
         #region [监听事件]
         public void Header(string head)
         {
-            App.Current.Dispatcher.Invoke(() =>
+            App.Current.Dispatcher.BeginInvoke(new Action(delegate
             {
                 list_header.Text = head;
-            });
+            }));
         }
         public void Detail(string detail)
         {
-            App.Current.Dispatcher.Invoke(() =>
+            App.Current.Dispatcher.BeginInvoke(new Action(delegate
             {
-                list_detail.Text += detail + Environment.NewLine;
-            });
+                list_detail.AppendText(detail + Environment.NewLine);
+            }));
         }
         #endregion
         #region [一直最底部]
