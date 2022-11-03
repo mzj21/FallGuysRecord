@@ -47,10 +47,6 @@ namespace FallGuysRecord
                 textDecorations.Add(TextDecorations.Strikethrough);
             list_detail.TextDecorations = textDecorations;
             window_listview.FontSize = userSettingData.TextFont.Size;
-
-            list_header.Text = Xing.LogFileHeader;
-            list_detail.Text = Xing.LogFileDetail;
-            list_detail.ScrollToEnd();
         }
         #region [窗口置顶]
         private void window_listview_Deactivated(object sender, EventArgs e)

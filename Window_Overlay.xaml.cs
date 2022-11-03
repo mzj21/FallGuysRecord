@@ -280,11 +280,9 @@ namespace FallGuysRecord
         }
         #endregion
         #region [回合监听事件]
-        public void RoundInit(int num, string roundName)
+        public void RoundInit(int num, LevelMap levelMap)
         {
             this.num = num;
-            this.roundName = roundName;
-            LevelMap levelMap = Util.GetLevelMap(roundName);
             SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "--:--:--", "--:--:--", "--:--:--", "------");
         }
 

@@ -14,7 +14,7 @@ public class Player
         QUALIFIED, PLAYING, ELIMINATED
     }
 
-    public Player(string playerName, string name, string platform, int partyId, int squadID, int playerId)
+    public Player(string playerName, string name, string platform, int partyId, int squadID, int playerId, PlayerState playerState)
     {
         this.playerName = playerName;
         this.name = name;
@@ -22,7 +22,7 @@ public class Player
         this.partyId = partyId;
         this.squadID = squadID;
         this.playerId = playerId;
-        this.playerState = PlayerState.PLAYING;
+        this.playerState = playerState;
     }
 
     public override string ToString()

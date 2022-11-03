@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Timers;
 using static Player;
@@ -16,7 +15,6 @@ public class LogReader
     private List<Player> list_player_QUALIFIED = new List<Player>();
     private List<Player> list_player_ELIMINATED = new List<Player>();
     private DateTime roundStartTime;
-    private String mode;
     private int match;
     private int round;
     private int win;
@@ -26,11 +24,13 @@ public class LogReader
     private Timer timer, timerThread;
     private int seek;
     private ReadState readState = ReadState.ROUND_EXIT;
-    private String roundName;
     private int interval = 1; //计时器运行间隔, 不影响性能
     private Boolean isRun; //保证线程安全无重复
     private FileStream fs;
     private Boolean isMatchStart;
+    private LevelMap levelMap;
+    private TimeSpan timeSpan;
+    private Player player_temp;
 
     enum ReadState
     {
@@ -44,16 +44,20 @@ public class LogReader
         list_player = new List<Player>();
     }
 
-    private void LogHeader(string head)
+    private void LogHeader()
     {
-        Xing.LogFileHeader = mode + " " + head;
-        logListener.Header(head);
+        if (list_player.Count > 0)
+        {
+            logListener.Header(levelMap.showname + "(" + list_player.Count + ")");
+        }
+        else
+        {
+            logListener.Header(levelMap.showname);
+        }
     }
 
     private void LogDetail(string detail)
     {
-        detail = Util.ToDBC(detail);
-        Xing.LogFileDetail += detail + Environment.NewLine;
         logListener.Detail(detail);
     }
 
@@ -115,12 +119,13 @@ public class LogReader
                 if (isWin) { win++; }
                 if (isFinal && readState != ReadState.ROUND_UPDATED)
                 {
-                    readerListener.RoundExit(match, win, Util.GetLevelMap(roundName).showname + "(" + list_player_QUALIFIED.Count + ")");
+                    readerListener.RoundExit(match, win, levelMap.showname + "(" + list_player_QUALIFIED.Count + ")");
                 }
                 else
                 {
                     readerListener.RoundExit(match, win, "");
                 }
+                LogDetail("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
                 Debug.Write("与服务器连接中断，是一场比赛" + Environment.NewLine);
                 isMatchStart = false;
             }
@@ -145,22 +150,20 @@ public class LogReader
                 m = Regex.Match(line, Xing.pattern_ShowName);
                 if (m.Success)
                 {
-                    mode = m.Groups[1].Value;
-                    LogDetail(mode);
-                    Debug.Write("当前模式为：" + mode + Environment.NewLine);
+                    Debug.Write("当前模式为：" + m.Groups[1] + Environment.NewLine);
                     break;
                 }
                 m = Regex.Match(line, Xing.pattern_RoundName);
                 if (m.Success)
                 {
-                    LogDetail(Util.GetLevelMap(m.Groups[1].Value).showname);
-                    Debug.Write("当前回合载入成功：" + m.Groups[1].Value + " frame=" + m.Groups[2].Value + Environment.NewLine);
-                    LogHeader(Util.GetLevelMap(m.Groups[1].Value).showname);
-                    roundName = m.Groups[1].Value;
-                    readerListener.RoundInit(++round, roundName);
                     list_player.Clear();
                     list_player_QUALIFIED.Clear();
                     list_player_ELIMINATED.Clear();
+                    levelMap = Util.GetLevelMap(m.Groups[1].Value);
+                    LogDetail(levelMap.showname);
+                    LogHeader();
+                    readerListener.RoundInit(++round, levelMap);
+                    Debug.Write("当前回合载入成功：" + m.Groups[1].Value + " frame=" + m.Groups[2].Value + Environment.NewLine);
                     break;
                 }
                 m = Regex.Match(line, Xing.pattern_LoadedRound);
@@ -179,8 +182,9 @@ public class LogReader
                     int partyId = string.IsNullOrEmpty(m.Groups[2].Value) ? 0 : int.Parse(m.Groups[2].Value);
                     int squadId = int.Parse(m.Groups[3].Value);
                     int playerId = int.Parse(m.Groups[4].Value);
-                    Player player = new Player(playerName, name, platform, partyId, squadId, playerId);
+                    Player player = new Player(playerName, name, platform, partyId, squadId, playerId, PlayerState.PLAYING);
                     list_player.Add(player);
+                    LogHeader();
                     //LogDetail("载入玩家：" + player.ToLog());
                     //Debug.Write("载入玩家：" + player + Environment.NewLine);
                     break;
@@ -190,6 +194,7 @@ public class LogReader
                     Debug.Write("游戏开始：可以转镜头了" + Environment.NewLine);
                     Debug.Write("共计" + list_player.Count + "个玩家" + Environment.NewLine);
                     LogDetail("Players(" + list_player.Count + ")");
+                    LogHeader();
                     readState = ReadState.ROUND_START;
                 }
                 break;
@@ -213,12 +218,13 @@ public class LogReader
                     isWin = false;
                     int playerId = int.Parse(m.Groups[1].Value);
                     Boolean succeeded = "True".Equals(m.Groups[2].Value);
-                    TimeSpan timeSpan = DateTime.Now - roundStartTime;
+                    timeSpan = DateTime.Now - roundStartTime;
                     String time_out = timeSpan.ToString(@"mm\:ss\:ff");
                     foreach (Player player in list_player)
                     {
-                        if (player.playerId == playerId)
+                        if (player.playerId == playerId && player.playerState == PlayerState.PLAYING)
                         {
+                            player_temp = player;
                             if (succeeded)
                             {
                                 isFinal = true;
@@ -260,21 +266,21 @@ public class LogReader
                             }
                         }
                     }
+                    list_player.Remove(player_temp);
+                    LogHeader();
                     break;
                 }
                 if (line.Contains("[GameSession] Changing state from Playing to GameOver"))
                 {
-                    TimeSpan timeSpan = DateTime.Now - roundStartTime;
+                    timeSpan = DateTime.Now - roundStartTime;
                     String time_out = timeSpan.ToString(@"mm\:ss\:ff");
                     timer.Stop();
                     readerListener.RoundEnd(time_out);
                     foreach (Player player in list_player)
                     {
-                        if (player.playerState == PlayerState.PLAYING)
-                        {
-                            LogDetail("×     " + player.ToLog());
-                        }
+                        LogDetail("×     " + player.ToLog());
                     }
+                    LogHeader();
                     LogDetail("--------------------");
                     Debug.Write("回合结束" + Environment.NewLine);
                     readState = ReadState.ROUND_END;

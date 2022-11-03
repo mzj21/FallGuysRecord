@@ -6,8 +6,8 @@ public interface ReaderListener
     /// 回合初始化
     /// </summary>
     /// <param name="num">回合数</param>
-    /// <param name="roundName">地图名</param>
-    void RoundInit(int num, String roundName);
+    /// <param name="levelMap">当前回合信息</param>
+    void RoundInit(int num, LevelMap levelMap);
     /// <summary>
     /// 回合开始
     /// </summary>
