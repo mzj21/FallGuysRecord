@@ -30,6 +30,7 @@ public class Util
             userSettingData.Height_Info = 500;
             userSettingData.X_Info = SystemParameters.WorkArea.Width - userSettingData.Width_Info;
             userSettingData.Y_Info = SystemParameters.WorkArea.Height - userSettingData.Height_Info;
+            userSettingData.isShowFastestName = false;
             File.WriteAllText(settingFile, JsonConvert.SerializeObject(userSettingData, Formatting.Indented));
         }
     }
@@ -96,6 +97,15 @@ public class Util
         return levelMap;
     }
 
+    /// <summary>
+    /// 判断log文件是否被重置
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public static Boolean isLogReset(String path)
+    {
+        return new FileInfo(path).Length == 0;
+    }
     /// <summary>
     /// 转全角的函数(SBC case)
     /// 全角空格为12288，半角空格为32

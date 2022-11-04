@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Timers;
@@ -248,7 +249,7 @@ namespace FallGuysRecord
         /// </summary>
         /// <param name="win">'s' Win:1/1</param>
         /// <param name="ping">'s' PING</param>
-        /// <param name="roundName">'s' 回合名</param>
+        /// <param name="roundShowName">'s' 回合名</param>
         /// <param name="roundType">'s' 回合类型</param>
         /// <param name="timeAll">'s' 计时器时间(回合结束关闭)</param>
         /// <param name="timeMe">'s' 自己的时间</param>
@@ -256,7 +257,7 @@ namespace FallGuysRecord
         /// <param name="firstName">'s' 第一名字</param>
         /// /
         /// 
-        private void SetText(String win, String ping, String roundName, String roundType, String timeAll, String timeMe, String timeFirst, String firstName)
+        private void SetText(String win, String ping, String roundShowName, String roundType, String timeAll, String timeMe, String timeFirst, String firstName)
         {
             App.Current.Dispatcher.BeginInvoke(new Action(delegate
             {
@@ -264,8 +265,8 @@ namespace FallGuysRecord
                     t1.Text = win;
                 if (!string.IsNullOrEmpty(ping))
                     t2.Text = ping;
-                if (!string.IsNullOrEmpty(roundName))
-                    t3.Text = roundName;
+                if (!string.IsNullOrEmpty(roundShowName))
+                    t3.Text = roundShowName;
                 if (!string.IsNullOrEmpty(roundType))
                     t4.Text = roundType;
                 if (!string.IsNullOrEmpty(timeAll))
@@ -283,6 +284,7 @@ namespace FallGuysRecord
         public void RoundInit(int num, LevelMap levelMap)
         {
             this.num = num;
+            roundName = levelMap.name;
             SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "--:--:--", "--:--:--", "--:--:--", "------");
         }
 
@@ -296,7 +298,7 @@ namespace FallGuysRecord
 
         public void RoundUpdateFirst(Player player, string time)
         {
-            SetText("", "", "", "", "", "", time, player.playerName);
+            SetText("", "", "", "", "", "", time, userSettingData.isShowFastestName ? player.playerName : "(" + player.platform + ")");
         }
         public void RoundUpdateMe(Player player, string time)
         {
@@ -327,6 +329,10 @@ namespace FallGuysRecord
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            if (Process.GetProcessesByName("FallGuys_client_game").Length == 0)
+            {
+                timer.Stop();
+            }
             timeSpan = DateTime.Now - startTime;
             App.Current.Dispatcher.BeginInvoke(new Action(delegate
             {
