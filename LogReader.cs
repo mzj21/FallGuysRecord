@@ -165,7 +165,6 @@ public class LogReader
                 {
                     logListener.Detail("IP：" + m.Groups[1].Value);
                     Debug.WriteLine("服务器ip:" + m.Groups[1].Value);
-                    isMatchStart = true;
                     isWin = false;
                     readState = ReadState.ROUND_INIT;
                 }
@@ -181,6 +180,7 @@ public class LogReader
                 m = Regex.Match(line, Xing.pattern_RoundName);
                 if (m.Success)
                 {
+                    isMatchStart = true;
                     list_player.Clear();
                     list_player_QUALIFIED.Clear();
                     list_player_ELIMINATED.Clear();
@@ -220,6 +220,7 @@ public class LogReader
                     logListener.Detail("Players(" + list_player.Count + ")");
                     logListener.Detail(getCount("bots") + getCount("win") + getCount("switch") + getCount("ps4") + getCount("ps5") + getCount("xsx") + getCount("xb1"));
                     LogHeader();
+                    break ;
                 }
                 if (line.Contains("[StateGameLoading] Starting the game"))
                 {
