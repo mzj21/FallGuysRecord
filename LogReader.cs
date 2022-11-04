@@ -145,7 +145,7 @@ public class LogReader
                 if (isWin) { win++; }
                 if (isFinal && readState != ReadState.ROUND_UPDATED)
                 {
-                    readerListener.RoundExit(match, win, levelMap.showname + "(" + list_player_QUALIFIED.Count + ")");
+                    readerListener.RoundExit(match, win, levelMap.type + "(" + list_player_QUALIFIED.Count + ")");
                 }
                 else
                 {

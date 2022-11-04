@@ -16,6 +16,8 @@
 ![English](https://github.com/mzj21/FallGuysRecord/blob/main/images/en.png)
 ![改变](https://github.com/mzj21/FallGuysRecord/blob/main/images/change.png)
 ## 更新日志
+ - 1.1.4
+    修复获胜时浮窗显示问题
  - 1.1.3 
     添加第一名ID显示开关（默认关闭，设置中的isShowFastestName值为true开启）
     添加实时剩余玩家数和电脑玩家数量（如果有），回合信息框添加输出平台玩家信息输出
