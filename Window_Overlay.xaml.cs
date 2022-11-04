@@ -8,9 +8,11 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Color = System.Windows.Media.Color;
 using FontFamily = System.Windows.Media.FontFamily;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+using Window = System.Windows.Window;
 
 namespace FallGuysRecord
 {
@@ -285,7 +287,7 @@ namespace FallGuysRecord
         {
             this.num = num;
             roundName = levelMap.name;
-            SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "--:--:--", "--:--:--", "--:--:--", "------");
+            SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "--:--:---", "--:--:---", "--:--:---", "------");
         }
 
         public void RoundStart()
@@ -293,7 +295,7 @@ namespace FallGuysRecord
             startTime = DateTime.Now;
             timer.Interval = 1000;
             timer.Start();
-            SetText("", "", "", "", "00:00:00", "00:00:00", "00:00:00", "");
+            SetText("", "", "", "", "00:00:000", "00:00:000", "00:00:000", "");
         }
 
         public void RoundUpdateFirst(Player player, string time)
@@ -336,7 +338,7 @@ namespace FallGuysRecord
             timeSpan = DateTime.Now - startTime;
             App.Current.Dispatcher.BeginInvoke(new Action(delegate
             {
-                t5.Text = string.Format("{0:00}:{1:00}", timeSpan.Minutes, timeSpan.Seconds) + ":00";
+                t5.Text = string.Format("{0:00}:{1:00}", timeSpan.Minutes, timeSpan.Seconds) + ":000";
             }));
         }
         #endregion

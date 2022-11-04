@@ -165,7 +165,6 @@ public class LogReader
                 {
                     logListener.Detail("IP：" + m.Groups[1].Value);
                     Debug.WriteLine("服务器ip:" + m.Groups[1].Value);
-                    isWin = false;
                     readState = ReadState.ROUND_INIT;
                 }
                 break;
@@ -180,6 +179,7 @@ public class LogReader
                 m = Regex.Match(line, Xing.pattern_RoundName);
                 if (m.Success)
                 {
+                    isWin = false;
                     isMatchStart = true;
                     list_player.Clear();
                     list_player_QUALIFIED.Clear();
@@ -247,7 +247,7 @@ public class LogReader
                     int playerId = int.Parse(m.Groups[1].Value);
                     Boolean succeeded = "True".Equals(m.Groups[2].Value);
                     timeSpan = DateTime.Now - roundStartTime;
-                    String time_out = timeSpan.ToString(@"mm\:ss\:ff");
+                    String time_out = timeSpan.ToString(@"mm\:ss\:fff");
                     foreach (Player player in list_player)
                     {
                         if (player.playerId == playerId && player.playerState == PlayerState.PLAYING)
@@ -301,7 +301,7 @@ public class LogReader
                 if (line.Contains("[GameSession] Changing state from Playing to GameOver"))
                 {
                     timeSpan = DateTime.Now - roundStartTime;
-                    String time_out = timeSpan.ToString(@"mm\:ss\:ff");
+                    String time_out = timeSpan.ToString(@"mm\:ss\:fff");
                     timer.Stop();
                     readerListener.RoundEnd(time_out);
                     foreach (Player player in list_player)

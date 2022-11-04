@@ -16,6 +16,9 @@
 ![English](https://github.com/mzj21/FallGuysRecord/blob/main/images/en.png)
 ![改变](https://github.com/mzj21/FallGuysRecord/blob/main/images/change.png)
 ## 更新日志
+ - 1.1.5
+    修复获胜判断
+    计时器显示后3位小数
  - 1.1.4
     修复获胜时浮窗显示问题
  - 1.1.3 
