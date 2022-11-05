@@ -30,6 +30,11 @@ public interface ReaderListener
     /// <param name="time">时间</param>
     void RoundUpdateTotal(String time);
     /// <summary>
+    /// 回合剩余人数
+    /// </summary>
+    /// <param name="balance">回合剩余人数</param>
+    void RoundBalance(String balance);
+    /// <summary>
     /// 回合结束
     /// </summary>
     /// <param name="endtime">结束时间</param>

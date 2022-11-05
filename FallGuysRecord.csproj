@@ -134,7 +134,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="bean\UserSettingData.cs" />
-    <Page Include="Window_Overlay.xaml">
+    <Page Include="view\Window_Overlay.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -142,12 +142,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="interface\Interface1.cs" />
-    <Compile Include="LogReader.cs" />
+    <Compile Include="interface\LogListener.cs" />
+    <Compile Include="reader\LogReader.cs" />
     <Compile Include="interface\ReaderListener.cs" />
     <Compile Include="bean\LevelMap.cs" />
     <Compile Include="bean\Player.cs" />
-    <Compile Include="Window_ListView.xaml.cs">
+    <Compile Include="view\Window_ListView.xaml.cs">
       <DependentUpon>Window_ListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -157,11 +157,11 @@
     </Compile>
     <Compile Include="Xing.cs" />
     <Compile Include="Util.cs" />
-    <Compile Include="Window_Overlay.xaml.cs">
+    <Compile Include="view\Window_Overlay.xaml.cs">
       <DependentUpon>Window_Overlay.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Window_ListView.xaml">
+    <Page Include="view\Window_ListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -180,7 +180,10 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="level_en.json">
+    <None Include="level_zh.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="resources\level_en.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
@@ -189,7 +192,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="level_zh.json">
+    <None Include="resources\level_zh.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -219,995 +222,906 @@
     <None Include="resources\FallGuysRecord-512x512.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\nameplate_1.png">
+    <None Include="resources\background\nameplate_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\nameplate_2.png">
+    <None Include="resources\background\nameplate_2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\nameplate_3.png">
+    <None Include="resources\background\nameplate_3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\nameplate_4.png">
+    <None Include="resources\background\nameplate_4.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\nameplate_5.png">
+    <None Include="resources\background\nameplate_5.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\nameplate_6.png">
+    <None Include="resources\background\nameplate_6.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\nameplate_7.png">
+    <None Include="resources\background\nameplate_7.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\nameplate_8.png">
+    <None Include="resources\background\nameplate_8.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\nameplate_9.png">
+    <None Include="resources\background\nameplate_9.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\nameplate_10.png">
+    <None Include="resources\background\nameplate_10.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\nameplate_11.png">
+    <None Include="resources\background\nameplate_11.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\nameplate_12.png">
+    <None Include="resources\background\nameplate_12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\nameplate_13.png">
+    <None Include="resources\background\nameplate_13.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_1_Duck_01.png">
+    <None Include="resources\background\Nameplate_SS02_1_Duck_01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_1_Duck_02.png">
+    <None Include="resources\background\Nameplate_SS02_1_Duck_02.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_1_Duck_03.png">
+    <None Include="resources\background\Nameplate_SS02_1_Duck_03.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_1_Duck_04.png">
+    <None Include="resources\background\Nameplate_SS02_1_Duck_04.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_1_Vulture_01.png">
+    <None Include="resources\background\Nameplate_SS02_1_Vulture_01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_1_Vulture_02.png">
+    <None Include="resources\background\Nameplate_SS02_1_Vulture_02.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_1_Vulture_03.png">
+    <None Include="resources\background\Nameplate_SS02_1_Vulture_03.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_2_Penguin_01.png">
+    <None Include="resources\background\Nameplate_SS02_2_Penguin_01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_2_Penguin_02.png">
+    <None Include="resources\background\Nameplate_SS02_2_Penguin_02.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_2_Penguin_03.png">
+    <None Include="resources\background\Nameplate_SS02_2_Penguin_03.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_2_Potoo_01.png">
+    <None Include="resources\background\Nameplate_SS02_2_Potoo_01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_2_Potoo_02.png">
+    <None Include="resources\background\Nameplate_SS02_2_Potoo_02.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_2_Potoo_03.png">
+    <None Include="resources\background\Nameplate_SS02_2_Potoo_03.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_2_Potoo_04.png">
+    <None Include="resources\background\Nameplate_SS02_2_Potoo_04.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_2_Potoo_05.png">
+    <None Include="resources\background\Nameplate_SS02_2_Potoo_05.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS02_2_Potoo_06.png">
+    <None Include="resources\background\Nameplate_SS02_2_Potoo_06.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_01.png">
+    <None Include="resources\background\Nameplate_SS2_01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_02.png">
+    <None Include="resources\background\Nameplate_SS2_02.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_03.png">
+    <None Include="resources\background\Nameplate_SS2_03.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_04.png">
+    <None Include="resources\background\Nameplate_SS2_04.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_05.png">
+    <None Include="resources\background\Nameplate_SS2_05.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_06.png">
+    <None Include="resources\background\Nameplate_SS2_06.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_07.png">
+    <None Include="resources\background\Nameplate_SS2_07.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_08.png">
+    <None Include="resources\background\Nameplate_SS2_08.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_09.png">
+    <None Include="resources\background\Nameplate_SS2_09.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_10.png">
+    <None Include="resources\background\Nameplate_SS2_10.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_11.png">
+    <None Include="resources\background\Nameplate_SS2_11.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_12.png">
+    <None Include="resources\background\Nameplate_SS2_12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_13.png">
+    <None Include="resources\background\Nameplate_SS2_13.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_14.png">
+    <None Include="resources\background\Nameplate_SS2_14.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_15.png">
+    <None Include="resources\background\Nameplate_SS2_15.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_16.png">
+    <None Include="resources\background\Nameplate_SS2_16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Canary_01.png">
+    <None Include="resources\background\Nameplate_SS2_Canary_01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Event_FGSpaceProgram.png">
+    <None Include="resources\background\Nameplate_SS2_Event_FGSpaceProgram.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Event_HexAThon.png">
+    <None Include="resources\background\Nameplate_SS2_Event_HexAThon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Event_SS3Reveal.png">
+    <None Include="resources\background\Nameplate_SS2_Event_SS3Reveal.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Event_TrickerOrTreater.png">
+    <None Include="resources\background\Nameplate_SS2_Event_TrickerOrTreater.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Event_Wormhole.png">
+    <None Include="resources\background\Nameplate_SS2_Event_Wormhole.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Falcon_01.png">
+    <None Include="resources\background\Nameplate_SS2_Falcon_01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Falcon_02.png">
+    <None Include="resources\background\Nameplate_SS2_Falcon_02.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Falcon_03.png">
+    <None Include="resources\background\Nameplate_SS2_Falcon_03.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Falltronic.png">
+    <None Include="resources\background\Nameplate_SS2_Falltronic.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Osprey_01.png">
+    <None Include="resources\background\Nameplate_SS2_Osprey_01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Osprey_02.png">
+    <None Include="resources\background\Nameplate_SS2_Osprey_02.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Osprey_03.png">
+    <None Include="resources\background\Nameplate_SS2_Osprey_03.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Parrot_01.png">
+    <None Include="resources\background\Nameplate_SS2_Parrot_01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Parrot_02.png">
+    <None Include="resources\background\Nameplate_SS2_Parrot_02.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Parrot_03.png">
+    <None Include="resources\background\Nameplate_SS2_Parrot_03.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Plover_01.png">
+    <None Include="resources\background\Nameplate_SS2_Plover_01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Sparrow_01.png">
+    <None Include="resources\background\Nameplate_SS2_Sparrow_01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Nameplate_SS2_Sparrow_02.png">
+    <None Include="resources\background\Nameplate_SS2_Sparrow_02.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_321.png">
+    <None Include="resources\background\UI_Nameplate_321.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_adventure.png">
+    <None Include="resources\background\UI_Nameplate_adventure.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_AmpedUp_4k.png">
+    <None Include="resources\background\UI_NamePlate_AmpedUp_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Bauble_4k.png">
+    <None Include="resources\background\UI_NamePlate_Bauble_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_BeachBall.png">
+    <None Include="resources\background\UI_Nameplate_BeachBall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_BeepBoop_4k.png">
+    <None Include="resources\background\UI_NamePlate_BeepBoop_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_BigWheel.png">
+    <None Include="resources\background\UI_Nameplate_BigWheel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Bluejay.png">
+    <None Include="resources\background\UI_NamePlate_Bluejay.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_Breakthrough.png">
+    <None Include="resources\background\UI_Nameplate_Breakthrough.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Budgie02.png">
+    <None Include="resources\background\UI_NamePlate_Budgie02.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Budgie03.png">
+    <None Include="resources\background\UI_NamePlate_Budgie03.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Butterfly_4k.png">
+    <None Include="resources\background\UI_NamePlate_Butterfly_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Butterfly_1080p.png">
+    <None Include="resources\background\UI_NamePlate_Candycane_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Candycane_4k.png">
+    <None Include="resources\background\UI_NamePlate_Cave_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Cave_4k.png">
+    <None Include="resources\background\UI_Nameplate_CheesePlant.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Cave_1080p.png">
+    <None Include="resources\background\UI_NamePlate_Cherry_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_CheesePlant.png">
+    <None Include="resources\background\UI_Nameplate_ClanOfYeetus.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Cherry_4k.png">
+    <None Include="resources\background\UI_NamePlate_Coffee_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_ClanOfYeetus.png">
+    <None Include="resources\background\UI_NamePlate_Condor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Coffee_4k.png">
+    <None Include="resources\background\UI_NamePlate_CosmicVibes_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Condor.png">
+    <None Include="resources\background\UI_Nameplate_Crocodile.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_CosmicVibes_4k.png">
+    <None Include="resources\background\Ui_NamePlate_Crown_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_Crocodile.png">
+    <None Include="resources\background\UI_Nameplate_DecoCrosses.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\Ui_NamePlate_Crown_4k.png">
+    <None Include="resources\background\UI_Nameplate_DecoCrown.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Crown_1080p.png">
+    <None Include="resources\background\UI_NamePlate_Dinosaur_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_DecoCrosses.png">
+    <None Include="resources\background\UI_Nameplate_DiveIn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_DecoCrown.png">
+    <None Include="resources\background\UI_Nameplate_DiveToVictory.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Dinosaur_4k.png">
+    <None Include="resources\background\UI_NamePlate_Donut_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Dinosaur_1080p.png">
+    <None Include="resources\background\UI_Nameplate_dove_01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_DiveIn.png">
+    <None Include="resources\background\UI_Nameplate_dove_02.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_DiveToVictory.png">
+    <None Include="resources\background\UI_Nameplate_dove_03.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Donut_4k.png">
+    <None Include="resources\background\UI_Nameplate_Dove05.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Donut_1080p.png">
+    <None Include="resources\background\UI_Nameplate_Dove06.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_dove_01.png">
+    <None Include="resources\background\UI_NamePlate_Eagle01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_dove_02.png">
+    <None Include="resources\background\UI_NamePlate_Eagle02.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_dove_03.png">
+    <None Include="resources\background\UI_NamePlate_Eagle03.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_Dove05.png">
+    <None Include="resources\background\UI_NamePlate_Eggcellent_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_Dove06.png">
+    <None Include="resources\background\UI_Nameplate_EggspertPlans.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Eagle01.png">
+    <None Include="resources\background\UI_NamePlate_Emu.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Eagle02.png">
+    <None Include="resources\background\UI_Nameplate_FallStar.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Eagle03.png">
+    <None Include="resources\background\UI_NamePlate_Fame_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Eggcellent_4k.png">
+    <None Include="resources\background\UI_NamePlate_FlavorTown_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_EggspertPlans.png">
+    <None Include="resources\background\UI_NamePlate_Football_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Emu.png">
+    <None Include="resources\background\UI_Nameplate_Frog.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_FallStar.png">
+    <None Include="resources\background\UI_NamePlate_Gingerbread_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Fame_4k.png">
+    <None Include="resources\background\UI_NamePlate_GlizzyFanclub.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Fame_1080p.png">
+    <None Include="resources\background\UI_NamePlate_GoldenHotdog.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_FlavorTown_4k.png">
+    <None Include="resources\background\UI_NamePlate_Goth_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Flavortown_1080p.png">
+    <None Include="resources\background\UI_NamePlate_Heart_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Football_4k.png">
+    <None Include="resources\background\UI_Nameplate_HelterSkelter.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Football_1080p.png">
+    <None Include="resources\background\UI_Nameplate_IceLolly.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_Frog.png">
+    <None Include="resources\background\UI_NamePlate_IHeartFG_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Gingerbread_4k.png">
+    <None Include="resources\background\UI_Nameplate_IllBeSlime.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_GlizzyFanclub.png">
+    <None Include="resources\background\UI_NamePlate_LegacyPink.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_GoldenHotdog.png">
+    <None Include="resources\background\UI_Nameplate_LemonLookout.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Goth_4k.png">
+    <None Include="resources\background\UI_NamePlate_Love_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Heart_4k.png">
+    <None Include="resources\background\UI_NamePlate_LuckMechaniCat_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_HelterSkelter.png">
+    <None Include="resources\background\UI_NamePlate_Mockingbird.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_IceLolly.png">
+    <None Include="resources\background\UI_NamePlate_MTRep_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_IHeartFG_4k.png">
+    <None Include="resources\background\UI_NamePlate_Mushroom_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_IllBeSlime.png">
+    <None Include="resources\background\UI_NamePlate_NarrativeEvent.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_LegacyPink.png">
+    <None Include="resources\background\UI_NamePlate_Neener_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_LemonLookout.png">
+    <None Include="resources\background\UI_NamePlate_Nutcracker_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Love_4k.png">
+    <None Include="resources\background\UI_Nameplate_ParadeGuy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Love_1080p.png">
+    <None Include="resources\background\UI_Nameplate_PartyPegwin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_LuckMechaniCat_4k.png">
+    <None Include="resources\background\UI_NamePlate_Pawprint_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Mockingbird.png">
+    <None Include="resources\background\UI_NamePlate_Peach_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_MTRep_4k.png">
+    <None Include="resources\background\UI_NamePlate_Pelican.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Mushroom_4k.png">
+    <None Include="resources\background\UI_NamePlate_Penguin_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Mushroom_1080p.png">
+    <None Include="resources\background\UI_Nameplate_PieceOfCake.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_NarrativeEvent.png">
+    <None Include="resources\background\UI_NamePlate_Pirates_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Neener_4k.png">
+    <None Include="resources\background\UI_NamePlate_Pizza_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Nutcracker_4k.png">
+    <None Include="resources\background\UI_NamePlate_PreRegistration.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_ParadeGuy.png">
+    <None Include="resources\background\UI_NamePlate_Present_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_PartyPegwin.png">
+    <None Include="resources\background\UI_NamePlate_Pumpkin_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Pawprint_4k.png">
+    <None Include="resources\background\UI_NamePlate_Rainbow_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Peach_4k.png">
+    <None Include="resources\background\UI_NamePlate_RainbowCloud_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Peach_1080p.png">
+    <None Include="resources\background\UI_NamePlate_Reindeer_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Pelican.png">
+    <None Include="resources\background\UI_NamePlate_RetroGuys_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Penguin_4k.png">
+    <None Include="resources\background\UI_NamePlate_Rivet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_PieceOfCake.png">
+    <None Include="resources\background\UI_NamePlate_Salute_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Pirates_4k.png">
+    <None Include="resources\background\UI_NamePlate_Santa_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Pirates_1080p.png">
+    <None Include="resources\background\UI_NamePlate_Santahat_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Pizza_4k.png">
+    <None Include="resources\background\UI_Nameplate_ScourgeoftheSea.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Pizza_1080p.png">
+    <None Include="resources\background\UI_NamePlate_ShutterShades_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_PreRegistration.png">
+    <None Include="resources\background\UI_NamePlate_Skeleton_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Present_4k.png">
+    <None Include="resources\background\UI_NamePlate_SkiHat_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Pumpkin_4k.png">
+    <None Include="resources\background\UI_NamePlate_Slime_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Pumpkin_1080p.png">
+    <None Include="resources\background\UI_NamePlate_Snowflake_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Rainbow_4k.png">
+    <None Include="resources\background\UI_NamePlate_Snowman_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Rainbow_1080p.png">
+    <None Include="resources\background\UI_Nameplate_SprayCan.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_RainbowCloud_4k.png">
+    <None Include="resources\background\UI_NamePlate_Star_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Reindeer_4k.png">
+    <None Include="resources\background\UI_NamePlate_Strong_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_RetroGuys_4k.png">
+    <None Include="resources\background\UI_Nameplate_StrongGuy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Rivet.png">
+    <None Include="resources\background\UI_Nameplate_SuitsYou.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Salute_4k.png">
+    <None Include="resources\background\UI_Nameplate_SumoChicken.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Santa_4k.png">
+    <None Include="resources\background\UI_Nameplate_SunnyGuys.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Santahat_4k.png">
+    <None Include="resources\background\UI_NamePlate_Sweets_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_ScourgeoftheSea.png">
+    <None Include="resources\background\UI_NamePlate_SweetThieves.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_ShutterShades_4k.png">
+    <None Include="resources\background\UI_Nameplate_Symphony1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Skeleton_4k.png">
+    <None Include="resources\background\UI_NamePlate_SystemError_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Skeleton_1080p.png">
+    <None Include="resources\background\UI_Nameplate_TaDa.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_SkiHat_4k.png">
+    <None Include="resources\background\UI_Nameplate_TailTactics.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Slime_4k.png">
+    <None Include="resources\background\UI_Nameplate_TheBigTop.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Slime_1080p.png">
+    <None Include="resources\background\UI_Nameplate_Toucan01.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Snowflake_4k.png">
+    <None Include="resources\background\UI_Nameplate_Toucan02.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Snowman_4k.png">
+    <None Include="resources\background\UI_Nameplate_TreasureMap.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_SprayCan.png">
+    <None Include="resources\background\UI_Nameplate_TropicalTree.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Star_4k.png">
+    <None Include="resources\background\UI_Nameplate_TropicsToucan.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Strong_4k.png">
+    <None Include="resources\background\UI_NamePlate_Vaporwave_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_StrongGuy.png">
+    <None Include="resources\background\UI_Nameplate_Veggies.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_SuitsYou.png">
+    <None Include="resources\background\UI_Nameplate_Vulture.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_SumoChicken.png">
+    <None Include="resources\background\UI_NamePlate_Walrus_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_Nameplate_SunnyGuys.png">
+    <None Include="resources\background\UI_NamePlate_Watermelon_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_Sweets_4k.png">
+    <None Include="resources\background\UI_NamePlate_Wave_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="background\UI_NamePlate_SweetThieves.png">
+    <None Include="resources\background\UI_NamePlate_Zapped_4k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_Nameplate_Symphony1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_NamePlate_SystemError_4k.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_Nameplate_TaDa.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_Nameplate_TailTactics.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_Nameplate_TheBigTop.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_Nameplate_Toucan01.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_Nameplate_Toucan02.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_Nameplate_TreasureMap.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_Nameplate_TropicalTree.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_Nameplate_TropicsToucan.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_NamePlate_Vaporwave_4k.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_Nameplate_Veggies.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_Nameplate_Vulture.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_NamePlate_Walrus_4k.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_NamePlate_Watermelon_4k.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_NamePlate_Watermelon_1080p.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_NamePlate_Wave_4k.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="background\UI_NamePlate_Zapped_4k.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions />
 </Project>

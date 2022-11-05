@@ -1,13 +1,14 @@
-﻿using FallGuysRecord.Properties;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Timers;
 using static Player;
-using static System.Windows.Forms.AxHost;
 
+/// <summary>
+/// 读取log线程
+/// </summary>
 public class LogReader
 {
     private ReaderListener readerListener;
@@ -101,9 +102,9 @@ public class LogReader
     {
         if (isRun)
             return;
+        isRun = true;
         fs.Seek(seek, SeekOrigin.Begin);
         StreamReader reader = new StreamReader(fs);
-        isRun = true;
         String line;
         while ((line = reader.ReadLine()) != null)
         {
@@ -179,15 +180,16 @@ public class LogReader
                 m = Regex.Match(line, Xing.pattern_RoundName);
                 if (m.Success)
                 {
+                    ++round;
                     isWin = false;
                     isMatchStart = true;
                     list_player.Clear();
                     list_player_QUALIFIED.Clear();
                     list_player_ELIMINATED.Clear();
                     levelMap = Util.GetLevelMap(m.Groups[1].Value);
-                    logListener.Detail(levelMap.showname);
+                    logListener.Detail(levelMap.showname + "(" + round + ")");
                     LogHeader();
-                    readerListener.RoundInit(++round, levelMap);
+                    readerListener.RoundInit(round, levelMap);
                     Debug.WriteLine("当前回合载入成功：" + m.Groups[1].Value + " frame=" + m.Groups[2].Value);
                     break;
                 }
@@ -208,19 +210,24 @@ public class LogReader
                     int squadId = int.Parse(m.Groups[3].Value);
                     int playerId = int.Parse(m.Groups[4].Value);
                     Player player = new Player(playerName, name, platform, partyId, squadId, playerId, PlayerState.PLAYING);
-                    list_player.Add(player);
+                    if (!list_player.Contains(player))
+                    {
+                        list_player.Add(player);
+                    }
                     LogHeader();
+                    readerListener.RoundBalance(levelMap.type + "(" + list_player.Count + ")");
                     //logListener.Detail("载入玩家：" + player.ToLog());
                     //Debug.WriteLine("载入玩家：" + player);
                     break;
                 }
-                
-                if (line.Contains("Setting this client as readiness state 'ObjectsSpawned'")) {
+
+                if (line.Contains("Setting this client as readiness state 'ObjectsSpawned'"))
+                {
                     Debug.WriteLine("共计" + list_player.Count + "个玩家");
                     logListener.Detail("Players(" + list_player.Count + ")");
                     logListener.Detail(getCount("bots") + getCount("win") + getCount("switch") + getCount("ps4") + getCount("ps5") + getCount("xsx") + getCount("xb1"));
                     LogHeader();
-                    break ;
+                    break;
                 }
                 if (line.Contains("[StateGameLoading] Starting the game"))
                 {
@@ -295,6 +302,7 @@ public class LogReader
                         }
                     }
                     list_player.Remove(player_temp);
+                    readerListener.RoundBalance(levelMap.type + "(" + list_player.Count + ")");
                     LogHeader();
                     break;
                 }

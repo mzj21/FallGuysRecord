@@ -16,6 +16,9 @@
 ![English](https://github.com/mzj21/FallGuysRecord/blob/main/images/en.png)
 ![改变](https://github.com/mzj21/FallGuysRecord/blob/main/images/change.png)
 ## 更新日志
+ - 1.1.6
+    添加实时剩余人数到浮窗
+    修复实时剩余人数错误的问题
  - 1.1.5
     修复获胜判断
     计时器显示后3位小数

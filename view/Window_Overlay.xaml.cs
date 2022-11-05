@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Color = System.Windows.Media.Color;
 using FontFamily = System.Windows.Media.FontFamily;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
@@ -309,7 +308,11 @@ namespace FallGuysRecord
 
         public void RoundUpdateTotal(string time)
         {
+        }
 
+        public void RoundBalance(string balance)
+        {
+            SetText("", "", "", balance, "", "", "", "");
         }
 
         public void RoundEnd(String endtime)
