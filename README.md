@@ -16,6 +16,9 @@
 ![English](https://github.com/mzj21/FallGuysRecord/blob/main/images/en.png)
 ![改变](https://github.com/mzj21/FallGuysRecord/blob/main/images/change.png)
 ## 更新日志
+ - 1.1.8
+    添加浮窗简易模式（只有计时器和自己的时间）
+    更加精确的计时
  - 1.1.7
     添加浮窗自己的排名
     修改回合信息操作为（全选，复制，保存）

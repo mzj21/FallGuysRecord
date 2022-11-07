@@ -19,4 +19,5 @@ public class UserSettingData
     public double Width_Info { get; set; }
     public double Height_Info { get; set; }
     public Boolean isShowFastestName { get; set; }
+    public Boolean isOriginalViewMode { get; set; } = true;
 }

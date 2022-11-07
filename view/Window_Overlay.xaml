@@ -34,6 +34,8 @@
             <MenuItem Header="LevelLanguage" Click="MenuItem_Click_3"/>
             <Separator/>
             <MenuItem Header="RoundInfo" Click="MenuItem_Click_4"/>
+            <Separator/>
+            <MenuItem Header="ChangeViewMode" Click="MenuItem_Click_5"/>
         </ContextMenu>
     </Window.Resources>
 
@@ -44,17 +46,22 @@
     <Viewbox Stretch="Fill" ContextMenu="{StaticResource ContextMenu}">
         <Grid Width="303" Height="83">
             <Image x:Name="overlay_background" Source="/resources/background.png"/>
-            <WrapPanel Orientation="Vertical" Height="68" Margin="0,8,10,7" Width="125" HorizontalAlignment="Right" ItemHeight="17" ItemWidth="125">
+            <WrapPanel x:Name="r1" Orientation="Vertical" Height="68" Margin="0,8,10,7" Width="125" HorizontalAlignment="Right" ItemHeight="17" ItemWidth="125" Visibility="Hidden">
                 <TextBlock x:Name="t2" Text="Ping:ms" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t2}" TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
                 <TextBlock x:Name="t4"  Text="------" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t4}"  TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
                 <TextBlock x:Name="t6"  Text="--:--:---" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t6}"  TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
                 <TextBlock x:Name="t8"  Text="------" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t8}"  TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
             </WrapPanel>
-            <WrapPanel Orientation="Vertical" ItemHeight="17" Height="68" Margin="101,8,80,7" ItemWidth="101">
+            <WrapPanel x:Name="l1" Orientation="Vertical" ItemHeight="17" Height="68" Margin="101,8,80,7" ItemWidth="101"
+                       Visibility="Hidden">
                 <TextBlock x:Name="t1" Text="win(0/0)" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t1}"/>
                 <TextBlock x:Name="t3"  Text="------" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t3}"/>
                 <TextBlock x:Name="t5"  Text="--:--:---" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t5}"/>
                 <TextBlock x:Name="t7"  Text="--:--:---" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t7}"/>
+            </WrapPanel>
+            <WrapPanel x:Name="c1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40,0,0,0" ItemHeight="20">
+                <TextBlock x:Name="t9" Text="--:--:---" VerticalAlignment="Center"  HorizontalAlignment="Center"  TextDecorations="{Binding TextDecorations, ElementName=t1}"/>
+                <TextBlock x:Name="t10"  Text="--:--:---" HorizontalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" VerticalAlignment="Center"/>
             </WrapPanel>
         </Grid>
     </Viewbox>

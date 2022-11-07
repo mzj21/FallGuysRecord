@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 using Color = System.Windows.Media.Color;
 using FontFamily = System.Windows.Media.FontFamily;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
@@ -69,6 +70,10 @@ namespace FallGuysRecord
                 textDecorations.Add(TextDecorations.Strikethrough);
             t1.TextDecorations = textDecorations;
             overlay_window.FontSize = userSettingData.TextFont.Size;
+            t9.FontSize = userSettingData.TextFont.Size + 2;
+            l1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
+            r1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
+            c1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Hidden : Visibility.Visible;
             #region [秒表计时器]
             timer = new System.Timers.Timer();
             timer.Interval = 1000;
@@ -181,6 +186,7 @@ namespace FallGuysRecord
                 t1.TextDecorations = textDecorations;
                 overlay_window.FontSize = f.Size;
                 userSettingData.TextFont = f;
+                t9.FontSize = f.Size + 2;
                 Util.Save_UserSettingData(userSettingData);
             }
         }
@@ -231,6 +237,16 @@ namespace FallGuysRecord
             {
                 listView.Show();
             }
+        }
+        #endregion
+        #region [切换显示模式]
+        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
+        {
+            userSettingData.isOriginalViewMode = !userSettingData.isOriginalViewMode;
+            Util.Save_UserSettingData(userSettingData);
+            l1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
+            r1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
+            c1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Hidden : Visibility.Visible;
         }
         #endregion
         #region [位置移动监听]
@@ -285,6 +301,16 @@ namespace FallGuysRecord
                     t8.Text = firstName;
             }));
         }
+        private void SetTextEasy(String time1, String time2)
+        {
+            App.Current.Dispatcher.BeginInvoke(new Action(delegate
+            {
+                if (!string.IsNullOrEmpty(time1))
+                    t9.Text = time1;
+                if (!string.IsNullOrEmpty(time2))
+                    t10.Text = time2;
+            }));
+        }
         #endregion
         #region [回合监听事件]
         public void RoundInit(int num, LevelMap levelMap)
@@ -292,6 +318,7 @@ namespace FallGuysRecord
             this.num = num;
             roundName = levelMap.name;
             SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "--:--:---", "--:--:---", "--:--:---", "------");
+            SetTextEasy("--:--", "--:--:---");
         }
 
         public void RoundStart()
@@ -300,6 +327,7 @@ namespace FallGuysRecord
             timer.Interval = 1000;
             timer.Start();
             SetText("", "", "", "", "00:00:000", "00:00:000", "00:00:000", "");
+            SetTextEasy("00:00", "--:--:---");
         }
 
         public void RoundUpdateFirst(Player player, string time)
@@ -309,6 +337,7 @@ namespace FallGuysRecord
         public void RoundUpdateMe(Player player, string time, int rank)
         {
             SetText("", "", "", "", "", "#" + rank + " - " + time, "", "");
+            SetTextEasy("", "#" + rank + " - " + time);
         }
 
         public void RoundUpdateTotal(string time)
@@ -348,6 +377,7 @@ namespace FallGuysRecord
             {
                 t5.Text = string.Format("{0:00}:{1:00}", timeSpan.Minutes, timeSpan.Seconds) + ":000";
             }));
+            SetTextEasy(string.Format("{0:00}:{1:00}", timeSpan.Minutes, timeSpan.Seconds), "");
         }
         #endregion
         #region [修复进程依旧存在的问题]

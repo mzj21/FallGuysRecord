@@ -18,6 +18,7 @@ public class LogReader
     private List<Player> list_player_QUALIFIED = new List<Player>();
     private List<Player> list_player_ELIMINATED = new List<Player>();
     private DateTime roundStartTime; //回合开始时间
+    private DateTime tenpTime;
     private int match; //比赛场数
     private int round; //第几回合
     private int win; //获胜数量
@@ -121,6 +122,7 @@ public class LogReader
     void parseLine(String line)
     {
         //Debug.WriteLine(line);
+        tenpTime = DateTime.Now;
         if (Xing.myName == null && line.Contains("[UserInfo] Player Name:"))
         {
             char[] c = "[UserInfo] Player Name:".ToCharArray();
@@ -238,7 +240,7 @@ public class LogReader
                 if (line.Contains("[GameSession] Changing state from Countdown to Playing"))
                 {
                     readerListener.RoundStart();
-                    roundStartTime = DateTime.Now;
+                    roundStartTime = tenpTime;
                     timer.Interval = interval;
                     timer.Start();
                     Debug.WriteLine("游戏开始：计时开始");
@@ -253,7 +255,7 @@ public class LogReader
                     isFinal = false;
                     int playerId = int.Parse(m.Groups[1].Value);
                     Boolean succeeded = "True".Equals(m.Groups[2].Value);
-                    timeSpan = DateTime.Now - roundStartTime;
+                    timeSpan = tenpTime - roundStartTime;
                     String time_out = timeSpan.ToString(@"mm\:ss\:fff");
                     foreach (Player player in list_player)
                     {
@@ -308,7 +310,7 @@ public class LogReader
                 }
                 if (line.Contains("[GameSession] Changing state from Playing to GameOver"))
                 {
-                    timeSpan = DateTime.Now - roundStartTime;
+                    timeSpan = tenpTime - roundStartTime;
                     String time_out = timeSpan.ToString(@"mm\:ss\:fff");
                     timer.Stop();
                     readerListener.RoundEnd(time_out);

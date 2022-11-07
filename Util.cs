@@ -31,6 +31,7 @@ public class Util
             userSettingData.X_Info = SystemParameters.WorkArea.Width - userSettingData.Width_Info;
             userSettingData.Y_Info = SystemParameters.WorkArea.Height - userSettingData.Height_Info;
             userSettingData.isShowFastestName = false;
+            userSettingData.isOriginalViewMode = true;
             File.WriteAllText(settingFile, JsonConvert.SerializeObject(userSettingData, Formatting.Indented));
         }
     }
