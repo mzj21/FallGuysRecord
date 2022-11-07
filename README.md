@@ -16,6 +16,10 @@
 ![English](https://github.com/mzj21/FallGuysRecord/blob/main/images/en.png)
 ![改变](https://github.com/mzj21/FallGuysRecord/blob/main/images/change.png)
 ## 更新日志
+ - 1.1.7
+    添加浮窗自己的排名
+    修改回合信息操作为（全选，复制，保存）
+    修复某些置顶错误的情况
  - 1.1.6
     添加实时剩余人数到浮窗
     修复实时剩余人数错误的问题

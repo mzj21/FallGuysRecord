@@ -272,7 +272,7 @@ public class LogReader
                                 if (player.playerName.Equals(Xing.myName))
                                 {
                                     isWin = true;
-                                    readerListener.RoundUpdateMe(player, time_out);
+                                    readerListener.RoundUpdateMe(player, time_out, rank);
                                 }
                                 list_player_QUALIFIED.Add(player);
                                 if (rank < 10)
@@ -291,7 +291,7 @@ public class LogReader
                                 {
                                     if (player.playerName.Equals(Xing.myName))
                                     {
-                                        readerListener.RoundUpdateMe(player, time_out);
+                                        readerListener.RoundUpdateMe(player, time_out, rank);
                                     }
                                     player.playerState = PlayerState.ELIMINATED;
                                     list_player_ELIMINATED.Add(player);

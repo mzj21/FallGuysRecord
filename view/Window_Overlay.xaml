@@ -18,6 +18,7 @@
         LocationChanged="Overlay_window_LocationChanged"
         SizeChanged="Overlay_window_SizeChanged" FontWeight="Bold"
         Deactivated="Window_Deactivated"
+        PreviewLostKeyboardFocus="overlay_window_PreviewLostKeyboardFocus"
         MouseLeftButtonDown="overlay_window_MouseLeftButtonDown"
         MouseLeftButtonUp="overlay_window_MouseLeftButtonUp"
         Closing="overlay_window_Closing">

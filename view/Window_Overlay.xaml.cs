@@ -88,6 +88,11 @@ namespace FallGuysRecord
             Window window = (Window)sender;
             window.Topmost = true;
         }
+        private void overlay_window_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            Window window = (Window)sender;
+            window.Topmost = true;
+        }
         #endregion
         #region [拖动窗口,禁止最大化]
         private void overlay_window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -301,9 +306,9 @@ namespace FallGuysRecord
         {
             SetText("", "", "", "", "", "", time, userSettingData.isShowFastestName ? player.playerName : "(" + player.platform + ")");
         }
-        public void RoundUpdateMe(Player player, string time)
+        public void RoundUpdateMe(Player player, string time, int rank)
         {
-            SetText("", "", "", "", "", time, "", "");
+            SetText("", "", "", "", "", "#" + rank + " - " + time, "", "");
         }
 
         public void RoundUpdateTotal(string time)

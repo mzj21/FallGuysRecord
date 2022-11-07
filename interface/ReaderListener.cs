@@ -23,7 +23,8 @@ public interface ReaderListener
     /// </summary>
     /// <param name="player">玩家信息</param>
     /// <param name="time">时间</param>
-    void RoundUpdateMe(Player player, String time);
+    /// <param name="rank">排名</param>
+    void RoundUpdateMe(Player player, String time, int rank);
     /// <summary>
     /// 回合计时器
     /// </summary>

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using Color = System.Windows.Media.Color;
@@ -11,6 +13,7 @@ namespace FallGuysRecord
     public partial class Window_ListView : Window, LogListener
     {
         UserSettingData userSettingData;
+        private Boolean isBottom;
         public Window_ListView()
         {
             InitializeComponent();
@@ -50,6 +53,11 @@ namespace FallGuysRecord
         }
         #region [窗口置顶]
         private void window_listview_Deactivated(object sender, EventArgs e)
+        {
+            Window window = (Window)sender;
+            window.Topmost = true;
+        }
+        private void window_listview_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             Window window = (Window)sender;
             window.Topmost = true;
@@ -140,11 +148,55 @@ namespace FallGuysRecord
         #region [一直最底部]
         private void list_detail_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            list_detail.ScrollToEnd();
+            if (isBottom)
+            {
+                list_detail.ScrollToEnd();
+            }
         }
         private void list_detail_Loaded(object sender, RoutedEventArgs e)
         {
             list_detail.ScrollToEnd();
+        }
+        #endregion
+        #region [不是最底部监听]
+        private void list_detail_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
+        {
+            if (e.VerticalOffset < list_detail.ActualHeight)
+            {
+                isBottom = true;
+            }
+            else
+            {
+                isBottom = e.VerticalOffset == e.ExtentHeight - e.ViewportHeight;
+            }
+            list_bottom.Visibility = isBottom ? Visibility.Hidden : Visibility.Visible;
+        }
+
+        private void list_down_Click(object sender, RoutedEventArgs e)
+        {
+            list_detail.ScrollToEnd();
+        }
+        #endregion
+        #region [右键操作]
+        private void MenuItem_Click_All(object sender, RoutedEventArgs e)
+        {
+            list_detail.SelectAll();
+        }
+        private void MenuItem_Click_Copy(object sender, RoutedEventArgs e)
+        {
+            list_detail.Copy();
+        }
+        private void MenuItem_Click_Save(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveDg = new SaveFileDialog();
+            saveDg.Filter = @"(*.txt)|*.txt";
+            saveDg.FileName = "log_save " + DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss") + "";
+            saveDg.AddExtension = true;
+            saveDg.RestoreDirectory = true;
+            if (saveDg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                File.WriteAllText(saveDg.FileName, list_detail.Text);
+            }
         }
         #endregion
     }
