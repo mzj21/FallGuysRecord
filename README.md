@@ -14,7 +14,7 @@
 1.1.1版本演示视频https://www.bilibili.com/video/BV14V4y137yS/
 ![简易模式](https://github.com/mzj21/FallGuysRecord/blob/main/images/1.png)
 ![正常模式](https://github.com/mzj21/FallGuysRecord/blob/main/images/2.png)
-!回合信息](https://github.com/mzj21/FallGuysRecord/blob/main/images/3.png)
+![回合信息](https://github.com/mzj21/FallGuysRecord/blob/main/images/3.png)
 ## 更新日志
  - 1.1.9\
     添加浮窗和回合信息显示的快捷键（默认F7和F8，Setting.json中修改，不支持组合键）\
