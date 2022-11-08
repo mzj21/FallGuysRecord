@@ -20,4 +20,6 @@ public class UserSettingData
     public double Height_Info { get; set; }
     public Boolean isShowFastestName { get; set; }
     public Boolean isOriginalViewMode { get; set; } = true;
+    public String OverlayHotkey { get; set; } = "F7";
+    public String RoundInfoHotkey { get; set; } = "F8";
 }

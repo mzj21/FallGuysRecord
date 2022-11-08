@@ -32,6 +32,8 @@ public class Util
             userSettingData.Y_Info = SystemParameters.WorkArea.Height - userSettingData.Height_Info;
             userSettingData.isShowFastestName = false;
             userSettingData.isOriginalViewMode = true;
+            userSettingData.OverlayHotkey = "F7";
+            userSettingData.RoundInfoHotkey = "F8";
             File.WriteAllText(settingFile, JsonConvert.SerializeObject(userSettingData, Formatting.Indented));
         }
     }

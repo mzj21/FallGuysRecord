@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using static HotkeyUtil;
 using Color = System.Windows.Media.Color;
 using FontFamily = System.Windows.Media.FontFamily;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
@@ -353,6 +353,7 @@ namespace FallGuysRecord
         {
             timer.Stop();
             SetText("", "", "", "", endtime, "", "", "");
+            SetTextEasy(endtime.Substring(0, 5), "");
         }
 
         public void RoundExit(int match, int win, String wins)
@@ -383,7 +384,29 @@ namespace FallGuysRecord
         #region [修复进程依旧存在的问题]
         private void overlay_window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            HotkeyUtil.UnRegist();
             listView.Close();
+        }
+        #endregion
+        #region [注册快捷键]
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            HotkeyUtil.Init(this);
+            if (!string.IsNullOrEmpty(userSettingData.OverlayHotkey))
+            {
+                HotkeyUtil.RegisterHotKey(ModifierKeys.None, (Key)Enum.Parse(typeof(Key), userSettingData.OverlayHotkey), () =>
+                {
+                    this.Visibility = IsVisible ? Visibility.Hidden : Visibility.Visible;
+                });
+            }
+            if (!string.IsNullOrEmpty(userSettingData.RoundInfoHotkey))
+            {
+                HotkeyUtil.RegisterHotKey(ModifierKeys.None, (Key)Enum.Parse(typeof(Key), userSettingData.RoundInfoHotkey), () =>
+                {
+                    listView.Visibility = listView.IsVisible ? Visibility.Hidden : Visibility.Visible;
+                });
+            }
         }
         #endregion
     }

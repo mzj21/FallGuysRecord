@@ -147,6 +147,7 @@
     <Compile Include="interface\ReaderListener.cs" />
     <Compile Include="bean\LevelMap.cs" />
     <Compile Include="bean\Player.cs" />
+    <Compile Include="utils\HotkeyUtil.cs" />
     <Compile Include="view\Window_ListView.xaml.cs">
       <DependentUpon>Window_ListView.xaml</DependentUpon>
     </Compile>
@@ -156,7 +157,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Xing.cs" />
-    <Compile Include="Util.cs" />
+    <Compile Include="utils\Util.cs" />
     <Compile Include="view\Window_Overlay.xaml.cs">
       <DependentUpon>Window_Overlay.xaml</DependentUpon>
       <SubType>Code</SubType>
