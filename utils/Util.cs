@@ -34,6 +34,7 @@ public class Util
             userSettingData.isOriginalViewMode = true;
             userSettingData.OverlayHotkey = "F7";
             userSettingData.RoundInfoHotkey = "F8";
+            userSettingData.RoundInfoBackground = "";
             File.WriteAllText(settingFile, JsonConvert.SerializeObject(userSettingData, Formatting.Indented));
         }
     }

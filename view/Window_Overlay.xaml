@@ -25,7 +25,7 @@
 
     <Window.Resources>
         <ContextMenu x:Key="ContextMenu">
-            <MenuItem Header="Background" Click="MenuItem_Click_0"/>
+            <MenuItem Header="OverlayBackground" Click="MenuItem_Click_0"/>
             <Separator/>
             <MenuItem Header="Font" Click="MenuItem_Click_1"/>
             <Separator/>
@@ -36,6 +36,8 @@
             <MenuItem Header="RoundInfo" Click="MenuItem_Click_4"/>
             <Separator/>
             <MenuItem Header="ChangeViewMode" Click="MenuItem_Click_5"/>
+            <Separator/>
+            <MenuItem Header="RoundInfoBackground" Click="MenuItem_Click_6"/>
         </ContextMenu>
     </Window.Resources>
 
@@ -45,7 +47,12 @@
 
     <Viewbox Stretch="Fill" ContextMenu="{StaticResource ContextMenu}">
         <Grid Width="303" Height="83">
-            <Image x:Name="overlay_background" Source="/resources/background.png"/>
+            <Border BorderThickness="1" BorderBrush="Gray"  CornerRadius="15,15,15,15"  />
+            <Image x:Name="overlay_background" Source="/resources/background.png" Stretch="UniformToFill">
+                <Image.Clip>
+                    <RectangleGeometry RadiusX="5" RadiusY="5" Rect="0,0,303,83"/>
+                </Image.Clip>
+            </Image>
             <WrapPanel x:Name="r1" Orientation="Vertical" Height="68" Margin="0,8,10,7" Width="125" HorizontalAlignment="Right" ItemHeight="17" ItemWidth="125" Visibility="Hidden">
                 <TextBlock x:Name="t2" Text="Ping:ms" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t2}" TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
                 <TextBlock x:Name="t4"  Text="------" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t4}"  TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>

@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Color = System.Windows.Media.Color;
 using FontFamily = System.Windows.Media.FontFamily;
 
@@ -50,6 +51,8 @@ namespace FallGuysRecord
                 textDecorations.Add(TextDecorations.Strikethrough);
             list_detail.TextDecorations = textDecorations;
             window_listview.FontSize = userSettingData.TextFont.Size;
+            if (!String.IsNullOrEmpty(userSettingData.RoundInfoBackground) && File.Exists(userSettingData.RoundInfoBackground))
+                roundinfo_background.Source = new BitmapImage(new Uri(userSettingData.RoundInfoBackground));
         }
         #region [窗口置顶]
         private void window_listview_Deactivated(object sender, EventArgs e)

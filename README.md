@@ -7,7 +7,7 @@
 （糖豆人新赛季更新导致计时器出现了问题，FallGuysStats没有修复计时器的问题，我就着手汉化了shinq的FallGuysRecord，但是用起来很不方便，Java的界面实在是难言。后来我还用Java+JavaFX写了一个，但是打包出现了问题，和汉化的FallGuysRecord一样需要Java环境文件。在这之后我就新写了这个WPF项目。）
 ## 下载
   - 更新 [FallGuysRecord.exe](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/FallGuysRecord.exe)
-  - 单独资源包 [FallGuysRecord资源包(不包含exe).7z](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/FallGuysRecord资源包(不包含exe).7z)<br>
+  - 单独资源包 [FallGuysRecord资源包(2022.11.09).7z](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/FallGuysRecord资源包(2022.11.09).7z)<br>
 ## 使用
 解压即用，右键浮窗有更多设置。
 ## 截图和说明
@@ -16,6 +16,9 @@
 ![正常模式](https://github.com/mzj21/FallGuysRecord/blob/main/images/2.png)
 ![回合信息](https://github.com/mzj21/FallGuysRecord/blob/main/images/3.png)
 ## 更新日志
+ - 1.1.10\
+    添加回合信息背景修改（资源包已更新）\
+    修改图片填充方式
  - 1.1.9\
     添加浮窗和回合信息显示的快捷键（默认F7和F8，Setting.json中修改，不支持组合键）\
     正确显示总计时

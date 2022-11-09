@@ -22,4 +22,5 @@ public class UserSettingData
     public Boolean isOriginalViewMode { get; set; } = true;
     public String OverlayHotkey { get; set; } = "F7";
     public String RoundInfoHotkey { get; set; } = "F8";
+    public String RoundInfoBackground { get; set; }
 }

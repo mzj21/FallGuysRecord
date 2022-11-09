@@ -176,8 +176,11 @@ namespace FallGuysRecord
             {
                 Font f = fontDialog.Font;
                 overlay_window.FontFamily = new FontFamily(f.FontFamily.Name);
+                listView.window_listview.FontFamily = new FontFamily(f.FontFamily.Name);
                 overlay_window.FontWeight = f.Bold ? FontWeights.Bold : FontWeights.Regular;
+                listView.window_listview.FontWeight = f.Bold ? FontWeights.Bold : FontWeights.Regular;
                 overlay_window.FontStyle = f.Italic ? FontStyles.Italic : FontStyles.Normal;
+                listView.window_listview.FontStyle = f.Italic ? FontStyles.Italic : FontStyles.Normal;
                 TextDecorationCollection textDecorations = new TextDecorationCollection();
                 if (f.Underline)
                     textDecorations.Add(TextDecorations.Underline);
@@ -185,6 +188,7 @@ namespace FallGuysRecord
                     textDecorations.Add(TextDecorations.Strikethrough);
                 t1.TextDecorations = textDecorations;
                 overlay_window.FontSize = f.Size;
+                listView.window_listview.FontSize = f.Size;
                 userSettingData.TextFont = f;
                 t9.FontSize = f.Size + 2;
                 Util.Save_UserSettingData(userSettingData);
@@ -203,6 +207,7 @@ namespace FallGuysRecord
                 SolidBrush sb = new SolidBrush(colorDialog.Color);
                 SolidColorBrush solidColorBrush = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
                 overlay_window.Foreground = solidColorBrush;
+                listView.window_listview.Foreground = solidColorBrush;
                 userSettingData.TextColor = colorDialog.Color;
                 Util.Save_UserSettingData(userSettingData);
             }
@@ -247,6 +252,22 @@ namespace FallGuysRecord
             l1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
             r1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
             c1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Hidden : Visibility.Visible;
+        }
+        #endregion
+        #region [回合信息背景切换]
+        private void MenuItem_Click_6(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = userSettingData.OverlayBackground,
+                Filter = @"(*.jpg,*.png,)|*.jpeg;*.jpg;*.png"
+            };
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                listView.roundinfo_background.Source = new BitmapImage(new Uri(openFileDialog.FileName));
+                userSettingData.RoundInfoBackground = openFileDialog.FileName;
+                Util.Save_UserSettingData(userSettingData);
+            }
         }
         #endregion
         #region [位置移动监听]
