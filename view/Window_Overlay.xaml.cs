@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using static HotkeyUtil;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Color = System.Windows.Media.Color;
 using FontFamily = System.Windows.Media.FontFamily;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
@@ -419,6 +420,7 @@ namespace FallGuysRecord
                 HotkeyUtil.RegisterHotKey(ModifierKeys.None, (Key)Enum.Parse(typeof(Key), userSettingData.OverlayHotkey), () =>
                 {
                     this.Visibility = IsVisible ? Visibility.Hidden : Visibility.Visible;
+                    this.Topmost = true;
                 });
             }
             if (!string.IsNullOrEmpty(userSettingData.RoundInfoHotkey))
@@ -426,6 +428,7 @@ namespace FallGuysRecord
                 HotkeyUtil.RegisterHotKey(ModifierKeys.None, (Key)Enum.Parse(typeof(Key), userSettingData.RoundInfoHotkey), () =>
                 {
                     listView.Visibility = listView.IsVisible ? Visibility.Hidden : Visibility.Visible;
+                    listView.Topmost = true;
                 });
             }
         }

@@ -39,7 +39,7 @@ namespace FallGuysRecord
             {
                 window_listview.Top = SystemParameters.PrimaryScreenHeight - window_listview.Height;
             }
-            SolidBrush sb = new SolidBrush(userSettingData.TextColor == System.Drawing.Color.White ? System.Drawing.Color.Black : userSettingData.TextColor);
+            SolidBrush sb = new SolidBrush(userSettingData.TextColor);
             window_listview.Foreground = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
             window_listview.FontFamily = new FontFamily(userSettingData.TextFont.FontFamily.Name);
             window_listview.FontWeight = userSettingData.TextFont.Bold ? FontWeights.Bold : FontWeights.Regular;
