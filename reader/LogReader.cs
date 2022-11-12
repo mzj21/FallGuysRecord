@@ -296,7 +296,7 @@ public class LogReader
                                     isWin = true;
                                     readerListener.RoundUpdateMe(player, time_out, rank);
                                 }
-                                if (player.squadID == player_me.squadID)
+                                if (player_me.squadID > 0 && player.squadID == player_me.squadID)
                                 {
                                     isWin = true;
                                 }
