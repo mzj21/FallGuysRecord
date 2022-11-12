@@ -151,14 +151,15 @@ public class LogReader
                 round = 0;
                 ++match;
                 if (isWin) { win++; }
-                if (readState == ReadState.ROUND_END)
+                if (readState == ReadState.ROUND_END || readState == ReadState.ROUND_INIT)
                 {
                     list_player_Winner.Clear();
                     foreach (Player p in list_player_QUALIFIED)
                     {
+                        list_player_Winner.Add(p);
                         foreach (Player p_all in list_player_RoundAll)
                         {
-                            if (p.squadID == p_all.squadID && !list_player_Winner.Contains(p_all))
+                            if (p.squadID > 0 && p.squadID == p_all.squadID && !list_player_Winner.Contains(p_all))
                             {
                                 list_player_Winner.Add(p_all);
                             }
@@ -296,7 +297,7 @@ public class LogReader
                                     isWin = true;
                                     readerListener.RoundUpdateMe(player, time_out, rank);
                                 }
-                                if (player.squadID == player_me.squadID)
+                                if (player_me.squadID > 0 && player.squadID == player_me.squadID)
                                 {
                                     isWin = true;
                                 }

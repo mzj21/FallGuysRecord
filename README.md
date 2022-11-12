@@ -16,6 +16,8 @@
 ![正常模式](https://github.com/mzj21/FallGuysRecord/blob/main/images/2.png)
 ![回合信息](https://github.com/mzj21/FallGuysRecord/blob/main/images/3.png)
 ## 更新日志
+ - 1.1.12\
+    修复单人获胜判定
  - 1.1.11\
     优化计时器判断，提升计时精度\
     修正获胜判断（个人是获取昵称出问题了，组队是没有适配）\
