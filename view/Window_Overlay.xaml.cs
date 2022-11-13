@@ -6,6 +6,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using static HotkeyUtil;
@@ -27,6 +28,7 @@ namespace FallGuysRecord
         private String roundName;
         private Window_ListView listView;
         private LogReader logReader;
+        private Boolean isPrimaryScreen;
 
         #region [初始化界面]
         public Window_Overlay()
@@ -39,25 +41,29 @@ namespace FallGuysRecord
                 Xing.list_LevelMap = Util.Read_LevelMap(userSettingData.levelPath);
             if (!String.IsNullOrEmpty(userSettingData.OverlayBackground) && File.Exists(userSettingData.OverlayBackground))
                 overlay_background.Source = new BitmapImage(new Uri(userSettingData.OverlayBackground));
+            isPrimaryScreen = userSettingData.isPrimaryScreen;
             overlay_window.Left = userSettingData.X;
             overlay_window.Top = userSettingData.Y;
             overlay_window.Width = userSettingData.Width;
             overlay_window.Height = userSettingData.Height;
-            if (overlay_window.Left < 0)
+            if (isPrimaryScreen == true)
             {
-                overlay_window.Left = 0;
-            }
-            if (overlay_window.Left > SystemParameters.PrimaryScreenWidth - overlay_window.Width)
-            {
-                overlay_window.Left = SystemParameters.PrimaryScreenWidth - overlay_window.Width;
-            }
-            if (overlay_window.Top < 0)
-            {
-                overlay_window.Top = 0;
-            }
-            if (overlay_window.Top > SystemParameters.PrimaryScreenHeight - overlay_window.Height)
-            {
-                overlay_window.Top = SystemParameters.PrimaryScreenHeight - overlay_window.Height;
+                if (overlay_window.Left < 0)
+                {
+                    overlay_window.Left = 0;
+                }
+                if (overlay_window.Left > SystemParameters.PrimaryScreenWidth - overlay_window.Width)
+                {
+                    overlay_window.Left = SystemParameters.PrimaryScreenWidth - overlay_window.Width;
+                }
+                if (overlay_window.Top < 0)
+                {
+                    overlay_window.Top = 0;
+                }
+                if (overlay_window.Top > SystemParameters.PrimaryScreenHeight - overlay_window.Height)
+                {
+                    overlay_window.Top = SystemParameters.PrimaryScreenHeight - overlay_window.Height;
+                }
             }
             SolidBrush sb = new SolidBrush(userSettingData.TextColor);
             overlay_window.Foreground = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
@@ -130,21 +136,26 @@ namespace FallGuysRecord
             {
                 if (Mouse.LeftButton == MouseButtonState.Released)
                 {
-                    if (overlay_window.Left < 0)
+                    var helper = new WindowInteropHelper(this);
+                    isPrimaryScreen = Screen.FromHandle(helper.Handle).Primary;
+                    if (isPrimaryScreen == true)
                     {
-                        overlay_window.Left = 0;
-                    }
-                    if (overlay_window.Left > SystemParameters.PrimaryScreenWidth - overlay_window.Width)
-                    {
-                        overlay_window.Left = SystemParameters.PrimaryScreenWidth - overlay_window.Width;
-                    }
-                    if (overlay_window.Top < 0)
-                    {
-                        overlay_window.Top = 0;
-                    }
-                    if (overlay_window.Top > SystemParameters.PrimaryScreenHeight - overlay_window.Height)
-                    {
-                        overlay_window.Top = SystemParameters.PrimaryScreenHeight - overlay_window.Height;
+                        if (overlay_window.Left < 0)
+                        {
+                            overlay_window.Left = 0;
+                        }
+                        if (overlay_window.Left > SystemParameters.PrimaryScreenWidth - overlay_window.Width)
+                        {
+                            overlay_window.Left = SystemParameters.PrimaryScreenWidth - overlay_window.Width;
+                        }
+                        if (overlay_window.Top < 0)
+                        {
+                            overlay_window.Top = 0;
+                        }
+                        if (overlay_window.Top > SystemParameters.PrimaryScreenHeight - overlay_window.Height)
+                        {
+                            overlay_window.Top = SystemParameters.PrimaryScreenHeight - overlay_window.Height;
+                        }
                     }
                 }
             }
@@ -274,6 +285,9 @@ namespace FallGuysRecord
         #region [位置移动监听]
         private void Overlay_window_LocationChanged(object sender, EventArgs e)
         {
+            var helper = new WindowInteropHelper(this);
+            isPrimaryScreen = Screen.FromHandle(helper.Handle).Primary;
+            userSettingData.isPrimaryScreen = isPrimaryScreen;
             userSettingData.X = overlay_window.Left;
             userSettingData.Y = overlay_window.Top;
             Util.Save_UserSettingData(userSettingData);
@@ -282,6 +296,9 @@ namespace FallGuysRecord
         #region [大小改变监听]
         private void Overlay_window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            var helper = new WindowInteropHelper(this);
+            isPrimaryScreen = Screen.FromHandle(helper.Handle).Primary;
+            userSettingData.isPrimaryScreen = isPrimaryScreen;
             userSettingData.Width = overlay_window.Width;
             userSettingData.Height = overlay_window.Height;
             Util.Save_UserSettingData(userSettingData);

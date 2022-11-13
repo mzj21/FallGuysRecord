@@ -23,6 +23,7 @@ public class Util
             userSettingData.Height = 83;
             userSettingData.X = (SystemParameters.WorkArea.Width - userSettingData.Width) / 2;
             userSettingData.Y = (SystemParameters.WorkArea.Height - userSettingData.Height) / 2;
+            userSettingData.isPrimaryScreen = true;
             userSettingData.levelPath = levelFile;
             userSettingData.TextColor = Color.Black;
             userSettingData.TextFont = new Font("Segoe UI", 12, FontStyle.Bold, GraphicsUnit.Point);
@@ -30,6 +31,7 @@ public class Util
             userSettingData.Height_Info = 500;
             userSettingData.X_Info = SystemParameters.WorkArea.Width - userSettingData.Width_Info;
             userSettingData.Y_Info = SystemParameters.WorkArea.Height - userSettingData.Height_Info;
+            userSettingData.isPrimaryScreen_Info = true;
             userSettingData.isShowFastestName = false;
             userSettingData.isOriginalViewMode = true;
             userSettingData.OverlayHotkey = "F7";

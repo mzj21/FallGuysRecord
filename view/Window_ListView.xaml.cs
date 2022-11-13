@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Color = System.Windows.Media.Color;
@@ -15,29 +16,35 @@ namespace FallGuysRecord
     {
         UserSettingData userSettingData;
         private Boolean isBottom;
+        private Boolean isPrimaryScreen_Info;
+
         public Window_ListView()
         {
             InitializeComponent();
             userSettingData = Util.Read_UserSettingData();
+            isPrimaryScreen_Info = userSettingData.isPrimaryScreen_Info;
             window_listview.Left = userSettingData.X_Info;
             window_listview.Top = userSettingData.Y_Info;
             window_listview.Width = userSettingData.Width_Info;
             window_listview.Height = userSettingData.Height_Info;
-            if (window_listview.Left < 0)
+            if (isPrimaryScreen_Info == true)
             {
-                window_listview.Left = 0;
-            }
-            if (window_listview.Left > SystemParameters.PrimaryScreenWidth - window_listview.Width)
-            {
-                window_listview.Left = SystemParameters.PrimaryScreenWidth - window_listview.Width;
-            }
-            if (window_listview.Top < 0)
-            {
-                window_listview.Top = 0;
-            }
-            if (window_listview.Top > SystemParameters.PrimaryScreenHeight - window_listview.Height)
-            {
-                window_listview.Top = SystemParameters.PrimaryScreenHeight - window_listview.Height;
+                if (window_listview.Left < 0)
+                {
+                    window_listview.Left = 0;
+                }
+                if (window_listview.Left > SystemParameters.PrimaryScreenWidth - window_listview.Width)
+                {
+                    window_listview.Left = SystemParameters.PrimaryScreenWidth - window_listview.Width;
+                }
+                if (window_listview.Top < 0)
+                {
+                    window_listview.Top = 0;
+                }
+                if (window_listview.Top > SystemParameters.PrimaryScreenHeight - window_listview.Height)
+                {
+                    window_listview.Top = SystemParameters.PrimaryScreenHeight - window_listview.Height;
+                }
             }
             SolidBrush sb = new SolidBrush(userSettingData.TextColor);
             window_listview.Foreground = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
@@ -96,21 +103,26 @@ namespace FallGuysRecord
             {
                 if (Mouse.LeftButton == MouseButtonState.Released)
                 {
-                    if (window_listview.Left < 0)
+                    var helper = new WindowInteropHelper(this);
+                    isPrimaryScreen_Info = Screen.FromHandle(helper.Handle).Primary;
+                    if (isPrimaryScreen_Info == true)
                     {
-                        window_listview.Left = 0;
-                    }
-                    if (window_listview.Left > SystemParameters.PrimaryScreenWidth - window_listview.Width)
-                    {
-                        window_listview.Left = SystemParameters.PrimaryScreenWidth - window_listview.Width;
-                    }
-                    if (window_listview.Top < 0)
-                    {
-                        window_listview.Top = 0;
-                    }
-                    if (window_listview.Top > SystemParameters.PrimaryScreenHeight - window_listview.Height)
-                    {
-                        window_listview.Top = SystemParameters.PrimaryScreenHeight - window_listview.Height;
+                        if (window_listview.Left < 0)
+                        {
+                            window_listview.Left = 0;
+                        }
+                        if (window_listview.Left > SystemParameters.PrimaryScreenWidth - window_listview.Width)
+                        {
+                            window_listview.Left = SystemParameters.PrimaryScreenWidth - window_listview.Width;
+                        }
+                        if (window_listview.Top < 0)
+                        {
+                            window_listview.Top = 0;
+                        }
+                        if (window_listview.Top > SystemParameters.PrimaryScreenHeight - window_listview.Height)
+                        {
+                            window_listview.Top = SystemParameters.PrimaryScreenHeight - window_listview.Height;
+                        }
                     }
                 }
             }
@@ -119,6 +131,9 @@ namespace FallGuysRecord
         #region [位置移动监听]
         private void window_listview_LocationChanged(object sender, EventArgs e)
         {
+            var helper = new WindowInteropHelper(this);
+            isPrimaryScreen_Info = Screen.FromHandle(helper.Handle).Primary;
+            userSettingData.isPrimaryScreen_Info = isPrimaryScreen_Info;
             userSettingData.X_Info = window_listview.Left;
             userSettingData.Y_Info = window_listview.Top;
             Util.Save_UserSettingData(userSettingData);
@@ -127,6 +142,9 @@ namespace FallGuysRecord
         #region [大小改变监听]
         private void window_listview_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            var helper = new WindowInteropHelper(this);
+            isPrimaryScreen_Info = Screen.FromHandle(helper.Handle).Primary;
+            userSettingData.isPrimaryScreen_Info = isPrimaryScreen_Info;
             userSettingData.Width_Info = window_listview.Width;
             userSettingData.Height_Info = window_listview.Height;
             Util.Save_UserSettingData(userSettingData);
