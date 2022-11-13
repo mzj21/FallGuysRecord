@@ -8,6 +8,7 @@
 ## 下载
   - 更新 [FallGuysRecord.exe](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/FallGuysRecord.exe)
   - 单独资源包 [FallGuysRecord资源包(2022.11.12).7z](https://github.com/mzj21/FallGuysRecord/blob/main/FallGuysRecord资源包(2022.11.12).7z)<br>
+  - 语言包 [语言包.7z](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/语言包.7z)
 ## 使用
 解压即用，右键浮窗有更多设置。
 ## 截图和说明
