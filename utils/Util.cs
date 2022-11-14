@@ -3,15 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows;
+using System.Windows.Forms;
 using FontStyle = System.Drawing.FontStyle;
 
 public class Util
 {
     //配置文件路径
     private static readonly string settingFile = Environment.CurrentDirectory + "\\Setting.json";
-    private static readonly string levelFile = Environment.CurrentDirectory + "\\level_zh.json";
 
     public static void Init()
     {
@@ -23,7 +24,7 @@ public class Util
             userSettingData.Height = 83;
             userSettingData.X = (SystemParameters.WorkArea.Width - userSettingData.Width) / 2;
             userSettingData.Y = (SystemParameters.WorkArea.Height - userSettingData.Height) / 2;
-            userSettingData.levelPath = levelFile;
+            userSettingData.levelPath = "";
             userSettingData.TextColor = Color.Black;
             userSettingData.TextFont = new Font("Segoe UI", 12, FontStyle.Bold, GraphicsUnit.Point);
             userSettingData.Width_Info = 400;
@@ -110,50 +111,31 @@ public class Util
     {
         return new FileInfo(path).Length == 0;
     }
-    /// <summary>
-    /// 转全角的函数(SBC case)
-    /// 全角空格为12288，半角空格为32
-    /// 其他字符半角(33-126)与全角(65281-65374)的对应关系是：均相差65248
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    public static String ToSBC(String input)
-    {
-        // 半角转全角：
-        char[] c = input.ToCharArray();
-        for (int i = 0; i < c.Length; i++)
-        {
-            if (c[i] == 32)
-            {
-                c[i] = (char)12288;
-                continue;
-            }
-            if (c[i] < 127)
-                c[i] = (char)(c[i] + 65248);
-        }
-        return new String(c);
-    }
 
     /// <summary>
-    /// 转半角的函数(DBC case)
-    /// 全角空格为12288，半角空格为32
-    /// 其他字符半角(33-126)与全角(65281-65374)的对应关系是：均相差65248
+    /// 判断窗口属于哪个屏幕（目前不完善，超出会返回主屏幕，暂时想不出好的方法处理超出部分）
     /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    public static String ToDBC(String input)
+    /// <param name="window">窗口</param>
+    /// <returns>属于的屏幕</returns>
+    public static Screen getInScreen(Window window)
     {
-        char[] c = input.ToCharArray();
-        for (int i = 0; i < c.Length; i++)
+        Screen[] screens = Screen.AllScreens;
+        Dpi dpi = GetDpiBySystemParameters();
+        foreach (Screen s in screens)
         {
-            if (c[i] == 12288)
+            if (window.Left + window.Width / 2 > s.Bounds.X / dpi.X && window.Left + window.Width / 2 < (s.Bounds.X + s.Bounds.Width) / dpi.X && window.Top + window.Height / 2 > s.Bounds.Y / dpi.Y && window.Top + window.Height / 2 < (s.Bounds.Y + s.Bounds.Height) / dpi.Y)
             {
-                c[i] = (char)32;
-                continue;
+                return s;
             }
-            if (c[i] > 65280 && c[i] < 65375)
-                c[i] = (char)(c[i] - 65248);
         }
-        return new String(c);
+        return screens[0];
+    }
+    /// <summary>
+    /// 手动计算，将就着用
+    /// </summary>
+    /// <returns>Dpi</returns>
+    public static Dpi GetDpiBySystemParameters()
+    {
+        return new Dpi(Screen.AllScreens[0].Bounds.Width / SystemParameters.PrimaryScreenWidth, Screen.AllScreens[0].Bounds.Height / SystemParameters.PrimaryScreenHeight);
     }
 }

@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Timers;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using static HotkeyUtil;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Color = System.Windows.Media.Color;
 using FontFamily = System.Windows.Media.FontFamily;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
@@ -19,10 +19,10 @@ namespace FallGuysRecord
 {
     public partial class Window_Overlay : Window, ReaderListener
     {
-        UserSettingData userSettingData;
-        System.Timers.Timer timer;
-        DateTime startTime;
-        TimeSpan timeSpan;
+        private UserSettingData userSettingData;
+        private System.Timers.Timer timer;
+        private DateTime startTime;
+        private TimeSpan timeSpan;
         private int num;
         private String roundName;
         private Window_ListView listView;
@@ -43,22 +43,8 @@ namespace FallGuysRecord
             overlay_window.Top = userSettingData.Y;
             overlay_window.Width = userSettingData.Width;
             overlay_window.Height = userSettingData.Height;
-            if (overlay_window.Left < 0)
-            {
-                overlay_window.Left = 0;
-            }
-            if (overlay_window.Left > SystemParameters.PrimaryScreenWidth - overlay_window.Width)
-            {
-                overlay_window.Left = SystemParameters.PrimaryScreenWidth - overlay_window.Width;
-            }
-            if (overlay_window.Top < 0)
-            {
-                overlay_window.Top = 0;
-            }
-            if (overlay_window.Top > SystemParameters.PrimaryScreenHeight - overlay_window.Height)
-            {
-                overlay_window.Top = SystemParameters.PrimaryScreenHeight - overlay_window.Height;
-            }
+            ///防止超出屏幕找不到
+            changeLocation();
             SolidBrush sb = new SolidBrush(userSettingData.TextColor);
             overlay_window.Foreground = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
             overlay_window.FontFamily = new FontFamily(userSettingData.TextFont.FontFamily.Name);
@@ -80,7 +66,6 @@ namespace FallGuysRecord
             timer.Interval = 1000;
             timer.Elapsed += Timer_Elapsed;
             #endregion
-
             #region [开启线程读取log]
             listView = new Window_ListView();
             logReader = new LogReader(this, listView);
@@ -130,23 +115,29 @@ namespace FallGuysRecord
             {
                 if (Mouse.LeftButton == MouseButtonState.Released)
                 {
-                    if (overlay_window.Left < 0)
-                    {
-                        overlay_window.Left = 0;
-                    }
-                    if (overlay_window.Left > SystemParameters.PrimaryScreenWidth - overlay_window.Width)
-                    {
-                        overlay_window.Left = SystemParameters.PrimaryScreenWidth - overlay_window.Width;
-                    }
-                    if (overlay_window.Top < 0)
-                    {
-                        overlay_window.Top = 0;
-                    }
-                    if (overlay_window.Top > SystemParameters.PrimaryScreenHeight - overlay_window.Height)
-                    {
-                        overlay_window.Top = SystemParameters.PrimaryScreenHeight - overlay_window.Height;
-                    }
+                    changeLocation();
                 }
+            }
+        }
+        private void changeLocation()
+        {
+            Screen s = Util.getInScreen(overlay_window);
+            Dpi dpi = Util.GetDpiBySystemParameters();
+            if (overlay_window.Left < s.Bounds.X / dpi.X)
+            {
+                overlay_window.Left = s.Bounds.X / dpi.X;
+            }
+            if (overlay_window.Left > (s.Bounds.X + s.Bounds.Width) / dpi.X - overlay_window.Width)
+            {
+                overlay_window.Left = (s.Bounds.X + s.Bounds.Width) / dpi.X - overlay_window.Width;
+            }
+            if (overlay_window.Top < s.Bounds.Y / dpi.Y)
+            {
+                overlay_window.Top = s.Bounds.Y / dpi.Y;
+            }
+            if (overlay_window.Top > (s.Bounds.Y + s.Bounds.Height) / dpi.Y - overlay_window.Height)
+            {
+                overlay_window.Top = (s.Bounds.Y + s.Bounds.Height) / dpi.Y - overlay_window.Height;
             }
         }
         #endregion
@@ -227,6 +218,7 @@ namespace FallGuysRecord
                 userSettingData.levelPath = openFileDialog.FileName;
                 Util.Save_UserSettingData(userSettingData);
                 Xing.list_LevelMap = Util.Read_LevelMap(openFileDialog.FileName);
+                logReader.ChangelevelMap();
                 LevelMap levelMap = Util.GetLevelMap(roundName);
                 SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "", "", "", "");
             }

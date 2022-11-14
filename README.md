@@ -17,6 +17,9 @@
 ![正常模式](https://github.com/mzj21/FallGuysRecord/blob/main/images/2.png)
 ![回合信息](https://github.com/mzj21/FallGuysRecord/blob/main/images/3.png)
 ## 更新日志
+ - 1.1.13\
+    添加对多屏幕的支持\
+    修正切换语言
  - 1.1.12\
     修复单人获胜判定
  - 1.1.11\

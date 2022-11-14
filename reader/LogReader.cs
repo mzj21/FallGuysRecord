@@ -61,6 +61,11 @@ public class LogReader
         logListener.Header(s);
     }
 
+    public void ChangelevelMap()
+    {
+        levelMap = Util.GetLevelMap(levelMap.name);
+    }
+
     public void Start()
     {
         fs = new FileStream(Xing.LogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);

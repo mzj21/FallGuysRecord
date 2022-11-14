@@ -23,22 +23,7 @@ namespace FallGuysRecord
             window_listview.Top = userSettingData.Y_Info;
             window_listview.Width = userSettingData.Width_Info;
             window_listview.Height = userSettingData.Height_Info;
-            if (window_listview.Left < 0)
-            {
-                window_listview.Left = 0;
-            }
-            if (window_listview.Left > SystemParameters.PrimaryScreenWidth - window_listview.Width)
-            {
-                window_listview.Left = SystemParameters.PrimaryScreenWidth - window_listview.Width;
-            }
-            if (window_listview.Top < 0)
-            {
-                window_listview.Top = 0;
-            }
-            if (window_listview.Top > SystemParameters.PrimaryScreenHeight - window_listview.Height)
-            {
-                window_listview.Top = SystemParameters.PrimaryScreenHeight - window_listview.Height;
-            }
+            changeLocation();
             SolidBrush sb = new SolidBrush(userSettingData.TextColor);
             window_listview.Foreground = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
             window_listview.FontFamily = new FontFamily(userSettingData.TextFont.FontFamily.Name);
@@ -96,23 +81,29 @@ namespace FallGuysRecord
             {
                 if (Mouse.LeftButton == MouseButtonState.Released)
                 {
-                    if (window_listview.Left < 0)
-                    {
-                        window_listview.Left = 0;
-                    }
-                    if (window_listview.Left > SystemParameters.PrimaryScreenWidth - window_listview.Width)
-                    {
-                        window_listview.Left = SystemParameters.PrimaryScreenWidth - window_listview.Width;
-                    }
-                    if (window_listview.Top < 0)
-                    {
-                        window_listview.Top = 0;
-                    }
-                    if (window_listview.Top > SystemParameters.PrimaryScreenHeight - window_listview.Height)
-                    {
-                        window_listview.Top = SystemParameters.PrimaryScreenHeight - window_listview.Height;
-                    }
+                    changeLocation();
                 }
+            }
+        }
+        private void changeLocation()
+        {
+            Screen s = Util.getInScreen(window_listview);
+            Dpi dpi = Util.GetDpiBySystemParameters();
+            if (window_listview.Left < s.Bounds.X / dpi.X)
+            {
+                window_listview.Left = s.Bounds.X / dpi.X;
+            }
+            if (window_listview.Left > (s.Bounds.X + s.Bounds.Width) / dpi.X - window_listview.Width)
+            {
+                window_listview.Left = (s.Bounds.X + s.Bounds.Width) / dpi.X - window_listview.Width;
+            }
+            if (window_listview.Top < s.Bounds.Y / dpi.Y)
+            {
+                window_listview.Top = s.Bounds.Y / dpi.Y;
+            }
+            if (window_listview.Top > (s.Bounds.Y + s.Bounds.Height) / dpi.Y - window_listview.Height)
+            {
+                window_listview.Top = (s.Bounds.Y + s.Bounds.Height) / dpi.Y - window_listview.Height;
             }
         }
         #endregion
