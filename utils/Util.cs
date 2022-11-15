@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Interop;
 using FontStyle = System.Drawing.FontStyle;
 
 public class Util
@@ -39,50 +41,51 @@ public class Util
             File.WriteAllText(settingFile, JsonConvert.SerializeObject(userSettingData, Formatting.Indented));
         }
     }
+
     public static UserSettingData Read_UserSettingData()
     {
-        StreamReader streamReader = new StreamReader(settingFile, Encoding.UTF8);
-        UserSettingData data = JsonConvert.DeserializeObject<UserSettingData>(streamReader.ReadToEnd());
-        streamReader.Close();
-        streamReader.Dispose();
-        if (data.Width <= 40)
+        using (StreamReader streamReader = new StreamReader(settingFile, Encoding.UTF8))
         {
-            data.Width = 303;
+            UserSettingData data = JsonConvert.DeserializeObject<UserSettingData>(streamReader.ReadToEnd());
+            if (data.Width <= 40)
+            {
+                data.Width = 303;
+            }
+            if (data.Height <= 40)
+            {
+                data.Height = 83;
+            }
+            if (data.Width_Info <= 40)
+            {
+                data.Width_Info = 400;
+            }
+            if (data.Height_Info <= 40)
+            {
+                data.Height_Info = 500;
+            }
+            return data;
         }
-        if (data.Height <= 40)
-        {
-            data.Height = 83;
-        }
-        if (data.Width_Info <= 40)
-        {
-            data.Width_Info = 400;
-        }
-        if (data.Height_Info <= 40)
-        {
-            data.Height_Info = 500;
-        }
-        return data;
     }
 
     public static void Save_UserSettingData(UserSettingData userSettingData)
     {
-        FileStream fs = new FileStream(settingFile, FileMode.Create);
-        StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
-        string json = JsonConvert.SerializeObject(userSettingData, Formatting.Indented);
-        sw.Write(json);
-        sw.Close();
-        sw.Dispose();
-        fs.Close();
-        fs.Dispose();
+        using (FileStream fs = new FileStream(settingFile, FileMode.Create))
+        {
+            using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
+            {
+                string json = JsonConvert.SerializeObject(userSettingData, Formatting.Indented);
+                sw.Write(json);
+            }
+        }
     }
 
     public static List<LevelMap> Read_LevelMap(String levelPath)
     {
-        StreamReader streamReader = new StreamReader(levelPath, Encoding.UTF8);
-        List<LevelMap> list_LevelMap = JsonConvert.DeserializeObject<List<LevelMap>>(streamReader.ReadToEnd());
-        streamReader.Close();
-        streamReader.Dispose();
-        return list_LevelMap;
+        using (StreamReader streamReader = new StreamReader(levelPath, Encoding.UTF8))
+        {
+            List<LevelMap> list_LevelMap = JsonConvert.DeserializeObject<List<LevelMap>>(streamReader.ReadToEnd());
+            return list_LevelMap;
+        }
     }
 
     public static LevelMap GetLevelMap(String roundName)

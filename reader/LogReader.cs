@@ -29,10 +29,11 @@ public class LogReader
     private Timer timer, timerThread, timerProcess;
     private FileStream fs;
     private int seek;
-    private ReadState readState = ReadState.ROUND_EXIT;
+    private ReadState readState = ReadState.ROUND_INIT;
     private int interval = 1; //计时器运行间隔, 不影响性能
     private Boolean isRun; //保证线程安全无重复
     private Boolean isMatchStart; //是否是一场比赛
+    private Boolean isRoundEnd1, isRoundEnd2; //是否是一场比赛
     private LevelMap levelMap = new LevelMap(); //当前回合信息
     private TimeSpan timeSpan;
     private Player player_temp;
@@ -148,50 +149,59 @@ public class LogReader
                 readerListener.Ping(line.Substring(index + 5, msIndex - index - 5));
             }
         }
-        //if (line.Contains("Client has been disconnected"))
-        if (line.Contains("[FG_UnityInternetNetworkManager] client quit"))
+        m = Regex.Match(line, Xing.pattern_Server);
+        if (m.Success)
         {
-            if (isMatchStart)
+            isRoundEnd1 = false;
+            isRoundEnd2 = false;
+            logListener.Detail("Server IP：" + m.Groups[1].Value);
+            Debug.WriteLine("服务器ip:" + m.Groups[1].Value);
+            readState = ReadState.ROUND_INIT;
+        }
+        //if (line.Contains("Client has been disconnected"))
+        if (line.Contains("[FG_UnityInternetNetworkManager] client quit")&& isMatchStart && !isRoundEnd1 && !isRoundEnd2)
+        {
+            isMatchStart = false;
+            isRoundEnd1 = true;
+            readState = ReadState.ROUND_INIT;
+            Debug.WriteLine("与服务器连接中断");
+        }
+        if (isRoundEnd1 || isRoundEnd2)
+        {
+            round = 0;
+            ++match;
+            if (isWin) { win++; }
+            if (readState == ReadState.ROUND_INIT)
             {
-                round = 0;
-                ++match;
-                if (isWin) { win++; }
-                if (readState == ReadState.ROUND_END || readState == ReadState.ROUND_INIT)
+                list_player_Winner.Clear();
+                foreach (Player p in list_player_QUALIFIED)
                 {
-                    list_player_Winner.Clear();
-                    foreach (Player p in list_player_QUALIFIED)
+                    list_player_Winner.Add(p);
+                    foreach (Player p_all in list_player_RoundAll)
                     {
-                        list_player_Winner.Add(p);
-                        foreach (Player p_all in list_player_RoundAll)
+                        if (p.squadID > 0 && p.squadID == p_all.squadID && !list_player_Winner.Contains(p_all))
                         {
-                            if (p.squadID > 0 && p.squadID == p_all.squadID && !list_player_Winner.Contains(p_all))
-                            {
-                                list_player_Winner.Add(p_all);
-                            }
+                            list_player_Winner.Add(p_all);
                         }
                     }
-                    readerListener.RoundExit(match, win, levelMap.type + "(" + list_player_Winner.Count + ")");
                 }
-                else
-                {
-                    readerListener.RoundExit(match, win, "");
-                }
-                logListener.Detail("〓〓〓〓〓〓〓〓〓〓");
-                Debug.WriteLine("与服务器连接中断，是一场比赛");
-                isMatchStart = false;
+                readerListener.RoundExit(match, win, levelMap.type + "(" + list_player_Winner.Count + ")");
             }
-            readState = ReadState.ROUND_EXIT;
+            else
+            {
+                readerListener.RoundExit(match, win, "");
+            }
+            isRoundEnd1 = false;
+            isRoundEnd2 = false;
+            logListener.Detail("〓〓〓〓〓〓〓〓〓〓");
+            Debug.WriteLine("与服务器连接中断，是一场比赛");
+            readState = ReadState.ROUND_INIT;
         }
         switch (readState)
         {
             case ReadState.ROUND_EXIT:
-                m = Regex.Match(line, Xing.pattern_Server);
-                if (m.Success)
-                {
-                    logListener.Detail("Server IP：" + m.Groups[1].Value);
-                    Debug.WriteLine("服务器ip:" + m.Groups[1].Value);
-                    readState = ReadState.ROUND_INIT;
-                }
+                // 此项暂时无用
+                readState = ReadState.ROUND_INIT;
                 break;
             case ReadState.ROUND_INIT:
                 m = Regex.Match(line, Xing.pattern_ShowName);
@@ -249,7 +259,7 @@ public class LogReader
                     break;
                 }
 
-                if (line.Contains("Setting this client as readiness state 'ObjectsSpawned'"))
+                if (line.Contains("[ClientGameManager] Setting this client as readiness state 'ReadyToPlay'"))
                 {
                     Debug.WriteLine("共计" + list_player.Count + "个玩家");
                     list_player_RoundAll.Clear();
@@ -366,10 +376,12 @@ public class LogReader
                     Debug.WriteLine("准备下一回合");
                     break;
                 }
-                if (line.Contains("== [CompletedEpisodeDto] =="))
+                if (line.Contains("== [CompletedEpisodeDto] ==") && !isRoundEnd1 && !isRoundEnd2)
                 {
-                    Debug.WriteLine("你的比赛结束了，可以观战，奖励已结算");
+                    isMatchStart = false;
+                    isRoundEnd2 = true;
                     readState = ReadState.ROUND_INIT;
+                    Debug.WriteLine("奖励已结算");
                 }
                 break;
         }

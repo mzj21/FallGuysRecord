@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
+using System.Reflection;
 using System.Timers;
 using System.Windows;
 using System.Windows.Forms;
@@ -220,7 +219,12 @@ namespace FallGuysRecord
                 Xing.list_LevelMap = Util.Read_LevelMap(openFileDialog.FileName);
                 logReader.ChangelevelMap();
                 LevelMap levelMap = Util.GetLevelMap(roundName);
-                SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "", "", "", "");
+                String num = "";
+                if (t4.Text.IndexOf('(') > 0)
+                {
+                    num = t4.Text.Substring(t4.Text.IndexOf('('));
+                }
+                SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type + num, "", "", "", "");
             }
         }
         #endregion
@@ -395,13 +399,6 @@ namespace FallGuysRecord
             SetTextEasy(string.Format("{0:00}:{1:00}", timeSpan.Minutes, timeSpan.Seconds), "");
         }
         #endregion
-        #region [修复进程依旧存在的问题]
-        private void overlay_window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            HotkeyUtil.UnRegist();
-            listView.Close();
-        }
-        #endregion
         #region [注册快捷键]
         protected override void OnSourceInitialized(EventArgs e)
         {
@@ -412,15 +409,38 @@ namespace FallGuysRecord
                 HotkeyUtil.RegisterHotKey(ModifierKeys.None, (Key)Enum.Parse(typeof(Key), userSettingData.OverlayHotkey), () =>
                 {
                     this.Visibility = IsVisible ? Visibility.Hidden : Visibility.Visible;
-                    this.Topmost = true;
+                    if (!IsVisible)
+                    {
+                        if (this.WindowState == WindowState.Minimized)
+                        {
+                            this.WindowState = WindowState.Normal;
+                        }
+                        this.Activate();
+                        this.Topmost = true;
+                        this.Topmost = false;
+
+                    }
                 });
             }
             if (!string.IsNullOrEmpty(userSettingData.RoundInfoHotkey))
             {
                 HotkeyUtil.RegisterHotKey(ModifierKeys.None, (Key)Enum.Parse(typeof(Key), userSettingData.RoundInfoHotkey), () =>
                 {
-                    listView.Visibility = listView.IsVisible ? Visibility.Hidden : Visibility.Visible;
-                    listView.Topmost = true;
+                    Boolean isDisposed = (Boolean)typeof(Window).GetProperty("IsDisposed", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(listView);
+                    if (!isDisposed)
+                    {
+                        listView.Visibility = listView.IsVisible ? Visibility.Hidden : Visibility.Visible;
+                        if (!IsVisible)
+                        {
+                            if (listView.WindowState == WindowState.Minimized)
+                            {
+                                listView.WindowState = WindowState.Normal;
+                            }
+                            listView.Activate();
+                            listView.Topmost = true;
+                            listView.Topmost = false;
+                        }
+                    }
                 });
             }
         }

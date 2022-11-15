@@ -20,8 +20,7 @@
         Deactivated="Window_Deactivated"
         PreviewLostKeyboardFocus="overlay_window_PreviewLostKeyboardFocus"
         MouseLeftButtonDown="overlay_window_MouseLeftButtonDown"
-        MouseLeftButtonUp="overlay_window_MouseLeftButtonUp"
-        Closing="overlay_window_Closing">
+        MouseLeftButtonUp="overlay_window_MouseLeftButtonUp">
 
     <Window.Resources>
         <ContextMenu x:Key="ContextMenu">
@@ -47,7 +46,7 @@
 
     <Viewbox Stretch="Fill" ContextMenu="{StaticResource ContextMenu}">
         <Grid Width="303" Height="83">
-            <Border BorderThickness="1" BorderBrush="Gray"  CornerRadius="15,15,15,15"  />
+            <Border BorderThickness="1" BorderBrush="Transparent"  CornerRadius="12,12,12,12"  />
             <Image x:Name="overlay_background" Source="/resources/background.png" Stretch="UniformToFill">
                 <Image.Clip>
                     <RectangleGeometry RadiusX="5" RadiusY="5" Rect="0,0,303,83"/>
