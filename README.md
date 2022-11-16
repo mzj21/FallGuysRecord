@@ -17,6 +17,8 @@
 ![正常模式](https://github.com/mzj21/FallGuysRecord/blob/main/images/2.png)
 ![回合信息](https://github.com/mzj21/FallGuysRecord/blob/main/images/3.png)
 ## 更新日志
+ - 1.1.15\
+    完善对多屏幕的支持
  - 1.1.14\
     修复部分情况不算场次的问题\
     修复部分情况回合信息不输出所有平台信息的问题\

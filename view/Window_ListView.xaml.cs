@@ -23,7 +23,7 @@ namespace FallGuysRecord
             window_listview.Top = userSettingData.Y_Info;
             window_listview.Width = userSettingData.Width_Info;
             window_listview.Height = userSettingData.Height_Info;
-            changeLocation();
+            changeLocation();///防止超出屏幕找不到
             SolidBrush sb = new SolidBrush(userSettingData.TextColor);
             window_listview.Foreground = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
             window_listview.FontFamily = new FontFamily(userSettingData.TextFont.FontFamily.Name);

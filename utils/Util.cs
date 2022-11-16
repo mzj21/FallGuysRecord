@@ -3,12 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Interop;
 using FontStyle = System.Drawing.FontStyle;
 
 public class Util
@@ -116,22 +113,31 @@ public class Util
     }
 
     /// <summary>
-    /// 判断窗口属于哪个屏幕（目前不完善，超出会返回主屏幕，暂时想不出好的方法处理超出部分）
+    /// 判断窗口属于哪个屏幕
+    /// 窗口中心点到屏幕中心点 / 屏幕左上角到右下角
     /// </summary>
-    /// <param name="window">窗口</param>
+    /// <param name="window">需要判断的窗口</param>
     /// <returns>属于的屏幕</returns>
     public static Screen getInScreen(Window window)
     {
         Screen[] screens = Screen.AllScreens;
         Dpi dpi = GetDpiBySystemParameters();
+        Dpi d_windos = new Dpi(window.Left + window.Width / 2, window.Top + window.Height / 2);
+        double dd = double.MaxValue;
+        Screen returnScreen = screens[0];
         foreach (Screen s in screens)
         {
-            if (window.Left + window.Width / 2 > s.Bounds.X / dpi.X && window.Left + window.Width / 2 < (s.Bounds.X + s.Bounds.Width) / dpi.X && window.Top + window.Height / 2 > s.Bounds.Y / dpi.Y && window.Top + window.Height / 2 < (s.Bounds.Y + s.Bounds.Height) / dpi.Y)
+            Dpi d_center = new Dpi(s.Bounds.X / dpi.X + s.Bounds.Width / dpi.X / 2, s.Bounds.Y / dpi.Y + s.Bounds.Height / dpi.Y / 2);//屏幕中心点坐标
+            Dpi d_f = new Dpi(s.Bounds.X / dpi.X, s.Bounds.Y / dpi.Y);//屏幕左上角坐标
+            Dpi d_end = new Dpi(s.Bounds.X / dpi.X + s.Bounds.Width / dpi.X, s.Bounds.Y / dpi.Y + s.Bounds.Height / dpi.Y);//屏幕右下角坐标
+            double ddd = (GetDistance(d_windos, d_center) / GetDistance(d_f, d_end));
+            if (ddd < dd)
             {
-                return s;
+                dd = ddd;
+                returnScreen = s;
             }
         }
-        return screens[0];
+        return returnScreen;
     }
     /// <summary>
     /// 手动计算，将就着用
@@ -140,5 +146,10 @@ public class Util
     public static Dpi GetDpiBySystemParameters()
     {
         return new Dpi(Screen.AllScreens[0].Bounds.Width / SystemParameters.PrimaryScreenWidth, Screen.AllScreens[0].Bounds.Height / SystemParameters.PrimaryScreenHeight);
+    }
+
+    private static double GetDistance(Dpi d1, Dpi d2)
+    {
+        return Math.Sqrt((d1.X - d2.X) * (d1.X - d2.X) + (d1.Y - d2.Y) * (d1.Y - d2.Y));
     }
 }

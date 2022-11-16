@@ -42,8 +42,7 @@ namespace FallGuysRecord
             overlay_window.Top = userSettingData.Y;
             overlay_window.Width = userSettingData.Width;
             overlay_window.Height = userSettingData.Height;
-            ///防止超出屏幕找不到
-            changeLocation();
+            changeLocation();///防止超出屏幕找不到
             SolidBrush sb = new SolidBrush(userSettingData.TextColor);
             overlay_window.Foreground = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
             overlay_window.FontFamily = new FontFamily(userSettingData.TextFont.FontFamily.Name);
