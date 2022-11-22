@@ -40,6 +40,7 @@ public class LogReader
     private StreamReader reader;
     private String line_temp;
     private Player player_me;
+    private int playerId_me;
 
     enum ReadState
     {
@@ -233,13 +234,19 @@ public class LogReader
                     Debug.WriteLine("具体地图名为：" + m.Groups[1].Value);
                     break;
                 }
+                String id = "Requesting spawn of local player, ID=";
+                if (line.Contains(id))
+                {
+                    playerId_me = int.Parse(line.Substring(line.IndexOf(id) + id.Length));
+                    break;
+                }
                 m = Regex.Match(line, Xing.pattern_PlayerSpawn);
                 if (m.Success)
                 {
                     String name = m.Groups[1].Value;
-                    int sep = name.IndexOf("_");
-                    String platform = name.Substring(0, sep);
-                    String playerName = name.Substring(sep + 1).Replace(" (" + platform + ")", "");
+                    int sep = name.IndexOf("(");
+                    String playerName = name.Substring(0, sep - 1);
+                    String platform = name.Substring(sep + 1).Replace(")", "");
                     int partyId = string.IsNullOrEmpty(m.Groups[2].Value) ? 0 : int.Parse(m.Groups[2].Value);
                     int squadId = int.Parse(m.Groups[3].Value);
                     int playerId = int.Parse(m.Groups[4].Value);
@@ -248,7 +255,7 @@ public class LogReader
                     {
                         list_player.Add(player);
                     }
-                    if (playerName.Equals(Xing.myName))
+                    if (player.playerId == playerId_me)
                     {
                         player_me = player;
                     }
@@ -307,7 +314,7 @@ public class LogReader
                                 {
                                     readerListener.RoundUpdateFirst(player, time_out);
                                 }
-                                if (player.playerName.Equals(Xing.myName))
+                                if (player.playerId == playerId_me)
                                 {
                                     isWin = true;
                                     readerListener.RoundUpdateMe(player, time_out, rank);
@@ -331,7 +338,7 @@ public class LogReader
                             {
                                 if (player.playerState == PlayerState.PLAYING)
                                 {
-                                    if (player.playerName.Equals(Xing.myName))
+                                    if (player.playerId == playerId_me)
                                     {
                                         readerListener.RoundUpdateMe(player, time_out, rank);
                                     }

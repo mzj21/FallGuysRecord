@@ -8,6 +8,7 @@
 ## 下载
   - 更新 [FallGuysRecord.exe](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/FallGuysRecord.exe)
   - 单独资源包 [FallGuysRecord资源包(2022.11.12).7z](https://github.com/mzj21/FallGuysRecord/blob/main/FallGuysRecord资源包(2022.11.12).7z)<br>
+  - 单独资源更新包 [background SS3.7z](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/background SS3.7z)
   - 语言包 [语言包.7z](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/语言包.7z)
 ## 使用
 解压即用，右键浮窗有更多设置。
@@ -17,6 +18,9 @@
 ![正常模式](https://github.com/mzj21/FallGuysRecord/blob/main/images/2.png)
 ![回合信息](https://github.com/mzj21/FallGuysRecord/blob/main/images/3.png)
 ## 更新日志
+ - 1.1.16\
+    修复计时器无法正确运行的BUG\
+    更新资源包和语言包
  - 1.1.15\
     完善对多屏幕的支持
  - 1.1.14\
