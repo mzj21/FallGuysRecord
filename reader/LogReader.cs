@@ -160,12 +160,19 @@ public class LogReader
             readState = ReadState.ROUND_INIT;
         }
         //if (line.Contains("Client has been disconnected"))
-        if (line.Contains("[FG_UnityInternetNetworkManager] client quit")&& isMatchStart && !isRoundEnd1 && !isRoundEnd2)
+        if (line.Contains("[FG_UnityInternetNetworkManager] client quit") && isMatchStart && !isRoundEnd1 && !isRoundEnd2)
         {
             isMatchStart = false;
             isRoundEnd1 = true;
             readState = ReadState.ROUND_INIT;
             Debug.WriteLine("与服务器连接中断");
+        }
+        if (line.Contains("== [CompletedEpisodeDto] ==") && isMatchStart && !isRoundEnd1 && !isRoundEnd2)
+        {
+            isMatchStart = false;
+            isRoundEnd2 = true;
+            readState = ReadState.ROUND_INIT;
+            Debug.WriteLine("奖励已结算");
         }
         if (isRoundEnd1 || isRoundEnd2)
         {
@@ -382,13 +389,6 @@ public class LogReader
                     readState = ReadState.ROUND_INIT;
                     Debug.WriteLine("准备下一回合");
                     break;
-                }
-                if (line.Contains("== [CompletedEpisodeDto] ==") && !isRoundEnd1 && !isRoundEnd2)
-                {
-                    isMatchStart = false;
-                    isRoundEnd2 = true;
-                    readState = ReadState.ROUND_INIT;
-                    Debug.WriteLine("奖励已结算");
                 }
                 break;
         }

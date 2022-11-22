@@ -18,6 +18,8 @@
 ![正常模式](https://github.com/mzj21/FallGuysRecord/blob/main/images/2.png)
 ![回合信息](https://github.com/mzj21/FallGuysRecord/blob/main/images/3.png)
 ## 更新日志
+ - 1.1.17\
+    修复比赛轮次不正确的BUG
  - 1.1.16\
     修复计时器无法正确运行的BUG\
     更新资源包和语言包
