@@ -4,7 +4,7 @@ using System.IO;
 
 public class Xing
 {
-    public static String LogFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Mediatonic", "FallGuys_client", "Player-prev.log");
+    public static String LogFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Mediatonic", "FallGuys_client", "Player.log");
     public static String LogFile_prev = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Mediatonic", "FallGuys_client", "Player-prev.log");
     public static String myName { get; set; }
     public static String pattern_Server = "\\[StateConnectToGame\\] We're connected to the server! Host = ([^:]+)";
