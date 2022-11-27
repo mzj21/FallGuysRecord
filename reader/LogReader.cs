@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Timers;
 using static Player;
@@ -11,9 +12,9 @@ using static Player;
 /// </summary>
 public class LogReader
 {
-    private ReaderListener readerListener;
-    private LogListener logListener;
-    private Match m;
+    private ReaderListener readerListener; //读取反馈接口
+    private LogListener logListener; //回合信息接口
+    private Match m; //正则
     private List<Player> list_player = new List<Player>();
     private List<Player> list_player_QUALIFIED = new List<Player>();
     private List<Player> list_player_ELIMINATED = new List<Player>();
@@ -24,23 +25,29 @@ public class LogReader
     private int match; //比赛场数
     private int round; //第几回合
     private int win; //获胜数量
-    private int rank; //回合排名
+    private int rank; //回合排名.
     private Boolean isWin; //是否获胜
-    private Timer timer, timerThread, timerProcess;
+    private Timer timer, timerThread, timerCheckLogReset, timerCheckProcess;
     private FileStream fs;
-    private int seek;
+    private int seek; //指针
     private ReadState readState = ReadState.ROUND_INIT;
     private int interval = 1; //计时器运行间隔, 不影响性能
     private Boolean isRun; //保证线程安全无重复
-    private Boolean isMatchStart; //是否是一场比赛
-    private Boolean isRoundEnd1, isRoundEnd2; //是否是一场比赛
+    private Boolean isMatchStart; //是否是一场比赛，匹配开始
+    private Boolean isRoundStart; //是否是一场比赛，回合开始
     private LevelMap levelMap = new LevelMap(); //当前回合信息
-    private TimeSpan timeSpan;
-    private Player player_temp;
-    private StreamReader reader;
+    private TimeSpan timeSpan; //用于计算时间
+    private Player player_temp; //零时存贮Player
     private String line_temp;
-    private Player player_me;
-    private int playerId_me;
+    private Player player_me; //Player自己
+    private int playerId_me; //自己的PlayerId
+    private Boolean isPlayerMEAlive; //自己是否活着
+    private Boolean isFallGuysAlive; //糖豆人进程是否存在,接口只运行一次
+    private RoundCompletedEpisodeDto roundCompletedEpisodeDto; //结算奖励
+    private RoundCompletedEpisodeDto.Round roundDto; //结算奖励 具体回合信息
+    private Boolean isAnalysisCompletedEpisodeDto; //是否开始解析结算奖励
+    private Boolean isAnalysisRound; //是否开始解析结算奖励的具体回合信息
+    private int winstreak; //连胜次数
 
     enum ReadState
     {
@@ -53,6 +60,9 @@ public class LogReader
         logListener = lListener;
     }
 
+    /// <summary>
+    /// 回合信息头部修改
+    /// </summary>
     private void LogHeader()
     {
         String s = levelMap.showname;
@@ -63,20 +73,33 @@ public class LogReader
         logListener.Header(s);
     }
 
+    /// <summary>
+    /// 用于外部修改地图信息
+    /// </summary>
     public void ChangelevelMap()
     {
         levelMap = Util.GetLevelMap(levelMap.name);
     }
 
+    /// <summary>
+    /// 开启
+    /// </summary>
     public void Start()
     {
         fs = new FileStream(Xing.LogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         timer = new Timer();
         timer.Interval = interval;
-        timerProcess = new Timer();
-        timerProcess.Interval = interval;
-        timerProcess.Elapsed += CheckLogReset;
-        timerProcess.Start();
+        timerCheckLogReset = new Timer();
+        timerCheckLogReset.Interval = interval;
+        timerCheckLogReset.Elapsed += CheckLogReset;
+        timerCheckLogReset.Start();
+
+        timerCheckProcess = new Timer();
+        timerCheckProcess.Interval = interval;
+        timerCheckProcess.Elapsed += CheckProcess;
+        timerCheckProcess.Start();
+
+
         timerThread = new Timer();
         timerThread.Interval = interval;
         if (File.Exists(Xing.LogFile))
@@ -97,9 +120,46 @@ public class LogReader
         {
             seek = 0;
             Debug.WriteLine("CheckLogReset");
+            timerThread.Interval = interval;
+            if (File.Exists(Xing.LogFile))
+            {
+                timerThread.Elapsed += ReadLog;
+            }
+            timerThread.Start();
         }
     }
 
+    /// <summary>
+    /// 检测进程
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void CheckProcess(object sender, ElapsedEventArgs e)
+    {
+        if (isFallGuysAlive && !Util.isFallGuysAlive())
+        {
+            isFallGuysAlive = false;
+            timerThread.Stop();
+            if (!isWin) { winstreak = 0; }
+            round = 0;
+            readState = ReadState.ROUND_INIT;
+            logListener.Detail("≡≡≡≡≡≡≡≡≡≡");
+            Debug.WriteLine("进程消失，比赛结束");
+            readerListener.RoundExit(match, win, levelMap.type + (list_player_Winner.Count > 0 ? "(" + list_player_Winner.Count + ")" : ""));
+            isMatchStart = false;
+            isRoundStart = false;
+        }
+        if (Util.isFallGuysAlive())
+        {
+            isFallGuysAlive = true;
+        }
+    }
+
+    /// <summary>
+    /// 统计平台人数
+    /// </summary>
+    /// <param name="p">平台类型</param>
+    /// <returns></returns>
     private String getCount(String p)
     {
         return p + "(" + list_player.FindAll(x => x.platform.Equals(p)).Count + ") ";
@@ -116,14 +176,11 @@ public class LogReader
             return;
         isRun = true;
         fs.Seek(seek, SeekOrigin.Begin);
-        reader = new StreamReader(fs);
+        StreamReader reader = new StreamReader(fs);
         while ((line_temp = reader.ReadLine()) != null)
         {
-            if (line_temp.Length > 0)
-            {
-                seek += line_temp.Length;
-                parseLine(line_temp);
-            }
+            seek += line_temp.Length + 1; //+1是换行符
+            parseLine(line_temp);
         }
         isRun = false;
     }
@@ -135,7 +192,7 @@ public class LogReader
     void parseLine(String line)
     {
         //Debug.WriteLine(line);
-        tenpTime = DateTime.Now;
+        tenpTime = DateTime.Now.ToUniversalTime();
         if (Xing.myName == null && line.Contains("[UserInfo] Player Name: "))
         {
             Xing.myName = line.Substring(line.IndexOf("Name: ") + 6);
@@ -153,57 +210,59 @@ public class LogReader
         m = Regex.Match(line, Xing.pattern_Server);
         if (m.Success)
         {
-            isRoundEnd1 = false;
-            isRoundEnd2 = false;
+            round = 0; //强制关闭需要重置回合数
             logListener.Detail("Server IP：" + m.Groups[1].Value);
             Debug.WriteLine("服务器ip:" + m.Groups[1].Value);
             readState = ReadState.ROUND_INIT;
         }
-        //if (line.Contains("Client has been disconnected"))
-        if (line.Contains("[FG_UnityInternetNetworkManager] client quit") && isMatchStart && !isRoundEnd1 && !isRoundEnd2)
+        if (line.Contains("== [CompletedEpisodeDto] =="))
         {
-            isMatchStart = false;
-            isRoundEnd1 = true;
             readState = ReadState.ROUND_INIT;
-            Debug.WriteLine("与服务器连接中断");
-        }
-        if (line.Contains("== [CompletedEpisodeDto] ==") && isMatchStart && !isRoundEnd1 && !isRoundEnd2)
-        {
-            isMatchStart = false;
-            isRoundEnd2 = true;
-            readState = ReadState.ROUND_INIT;
+            roundCompletedEpisodeDto = new RoundCompletedEpisodeDto();
+            isAnalysisCompletedEpisodeDto = true;
             Debug.WriteLine("奖励已结算");
         }
-        if (isRoundEnd1 || isRoundEnd2)
+        m = Regex.Match(line, Xing.pattern_VictoryScene);
+        if (m.Success)
         {
-            round = 0;
-            ++match;
-            if (isWin) { win++; }
-            if (readState == ReadState.ROUND_INIT)
+            // BUG的情况暂时未处理，没有具体log情况
+            int winnerPlayerId = int.Parse(m.Groups[1].Value);
+            if (winnerPlayerId == playerId_me)
             {
-                list_player_Winner.Clear();
-                foreach (Player p in list_player_QUALIFIED)
-                {
-                    list_player_Winner.Add(p);
-                    foreach (Player p_all in list_player_RoundAll)
-                    {
-                        if (p.squadID > 0 && p.squadID == p_all.squadID && !list_player_Winner.Contains(p_all))
-                        {
-                            list_player_Winner.Add(p_all);
-                        }
-                    }
-                }
-                readerListener.RoundExit(match, win, levelMap.type + "(" + list_player_Winner.Count + ")");
+                isWin = true;
+                win++;
+                winstreak++;
             }
             else
             {
-                readerListener.RoundExit(match, win, "");
+                winstreak = 0;
             }
-            isRoundEnd1 = false;
-            isRoundEnd2 = false;
-            logListener.Detail("〓〓〓〓〓〓〓〓〓〓");
-            Debug.WriteLine("与服务器连接中断，是一场比赛");
+            Setlist_player_Winner();
+            readerListener.RoundExit(match, win, levelMap.type + (list_player_Winner.Count > 0 ? "(" + list_player_Winner.Count + ")" : ""));
+            Debug.WriteLine(m.Groups[0].Value);
+            Debug.WriteLine("获胜界面");
+        }
+        CompletedEpisodeDto(line);
+        if (line.Contains("FG_NetworkManager commencing shutdown") || line.Contains("Client has been disconnected") || line.Contains("[FG_UnityInternetNetworkManager] client quit"))
+        {
+            if (isMatchStart && isRoundStart)
+            {
+                if (readState == ReadState.ROUND_INIT)
+                {
+                    Setlist_player_Winner();
+                    readerListener.RoundExit(match, win, levelMap.type + (list_player_Winner.Count > 0 ? "(" + list_player_Winner.Count + ")" : ""));
+                    logListener.Detail("〓〓〓〓〓〓〓〓〓〓");
+                    Debug.WriteLine("比赛结束");
+                }
+                isMatchStart = false;
+                isRoundStart = false;
+            }
+            if (!isWin) { winstreak = 0; }
+            round = 0;
             readState = ReadState.ROUND_INIT;
+            readerListener.RoundExit(match, win, levelMap.type + (list_player_Winner.Count > 0 ? "(" + list_player_Winner.Count + ")" : ""));
+            isAnalysisCompletedEpisodeDto = false;
+            Debug.WriteLine("中断连接");
         }
         switch (readState)
         {
@@ -222,9 +281,11 @@ public class LogReader
                 m = Regex.Match(line, Xing.pattern_RoundName);
                 if (m.Success)
                 {
-                    ++round;
-                    isWin = false;
+                    if (!isMatchStart) { ++match; }
                     isMatchStart = true;
+                    isRoundStart = true;
+                    isWin = false;
+                    ++round;
                     list_player.Clear();
                     list_player_QUALIFIED.Clear();
                     list_player_ELIMINATED.Clear();
@@ -265,6 +326,7 @@ public class LogReader
                     if (player.playerId == playerId_me)
                     {
                         player_me = player;
+                        isPlayerMEAlive = true;
                     }
                     LogHeader();
                     readerListener.RoundBalance(levelMap.type + "(" + list_player.Count + ")");
@@ -291,11 +353,17 @@ public class LogReader
             case ReadState.ROUND_START:
                 if (line.Contains("[GameSession] Changing state from Countdown to Playing"))
                 {
-                    readerListener.RoundStart();
                     roundStartTime = tenpTime;
+                    m = Regex.Match(line, Xing.pattern_Time);
+                    if (m.Success)
+                    {
+                        roundStartTime = new DateTime(tenpTime.Year, tenpTime.Month, tenpTime.Day, int.Parse(m.Groups[1].Value), int.Parse(m.Groups[2].Value), int.Parse(m.Groups[3].Value), int.Parse(m.Groups[4].Value));
+                    }
+                    readerListener.RoundStart(roundStartTime, isPlayerMEAlive);
                     timer.Interval = interval;
                     timer.Start();
                     Debug.WriteLine("游戏开始：计时开始");
+                    list_player_Winner.Clear();
                     rank = 0;
                     readState = ReadState.ROUND_UPDATED;
                 }
@@ -306,6 +374,11 @@ public class LogReader
                 {
                     int playerId = int.Parse(m.Groups[1].Value);
                     Boolean succeeded = "True".Equals(m.Groups[2].Value);
+                    m = Regex.Match(line, Xing.pattern_Time);
+                    if (m.Success)
+                    {
+                        tenpTime = new DateTime(tenpTime.Year, tenpTime.Month, tenpTime.Day, int.Parse(m.Groups[1].Value), int.Parse(m.Groups[2].Value), int.Parse(m.Groups[3].Value), int.Parse(m.Groups[4].Value));
+                    }
                     timeSpan = tenpTime - roundStartTime;
                     String time_out = timeSpan.ToString(@"mm\:ss\:fff");
                     foreach (Player player in list_player)
@@ -323,12 +396,7 @@ public class LogReader
                                 }
                                 if (player.playerId == playerId_me)
                                 {
-                                    isWin = true;
                                     readerListener.RoundUpdateMe(player, time_out, rank);
-                                }
-                                if (player_me.squadID > 0 && player.squadID == player_me.squadID)
-                                {
-                                    isWin = true;
                                 }
                                 list_player_QUALIFIED.Add(player);
                                 if (rank < 10)
@@ -364,16 +432,22 @@ public class LogReader
                 }
                 if (line.Contains("[ClientGameManager] Server notifying that the round is over."))
                 {
+                    m = Regex.Match(line, Xing.pattern_Time);
+                    if (m.Success)
+                    {
+                        tenpTime = new DateTime(tenpTime.Year, tenpTime.Month, tenpTime.Day, int.Parse(m.Groups[1].Value), int.Parse(m.Groups[2].Value), int.Parse(m.Groups[3].Value), int.Parse(m.Groups[4].Value));
+                    }
                     timeSpan = tenpTime - roundStartTime;
                     String time_out = timeSpan.ToString(@"mm\:ss\:fff");
                     timer.Stop();
-                    readerListener.RoundEnd(time_out);
+                    readerListener.RoundEnd(time_out, player_me.playerState == PlayerState.PLAYING);
                     foreach (Player player in list_player)
                     {
                         logListener.Detail("×     " + player.ToLog());
                     }
                     LogHeader();
                     logListener.Detail("--------------------");
+                    isPlayerMEAlive = false;
                     Debug.WriteLine("回合结束");
                     readState = ReadState.ROUND_END;
                 }
@@ -391,6 +465,99 @@ public class LogReader
                     break;
                 }
                 break;
+        }
+    }
+
+    /// <summary>
+    /// 处理奖励
+    /// </summary>
+    /// <param name="line">log单行</param>
+    private void CompletedEpisodeDto(string line)
+    {
+        if (!isAnalysisCompletedEpisodeDto) { return; }
+        if (line
+            .Contains("> Kudos: ") && !isAnalysisRound) //总紫币
+        {
+            roundCompletedEpisodeDto.Kudos = int.Parse(line.Substring("> Kudos: ".Length));
+        }
+        if (line.Contains("> Fame: ") && !isAnalysisRound) //总经验
+        {
+            roundCompletedEpisodeDto.Kudos = int.Parse(line.Substring("> Fame: ".Length));
+        }
+        if (line.Contains("> Crowns: ") && !isAnalysisRound) //皇冠
+        {
+            roundCompletedEpisodeDto.Kudos = int.Parse(line.Substring("> Crowns: ".Length));
+        }
+        if (line.Contains("> CurrentCrownShards: ") && !isAnalysisRound) //皇冠碎片
+        {
+            roundCompletedEpisodeDto.Kudos = int.Parse(line.Substring("> CurrentCrownShards: ".Length));
+        }
+        if (line.Contains("[Round ")) //回合
+        {
+            isAnalysisRound = true;
+            roundDto = new RoundCompletedEpisodeDto.Round();
+            roundDto.RoundNum = int.Parse(line.Substring("[Round ".Length, 2));
+            roundDto.RoundName = line.Substring(line.IndexOf("| ") + 2).Replace("]", "");
+        }
+        if (isAnalysisRound && line.Contains("> Qualified: ")) //是否过关
+        {
+            roundDto.Qualified = Boolean.Parse(line.Substring("> Qualified: ".Length));
+        }
+        if (isAnalysisRound && line.Contains("> Position: "))
+        {
+            roundDto.Position = int.Parse(line.Substring("> Position: ".Length));
+        }
+        if (isAnalysisRound && line.Contains("> Kudos: ")) //回合紫币
+        {
+            roundDto.Kudos = int.Parse(line.Substring("> Kudos: ".Length));
+        }
+        if (isAnalysisRound && line.Contains("> Fame: ")) //回合经验
+        {
+            roundDto.Fame = int.Parse(line.Substring("> Fame: ".Length));
+        }
+        if (isAnalysisRound && line.Contains("> Bonus Tier: ")) //额外奖励奖牌类型，0=金，1=银，2=铜，3=粉
+        {
+            if (!string.IsNullOrEmpty(line.Substring("> Bonus Tier: ".Length)))
+            {
+                roundDto.BonusTier = int.Parse(line.Substring("> Bonus Tier: ".Length));
+            }
+        }
+        if (isAnalysisRound && line.Contains("> Bonus Kudos: ")) //额外奖励紫币
+        {
+            roundDto.BonusKudos = int.Parse(line.Substring("> Bonus Kudos: ".Length));
+        }
+        if (isAnalysisRound && line.Contains("> Bonus Fame: ")) //额外奖励经验
+        {
+            roundDto.BonusFame = int.Parse(line.Substring("> Bonus Fame: ".Length));
+        }
+        if (isAnalysisRound && line.Contains("> BadgeId: ")) //回合奖牌名称，与Bonus Tier同步
+        {
+            if (!string.IsNullOrEmpty(line.Substring("> BadgeId: ".Length)))
+            {
+                roundDto.BadgeId = line.Substring("> BadgeId: ".Length);
+            }
+            roundCompletedEpisodeDto.ListRound.Add(roundDto);
+            isAnalysisRound = false;
+        }
+    }
+
+    /// <summary>
+    /// 统计获胜人数
+    /// </summary>
+    private void Setlist_player_Winner()
+    {
+        list_player_Winner.Clear();
+        foreach (Player p in list_player_QUALIFIED)
+        {
+            list_player_Winner.Add(p);
+            foreach (Player p_all in list_player_RoundAll)
+            {
+                if (p.squadID > 0 && p.squadID == p_all.squadID && !list_player_Winner.Contains(p_all))
+                {
+                    list_player_Winner.Add(p_all);
+                }
+            }
+            list_player_Winner = list_player_Winner.Distinct().ToList();
         }
     }
 }

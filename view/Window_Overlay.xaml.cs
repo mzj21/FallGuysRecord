@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
@@ -74,13 +73,11 @@ namespace FallGuysRecord
         #region [窗口置顶]
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            Window window = (Window)sender;
-            window.Topmost = true;
+            Util.Show(this);
         }
         private void overlay_window_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            Window window = (Window)sender;
-            window.Topmost = true;
+            Util.Show(this);
         }
         #endregion
         #region [拖动窗口,禁止最大化]
@@ -218,12 +215,12 @@ namespace FallGuysRecord
                 Xing.list_LevelMap = Util.Read_LevelMap(openFileDialog.FileName);
                 logReader.ChangelevelMap();
                 LevelMap levelMap = Util.GetLevelMap(roundName);
-                String num = "";
+                String nn = "";
                 if (t4.Text.IndexOf('(') > 0)
                 {
-                    num = t4.Text.Substring(t4.Text.IndexOf('('));
+                    nn = t4.Text.Substring(t4.Text.IndexOf('('));
                 }
-                SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type + num, "", "", "", "");
+                SetText("", "", levelMap.showname + (num > 0 ? "(" + num + ")" : ""), levelMap.type + nn, "", "", "", "");
             }
         }
         #endregion
@@ -338,12 +335,12 @@ namespace FallGuysRecord
             SetTextEasy("--:--", "--:--:---");
         }
 
-        public void RoundStart()
+        public void RoundStart(DateTime roundStartTime, Boolean isPlayerMEAlive)
         {
-            startTime = DateTime.Now;
+            startTime = roundStartTime;
             timer.Interval = 1000;
             timer.Start();
-            SetText("", "", "", "", "00:00:000", "00:00:000", "00:00:000", "");
+            SetText("", "", "", "", "00:00:000", isPlayerMEAlive ? "00:00:000" : "--:--:---", "00:00:000", "");
             SetTextEasy("00:00", "--:--:---");
         }
 
@@ -351,6 +348,7 @@ namespace FallGuysRecord
         {
             SetText("", "", "", "", "", "", time, userSettingData.isShowFastestName ? player.playerName : "(" + player.platform + ")");
         }
+
         public void RoundUpdateMe(Player player, string time, int rank)
         {
             SetText("", "", "", "", "", "#" + rank + " - " + time, "", "");
@@ -366,16 +364,21 @@ namespace FallGuysRecord
             SetText("", "", "", balance, "", "", "", "");
         }
 
-        public void RoundEnd(String endtime)
+        public void RoundEnd(String endtime, Boolean isPlaying)
         {
             timer.Stop();
-            SetText("", "", "", "", endtime, "", "", "");
+            SetText("", "", "", "", endtime, isPlaying ? "--:--:---" : "", "", "");
             SetTextEasy(endtime.Substring(0, 5), "");
         }
 
         public void RoundExit(int match, int win, String wins)
         {
             timer.Stop();
+            SetText("win(" + win + "/" + match + ")", "", "", wins, "", "", "", "");
+        }
+        
+        public void RoundCompletedEpisodeDto(int match, int win, String wins)
+        {
             SetText("win(" + win + "/" + match + ")", "", "", wins, "", "", "", "");
         }
 
@@ -386,11 +389,11 @@ namespace FallGuysRecord
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (Process.GetProcessesByName("FallGuys_client_game").Length == 0)
+            if (!Util.isFallGuysAlive())
             {
                 timer.Stop();
             }
-            timeSpan = DateTime.Now - startTime;
+            timeSpan = DateTime.Now.ToUniversalTime() - startTime;
             App.Current.Dispatcher.BeginInvoke(new Action(delegate
             {
                 t5.Text = string.Format("{0:00}:{1:00}", timeSpan.Minutes, timeSpan.Seconds) + ":000";
@@ -408,16 +411,13 @@ namespace FallGuysRecord
                 HotkeyUtil.RegisterHotKey(ModifierKeys.None, (Key)Enum.Parse(typeof(Key), userSettingData.OverlayHotkey), () =>
                 {
                     this.Visibility = IsVisible ? Visibility.Hidden : Visibility.Visible;
-                    if (!IsVisible)
+                    if (this.Visibility == Visibility.Visible)
                     {
-                        if (this.WindowState == WindowState.Minimized)
-                        {
-                            this.WindowState = WindowState.Normal;
-                        }
-                        this.Activate();
-                        this.Topmost = true;
+                        Util.Show(this);
+                    }
+                    else
+                    {
                         this.Topmost = false;
-
                     }
                 });
             }
@@ -429,14 +429,12 @@ namespace FallGuysRecord
                     if (!isDisposed)
                     {
                         listView.Visibility = listView.IsVisible ? Visibility.Hidden : Visibility.Visible;
-                        if (!IsVisible)
+                        if (listView.Visibility == Visibility.Visible)
                         {
-                            if (listView.WindowState == WindowState.Minimized)
-                            {
-                                listView.WindowState = WindowState.Normal;
-                            }
-                            listView.Activate();
-                            listView.Topmost = true;
+                            Util.Show(listView);
+                        }
+                        else
+                        {
                             listView.Topmost = false;
                         }
                     }

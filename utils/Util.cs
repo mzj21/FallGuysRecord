@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -151,5 +152,28 @@ public class Util
     private static double GetDistance(Dpi d1, Dpi d2)
     {
         return Math.Sqrt((d1.X - d2.X) * (d1.X - d2.X) + (d1.Y - d2.Y) * (d1.Y - d2.Y));
+    }
+
+    /// <summary>
+    /// 将窗口置顶到前台
+    /// </summary>
+    /// <param name="window">窗口</param>
+    public static void Show(Window window)
+    {
+        if (window.WindowState == WindowState.Minimized)
+        {
+            window.WindowState = WindowState.Normal;
+        }
+        window.Activate();
+        window.Topmost = true;
+    }
+
+    /// <summary>
+    /// 判断糖豆人进程是否存在
+    /// </summary>
+    /// <returns></returns>
+    public static Boolean isFallGuysAlive()
+    {
+        return Process.GetProcessesByName("FallGuys_client_game").Length != 0;
     }
 }

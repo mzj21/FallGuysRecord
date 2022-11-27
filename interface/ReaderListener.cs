@@ -10,8 +10,10 @@ public interface ReaderListener
     void RoundInit(int num, LevelMap levelMap);
     /// <summary>
     /// 回合开始
+    /// <param name="roundStartTime">回合开始时间</param>
+    /// <param name="isPlayerMEAlive">自己是否活着</param>
     /// </summary>
-    void RoundStart();
+    void RoundStart(DateTime roundStartTime, Boolean isPlayerMEAlive);
     /// <summary>
     /// 回合更新(第一)
     /// </summary>
@@ -39,7 +41,8 @@ public interface ReaderListener
     /// 回合结束
     /// </summary>
     /// <param name="endtime">结束时间</param>
-    void RoundEnd(String endtime);
+    /// <param name="isPlaying">是否游戏中</param>
+    void RoundEnd(String endtime, Boolean isPlaying);
     /// <summary>
     /// 回合中途掉线、退出
     /// </summary>
@@ -47,6 +50,13 @@ public interface ReaderListener
     /// <param name="win">获胜数</param>
     /// <param name="wins">获胜人数</param>
     void RoundExit(int match, int win, String wins);
+    /// <summary>
+    /// 回合结算
+    /// <param name="match">比赛场次</param>
+    /// <param name="win">获胜数</param>
+    /// <param name="wins">获胜人数</param>
+    /// </summary>
+    void RoundCompletedEpisodeDto(int match, int win, String wins);
     /// <summary>
     /// 更新PING
     /// </summary>

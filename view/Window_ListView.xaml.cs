@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows;
@@ -42,13 +43,11 @@ namespace FallGuysRecord
         #region [窗口置顶]
         private void window_listview_Deactivated(object sender, EventArgs e)
         {
-            Window window = (Window)sender;
-            window.Topmost = true;
+            Util.Show(this);
         }
         private void window_listview_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            Window window = (Window)sender;
-            window.Topmost = true;
+            Util.Show(this);
         }
         #endregion
         #region [拖动窗口,禁止最大化]
