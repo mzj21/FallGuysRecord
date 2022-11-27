@@ -134,6 +134,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="bean\Dpi.cs" />
+    <Compile Include="bean\RoundCompletedEpisodeDto.cs" />
     <Compile Include="bean\UserSettingData.cs" />
     <Page Include="view\Window_Overlay.xaml">
       <Generator>MSBuild:Compile</Generator>
