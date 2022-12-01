@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 
-static class HotkeyUtil
+public class HotkeyUtil
 {
     #region 系统api
     [DllImport("user32.dll")]
@@ -28,7 +28,6 @@ static class HotkeyUtil
         ALT = 0x1,
         CONTROL = 0x2,
         SHIFT = 0x4,
-        WIN = 0x8
     }
 
     /// <summary>

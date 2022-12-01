@@ -10,10 +10,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Color = System.Windows.Media.Color;
 using FontFamily = System.Windows.Media.FontFamily;
-using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 using Window = System.Windows.Window;
 
-namespace FallGuysRecord
+namespace FallGuysRecord.view
 {
     public partial class Window_Overlay : Window, ReaderListener
     {
@@ -21,21 +20,33 @@ namespace FallGuysRecord
         private System.Timers.Timer timer;
         private DateTime startTime;
         private TimeSpan timeSpan;
-        private int num;
-        private String roundName;
-        private Window_ListView listView;
-        private LogReader logReader;
+        public int num;
+        public string roundName;
+        private Window_RoundInfo roundinfo;
+        public LogReader logReader;
+        private Window_Setting window_Setting;
 
         #region [初始化界面]
         public Window_Overlay()
         {
             InitializeComponent();
-
-            Util.Init();
+            initView();
+            #region [秒表计时器]
+            timer = new System.Timers.Timer();
+            timer.Interval = 1000;
+            timer.Elapsed += Timer_Elapsed;
+            #endregion
+            #region [开启线程读取log]
+            roundinfo = new Window_RoundInfo();
+            logReader = new LogReader(this, roundinfo);
+            logReader.Start();
+            #endregion
+        }
+        #endregion
+        public void initView()
+        {
             userSettingData = Util.Read_UserSettingData();
-            if (!String.IsNullOrEmpty(userSettingData.levelPath) && File.Exists(userSettingData.levelPath))
-                Xing.list_LevelMap = Util.Read_LevelMap(userSettingData.levelPath);
-            if (!String.IsNullOrEmpty(userSettingData.OverlayBackground) && File.Exists(userSettingData.OverlayBackground))
+            if (!string.IsNullOrEmpty(userSettingData.OverlayBackground) && File.Exists(userSettingData.OverlayBackground))
                 overlay_background.Source = new BitmapImage(new Uri(userSettingData.OverlayBackground));
             overlay_window.Left = userSettingData.X;
             overlay_window.Top = userSettingData.Y;
@@ -58,18 +69,14 @@ namespace FallGuysRecord
             l1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
             r1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
             c1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Hidden : Visibility.Visible;
-            #region [秒表计时器]
-            timer = new System.Timers.Timer();
-            timer.Interval = 1000;
-            timer.Elapsed += Timer_Elapsed;
-            #endregion
-            #region [开启线程读取log]
-            listView = new Window_ListView();
-            logReader = new LogReader(this, listView);
-            logReader.Start();
-            #endregion
+
+            ResourceDictionary resourceDictionary = System.Windows.Application.LoadComponent(new Uri(@"resources\language\" + userSettingData.Language + ".xaml", UriKind.Relative)) as ResourceDictionary;
+            if (Resources.MergedDictionaries.Count > 0)
+            {
+                Resources.MergedDictionaries.Clear();
+            }
+            Resources.MergedDictionaries.Add(resourceDictionary);
         }
-        #endregion
         #region [窗口置顶]
         private void Window_Deactivated(object sender, EventArgs e)
         {
@@ -136,130 +143,13 @@ namespace FallGuysRecord
             }
         }
         #endregion
-        #region [修改背景图]
-        private void MenuItem_Click_0(object sender, RoutedEventArgs e)
+        #region [设置]
+        private void MenuItem_Click_Setting(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            if (window_Setting == null || PresentationSource.FromVisual(window_Setting) == null)
             {
-                InitialDirectory = userSettingData.OverlayBackground,
-                Filter = @"(*.jpg,*.png,)|*.jpeg;*.jpg;*.png"
-            };
-            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                overlay_background.Source = new BitmapImage(new Uri(openFileDialog.FileName));
-                userSettingData.OverlayBackground = openFileDialog.FileName;
-                Util.Save_UserSettingData(userSettingData);
-            }
-        }
-        #endregion
-        #region [修改字体]
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
-            FontDialog fontDialog = new FontDialog
-            {
-                Font = userSettingData.TextFont
-            };
-            if (fontDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                Font f = fontDialog.Font;
-                overlay_window.FontFamily = new FontFamily(f.FontFamily.Name);
-                listView.window_listview.FontFamily = new FontFamily(f.FontFamily.Name);
-                overlay_window.FontWeight = f.Bold ? FontWeights.Bold : FontWeights.Regular;
-                listView.window_listview.FontWeight = f.Bold ? FontWeights.Bold : FontWeights.Regular;
-                overlay_window.FontStyle = f.Italic ? FontStyles.Italic : FontStyles.Normal;
-                listView.window_listview.FontStyle = f.Italic ? FontStyles.Italic : FontStyles.Normal;
-                TextDecorationCollection textDecorations = new TextDecorationCollection();
-                if (f.Underline)
-                    textDecorations.Add(TextDecorations.Underline);
-                if (f.Strikeout)
-                    textDecorations.Add(TextDecorations.Strikethrough);
-                t1.TextDecorations = textDecorations;
-                overlay_window.FontSize = f.Size;
-                listView.window_listview.FontSize = f.Size;
-                userSettingData.TextFont = f;
-                t9.FontSize = f.Size + 2;
-                Util.Save_UserSettingData(userSettingData);
-            }
-        }
-        #endregion
-        #region [修改文字颜色]
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
-        {
-            ColorDialog colorDialog = new ColorDialog
-            {
-                Color = userSettingData.TextColor
-            };
-            if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                SolidBrush sb = new SolidBrush(colorDialog.Color);
-                SolidColorBrush solidColorBrush = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
-                overlay_window.Foreground = solidColorBrush;
-                listView.window_listview.Foreground = solidColorBrush;
-                userSettingData.TextColor = colorDialog.Color;
-                Util.Save_UserSettingData(userSettingData);
-            }
-        }
-        #endregion
-        #region [修改地图语言文件]
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                InitialDirectory = userSettingData.OverlayBackground,
-                Filter = @"(*.json)|*.json"
-            };
-            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                userSettingData.levelPath = openFileDialog.FileName;
-                Util.Save_UserSettingData(userSettingData);
-                Xing.list_LevelMap = Util.Read_LevelMap(openFileDialog.FileName);
-                logReader.ChangelevelMap();
-                LevelMap levelMap = Util.GetLevelMap(roundName);
-                String nn = "";
-                if (t4.Text.IndexOf('(') > 0)
-                {
-                    nn = t4.Text.Substring(t4.Text.IndexOf('('));
-                }
-                SetText("", "", levelMap.showname + (num > 0 ? "(" + num + ")" : ""), levelMap.type + nn, "", "", "", "");
-            }
-        }
-        #endregion
-        #region [开启回合信息流]
-        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
-        {
-            if (listView.IsVisible)
-            {
-                listView.Hide();
-            }
-            else
-            {
-                listView.Show();
-            }
-        }
-        #endregion
-        #region [切换显示模式]
-        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
-        {
-            userSettingData.isOriginalViewMode = !userSettingData.isOriginalViewMode;
-            Util.Save_UserSettingData(userSettingData);
-            l1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
-            r1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
-            c1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Hidden : Visibility.Visible;
-        }
-        #endregion
-        #region [回合信息背景切换]
-        private void MenuItem_Click_6(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                InitialDirectory = userSettingData.OverlayBackground,
-                Filter = @"(*.jpg,*.png,)|*.jpeg;*.jpg;*.png"
-            };
-            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                listView.roundinfo_background.Source = new BitmapImage(new Uri(openFileDialog.FileName));
-                userSettingData.RoundInfoBackground = openFileDialog.FileName;
-                Util.Save_UserSettingData(userSettingData);
+                window_Setting = new Window_Setting(this, roundinfo);
+                window_Setting.Show();
             }
         }
         #endregion
@@ -293,7 +183,7 @@ namespace FallGuysRecord
         /// <param name="firstName">'s' 第一名字</param>
         /// /
         /// 
-        private void SetText(String win, String ping, String roundShowName, String roundType, String timeAll, String timeMe, String timeFirst, String firstName)
+        public void SetText(string win, string ping, string roundShowName, string roundType, string timeAll, string timeMe, string timeFirst, string firstName)
         {
             App.Current.Dispatcher.BeginInvoke(new Action(delegate
             {
@@ -315,7 +205,7 @@ namespace FallGuysRecord
                     t8.Text = firstName;
             }));
         }
-        private void SetTextEasy(String time1, String time2)
+        private void SetTextEasy(string time1, string time2)
         {
             App.Current.Dispatcher.BeginInvoke(new Action(delegate
             {
@@ -327,20 +217,20 @@ namespace FallGuysRecord
         }
         #endregion
         #region [回合监听事件]
-        public void RoundInit(int num, LevelMap levelMap)
+        public void RoundInit(int num, Levels levelMap)
         {
             this.num = num;
             roundName = levelMap.name;
-            SetText("", "", levelMap.showname + "(" + num + ")", levelMap.type, "--:--:---", "--:--:---", "--:--:---", "------");
+            SetText("", "", levelMap.showname + "(" + num + ")", levelMap.typename, "--:--", "--:--:---", "--:--:---", "------");
             SetTextEasy("--:--", "--:--:---");
         }
 
-        public void RoundStart(DateTime roundStartTime, Boolean isPlayerMEAlive)
+        public void RoundStart(DateTime roundStartTime, bool isPlayerMEAlive)
         {
             startTime = roundStartTime;
             timer.Interval = 1000;
             timer.Start();
-            SetText("", "", "", "", "00:00:000", isPlayerMEAlive ? "00:00:000" : "--:--:---", "00:00:000", "");
+            SetText("", "", "", "", "00:00", isPlayerMEAlive ? "00:00:000" : "--:--:---", "00:00:000", "");
             SetTextEasy("00:00", "--:--:---");
         }
 
@@ -364,22 +254,22 @@ namespace FallGuysRecord
             SetText("", "", "", balance, "", "", "", "");
         }
 
-        public void RoundEnd(String endtime, Boolean isPlaying)
+        public void RoundEnd(string endtime, bool isPlaying)
         {
             timer.Stop();
             SetText("", "", "", "", endtime, isPlaying ? "--:--:---" : "", "", "");
             SetTextEasy(endtime.Substring(0, 5), "");
         }
 
-        public void RoundExit(int match, int win, String wins)
+        public void RoundExit(int match, int win, int winstreak, string wins)
         {
             timer.Stop();
-            SetText("win(" + win + "/" + match + ")", "", "", wins, "", "", "", "");
+            SetText("win(" + win + "/" + match + "|" + winstreak + ")", "", "", wins, "", "", "", "");
         }
-        
-        public void RoundCompletedEpisodeDto(int match, int win, String wins)
+
+        public void RoundCompletedEpisodeDto(int match, int win, int winstreak, string wins)
         {
-            SetText("win(" + win + "/" + match + ")", "", "", wins, "", "", "", "");
+            SetText("win(" + win + "/" + match + "|" + winstreak + ")", "", "", wins, "", "", "", "");
         }
 
         public void Ping(string ping)
@@ -396,7 +286,7 @@ namespace FallGuysRecord
             timeSpan = DateTime.Now.ToUniversalTime() - startTime;
             App.Current.Dispatcher.BeginInvoke(new Action(delegate
             {
-                t5.Text = string.Format("{0:00}:{1:00}", timeSpan.Minutes, timeSpan.Seconds) + ":000";
+                t5.Text = string.Format("{0:00}:{1:00}", timeSpan.Minutes, timeSpan.Seconds);
             }));
             SetTextEasy(string.Format("{0:00}:{1:00}", timeSpan.Minutes, timeSpan.Seconds), "");
         }
@@ -406,9 +296,25 @@ namespace FallGuysRecord
         {
             base.OnSourceInitialized(e);
             HotkeyUtil.Init(this);
+            RegisterHotKey();
+        }
+        /// <summary>
+        /// 注册快捷键
+        /// </summary>
+        public void RegisterHotKey()
+        {
+            HotkeyUtil.UnRegist();
+            userSettingData = Util.Read_UserSettingData();
             if (!string.IsNullOrEmpty(userSettingData.OverlayHotkey))
             {
-                HotkeyUtil.RegisterHotKey(ModifierKeys.None, (Key)Enum.Parse(typeof(Key), userSettingData.OverlayHotkey), () =>
+                string ModifierKeys = "None";
+                string key = userSettingData.OverlayHotkey;
+                if (key.Contains("+"))
+                {
+                    ModifierKeys = key.Substring(0, key.IndexOf("+")).Trim();
+                    key = key.Substring(key.IndexOf("+") + 1, key.Length - key.IndexOf("+") - 1).Trim();
+                }
+                HotkeyUtil.RegisterHotKey((ModifierKeys)Enum.Parse(typeof(ModifierKeys), ModifierKeys), (Key)Enum.Parse(typeof(Key), key), () =>
                 {
                     this.Visibility = IsVisible ? Visibility.Hidden : Visibility.Visible;
                     if (this.Visibility == Visibility.Visible)
@@ -423,19 +329,26 @@ namespace FallGuysRecord
             }
             if (!string.IsNullOrEmpty(userSettingData.RoundInfoHotkey))
             {
-                HotkeyUtil.RegisterHotKey(ModifierKeys.None, (Key)Enum.Parse(typeof(Key), userSettingData.RoundInfoHotkey), () =>
+                string ModifierKeys = "None";
+                string key = userSettingData.RoundInfoHotkey;
+                if (userSettingData.RoundInfoHotkey.Contains("+"))
                 {
-                    Boolean isDisposed = (Boolean)typeof(Window).GetProperty("IsDisposed", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(listView);
+                    ModifierKeys = key.Substring(0, key.IndexOf("+")).Trim();
+                    key = key.Substring(key.IndexOf("+") + 1, key.Length - key.IndexOf("+") - 1).Trim();
+                }
+                HotkeyUtil.RegisterHotKey((ModifierKeys)Enum.Parse(typeof(ModifierKeys), ModifierKeys), (Key)Enum.Parse(typeof(Key), key), () =>
+                {
+                    bool isDisposed = (bool)typeof(Window).GetProperty("IsDisposed", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(roundinfo);
                     if (!isDisposed)
                     {
-                        listView.Visibility = listView.IsVisible ? Visibility.Hidden : Visibility.Visible;
-                        if (listView.Visibility == Visibility.Visible)
+                        roundinfo.Visibility = roundinfo.IsVisible ? Visibility.Hidden : Visibility.Visible;
+                        if (roundinfo.Visibility == Visibility.Visible)
                         {
-                            Util.Show(listView);
+                            Util.Show(roundinfo);
                         }
                         else
                         {
-                            listView.Topmost = false;
+                            roundinfo.Topmost = false;
                         }
                     }
                 });

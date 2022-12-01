@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Forms;
@@ -24,7 +24,6 @@ public class Util
             userSettingData.Height = 83;
             userSettingData.X = (SystemParameters.WorkArea.Width - userSettingData.Width) / 2;
             userSettingData.Y = (SystemParameters.WorkArea.Height - userSettingData.Height) / 2;
-            userSettingData.levelPath = "";
             userSettingData.TextColor = Color.Black;
             userSettingData.TextFont = new Font("Segoe UI", 12, FontStyle.Bold, GraphicsUnit.Point);
             userSettingData.Width_Info = 400;
@@ -36,8 +35,11 @@ public class Util
             userSettingData.OverlayHotkey = "F7";
             userSettingData.RoundInfoHotkey = "F8";
             userSettingData.RoundInfoBackground = "";
+            userSettingData.Language = "English";
             File.WriteAllText(settingFile, JsonConvert.SerializeObject(userSettingData, Formatting.Indented));
         }
+        UserSettingData data = Read_UserSettingData();
+        ReadRound(data.Language);
     }
 
     public static UserSettingData Read_UserSettingData()
@@ -77,30 +79,52 @@ public class Util
         }
     }
 
-    public static List<LevelMap> Read_LevelMap(String levelPath)
+    public static void ReadRound(string Language)
     {
-        using (StreamReader streamReader = new StreamReader(levelPath, Encoding.UTF8))
+        var resources = "FallGuysRecord.resources.round_" + Language + ".json";
+        using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resources))
         {
-            List<LevelMap> list_LevelMap = JsonConvert.DeserializeObject<List<LevelMap>>(streamReader.ReadToEnd());
-            return list_LevelMap;
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                Round round = JsonConvert.DeserializeObject<Round>(reader.ReadToEnd());
+                Xing.list_Levels = round.levels;
+                Xing.list_Shows = round.shows;
+            }
         }
     }
 
-    public static LevelMap GetLevelMap(String roundName)
+    public static Levels GetLevels(string roundName)
     {
-        LevelMap levelMap = new LevelMap();
-        if (Xing.list_LevelMap != null && Xing.list_LevelMap.Count > 0)
+        Levels level = new Levels();
+        if (Xing.list_Levels != null && Xing.list_Levels.Count > 0)
         {
-            foreach (LevelMap l in Xing.list_LevelMap)
+            foreach (Levels l in Xing.list_Levels)
             {
                 if (l.name.Equals(roundName))
                 {
-                    levelMap = l;
+                    level = l;
                     break;
                 }
             }
         }
-        return levelMap;
+        return level;
+    }
+
+    public static Shows GetShows(string id)
+    {
+        Shows shows = new Shows();
+        if (Xing.list_Shows != null && Xing.list_Shows.Count > 0)
+        {
+            foreach (Shows s in Xing.list_Shows)
+            {
+                if (s.id.Equals(id))
+                {
+                    shows = s;
+                    break;
+                }
+            }
+        }
+        return shows;
     }
 
     /// <summary>
@@ -108,9 +132,22 @@ public class Util
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    public static Boolean isLogReset(String path)
+    public static bool isLogReset(string path)
     {
-        return new FileInfo(path).Length == 0;
+        FileInfo fileInfo = new FileInfo(path);
+        if (fileInfo.Exists && new FileInfo(path).Length == 0)
+            return true;
+        return false;
+    }
+
+    /// <summary>
+    /// 判断文件是否文仔
+    /// </summary>
+    /// <param name="path">路径</param>
+    /// <returns></returns>
+    public static bool FileExists(string path)
+    {
+        return new FileInfo(path).Exists;
     }
 
     /// <summary>
@@ -172,7 +209,7 @@ public class Util
     /// 判断糖豆人进程是否存在
     /// </summary>
     /// <returns></returns>
-    public static Boolean isFallGuysAlive()
+    public static bool isFallGuysAlive()
     {
         return Process.GetProcessesByName("FallGuys_client_game").Length != 0;
     }

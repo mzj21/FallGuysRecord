@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="Overlay">부동창</s:String>
+    <s:String x:Key="RoundInfo">라운드 정보</s:String>
+    <s:String x:Key="Setting">설정</s:String>
+    <s:String x:Key="Change">수정</s:String>
+    <s:String x:Key="EasyMode">이시모드</s:String>
+    <s:String x:Key="Language">언어</s:String>
+    <s:String x:Key="Font">글꼴</s:String>
+    <s:String x:Key="FontColor">글꼴색상</s:String>
+    <s:String x:Key="HotKey_Overlay">부동창단축키</s:String>
+    <s:String x:Key="HotKey_RoundInfo">라운드정보단축키</s:String>
+    <s:String x:Key="ALL">모두선택</s:String>
+    <s:String x:Key="Copy">복제</s:String>
+    <s:String x:Key="Save">저장</s:String>
+</ResourceDictionary>

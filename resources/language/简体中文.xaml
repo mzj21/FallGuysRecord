@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="Overlay">浮窗</s:String>
+    <s:String x:Key="RoundInfo">回合信息</s:String>
+    <s:String x:Key="Setting">设置</s:String>
+    <s:String x:Key="Change">修改</s:String>
+    <s:String x:Key="EasyMode">简易模式</s:String>
+    <s:String x:Key="Language">语言</s:String>
+    <s:String x:Key="Font">字体</s:String>
+    <s:String x:Key="FontColor">字体颜色</s:String>
+    <s:String x:Key="HotKey_Overlay">浮窗热键</s:String>
+    <s:String x:Key="HotKey_RoundInfo">回合信息热键</s:String>
+    <s:String x:Key="ALL">全选</s:String>
+    <s:String x:Key="Copy">复制</s:String>
+    <s:String x:Key="Save">保存</s:String>
+</ResourceDictionary>

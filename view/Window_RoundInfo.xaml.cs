@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows;
@@ -10,34 +9,34 @@ using System.Windows.Media.Imaging;
 using Color = System.Windows.Media.Color;
 using FontFamily = System.Windows.Media.FontFamily;
 
-namespace FallGuysRecord
+namespace FallGuysRecord.view
 {
-    public partial class Window_ListView : Window, LogListener
+    public partial class Window_RoundInfo : Window, LogListener
     {
         UserSettingData userSettingData;
-        private Boolean isBottom;
-        public Window_ListView()
+        private bool isBottom;
+        public Window_RoundInfo()
         {
             InitializeComponent();
             userSettingData = Util.Read_UserSettingData();
-            window_listview.Left = userSettingData.X_Info;
-            window_listview.Top = userSettingData.Y_Info;
-            window_listview.Width = userSettingData.Width_Info;
-            window_listview.Height = userSettingData.Height_Info;
+            window_roundinfo.Left = userSettingData.X_Info;
+            window_roundinfo.Top = userSettingData.Y_Info;
+            window_roundinfo.Width = userSettingData.Width_Info;
+            window_roundinfo.Height = userSettingData.Height_Info;
             changeLocation();///防止超出屏幕找不到
             SolidBrush sb = new SolidBrush(userSettingData.TextColor);
-            window_listview.Foreground = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
-            window_listview.FontFamily = new FontFamily(userSettingData.TextFont.FontFamily.Name);
-            window_listview.FontWeight = userSettingData.TextFont.Bold ? FontWeights.Bold : FontWeights.Regular;
-            window_listview.FontStyle = userSettingData.TextFont.Italic ? FontStyles.Italic : FontStyles.Normal;
+            window_roundinfo.Foreground = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
+            window_roundinfo.FontFamily = new FontFamily(userSettingData.TextFont.FontFamily.Name);
+            window_roundinfo.FontWeight = userSettingData.TextFont.Bold ? FontWeights.Bold : FontWeights.Regular;
+            window_roundinfo.FontStyle = userSettingData.TextFont.Italic ? FontStyles.Italic : FontStyles.Normal;
             TextDecorationCollection textDecorations = new TextDecorationCollection();
             if (userSettingData.TextFont.Underline)
                 textDecorations.Add(TextDecorations.Underline);
             if (userSettingData.TextFont.Strikeout)
                 textDecorations.Add(TextDecorations.Strikethrough);
-            list_detail.TextDecorations = textDecorations;
-            window_listview.FontSize = userSettingData.TextFont.Size;
-            if (!String.IsNullOrEmpty(userSettingData.RoundInfoBackground) && File.Exists(userSettingData.RoundInfoBackground))
+            roundinfo_detail.TextDecorations = textDecorations;
+            window_roundinfo.FontSize = userSettingData.TextFont.Size;
+            if (!string.IsNullOrEmpty(userSettingData.RoundInfoBackground) && File.Exists(userSettingData.RoundInfoBackground))
                 roundinfo_background.Source = new BitmapImage(new Uri(userSettingData.RoundInfoBackground));
         }
         #region [窗口置顶]
@@ -86,39 +85,39 @@ namespace FallGuysRecord
         }
         private void changeLocation()
         {
-            Screen s = Util.getInScreen(window_listview);
+            Screen s = Util.getInScreen(window_roundinfo);
             Dpi dpi = Util.GetDpiBySystemParameters();
-            if (window_listview.Left < s.Bounds.X / dpi.X)
+            if (window_roundinfo.Left < s.Bounds.X / dpi.X)
             {
-                window_listview.Left = s.Bounds.X / dpi.X;
+                window_roundinfo.Left = s.Bounds.X / dpi.X;
             }
-            if (window_listview.Left > (s.Bounds.X + s.Bounds.Width) / dpi.X - window_listview.Width)
+            if (window_roundinfo.Left > (s.Bounds.X + s.Bounds.Width) / dpi.X - window_roundinfo.Width)
             {
-                window_listview.Left = (s.Bounds.X + s.Bounds.Width) / dpi.X - window_listview.Width;
+                window_roundinfo.Left = (s.Bounds.X + s.Bounds.Width) / dpi.X - window_roundinfo.Width;
             }
-            if (window_listview.Top < s.Bounds.Y / dpi.Y)
+            if (window_roundinfo.Top < s.Bounds.Y / dpi.Y)
             {
-                window_listview.Top = s.Bounds.Y / dpi.Y;
+                window_roundinfo.Top = s.Bounds.Y / dpi.Y;
             }
-            if (window_listview.Top > (s.Bounds.Y + s.Bounds.Height) / dpi.Y - window_listview.Height)
+            if (window_roundinfo.Top > (s.Bounds.Y + s.Bounds.Height) / dpi.Y - window_roundinfo.Height)
             {
-                window_listview.Top = (s.Bounds.Y + s.Bounds.Height) / dpi.Y - window_listview.Height;
+                window_roundinfo.Top = (s.Bounds.Y + s.Bounds.Height) / dpi.Y - window_roundinfo.Height;
             }
         }
         #endregion
         #region [位置移动监听]
         private void window_listview_LocationChanged(object sender, EventArgs e)
         {
-            userSettingData.X_Info = window_listview.Left;
-            userSettingData.Y_Info = window_listview.Top;
+            userSettingData.X_Info = window_roundinfo.Left;
+            userSettingData.Y_Info = window_roundinfo.Top;
             Util.Save_UserSettingData(userSettingData);
         }
         #endregion
         #region [大小改变监听]
         private void window_listview_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            userSettingData.Width_Info = window_listview.Width;
-            userSettingData.Height_Info = window_listview.Height;
+            userSettingData.Width_Info = window_roundinfo.Width;
+            userSettingData.Height_Info = window_roundinfo.Height;
             Util.Save_UserSettingData(userSettingData);
         }
         #endregion
@@ -127,34 +126,42 @@ namespace FallGuysRecord
         {
             App.Current.Dispatcher.BeginInvoke(new Action(delegate
             {
-                list_header.Text = head;
+                roundinfo_header.Text = head;
             }));
         }
         public void Detail(string detail)
         {
             App.Current.Dispatcher.BeginInvoke(new Action(delegate
             {
-                list_detail.AppendText(detail + Environment.NewLine);
+                roundinfo_detail.AppendText(detail + Environment.NewLine);
+            }));
+        }
+        public void Clear()
+        {
+            App.Current.Dispatcher.BeginInvoke(new Action(delegate
+            {
+                roundinfo_header.Text = "";
+                roundinfo_detail.Text = "";
             }));
         }
         #endregion
         #region [一直最底部]
-        private void list_detail_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void roundinfo_detail_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             if (isBottom)
             {
-                list_detail.ScrollToEnd();
+                roundinfo_detail.ScrollToEnd();
             }
         }
-        private void list_detail_Loaded(object sender, RoutedEventArgs e)
+        private void roundinfo_detail_Loaded(object sender, RoutedEventArgs e)
         {
-            list_detail.ScrollToEnd();
+            roundinfo_detail.ScrollToEnd();
         }
         #endregion
         #region [不是最底部监听]
-        private void list_detail_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
+        private void roundinfo_detail_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
         {
-            if (e.VerticalOffset < list_detail.ActualHeight)
+            if (e.VerticalOffset < roundinfo_detail.ActualHeight)
             {
                 isBottom = true;
             }
@@ -162,22 +169,22 @@ namespace FallGuysRecord
             {
                 isBottom = e.VerticalOffset == e.ExtentHeight - e.ViewportHeight;
             }
-            list_bottom.Visibility = isBottom ? Visibility.Hidden : Visibility.Visible;
+            roundinfo_bottom.Visibility = isBottom ? Visibility.Hidden : Visibility.Visible;
         }
 
-        private void list_down_Click(object sender, RoutedEventArgs e)
+        private void roundinfo_down_Click(object sender, RoutedEventArgs e)
         {
-            list_detail.ScrollToEnd();
+            roundinfo_detail.ScrollToEnd();
         }
         #endregion
         #region [右键操作]
         private void MenuItem_Click_All(object sender, RoutedEventArgs e)
         {
-            list_detail.SelectAll();
+            roundinfo_detail.SelectAll();
         }
         private void MenuItem_Click_Copy(object sender, RoutedEventArgs e)
         {
-            list_detail.Copy();
+            roundinfo_detail.Copy();
         }
         private void MenuItem_Click_Save(object sender, RoutedEventArgs e)
         {
@@ -188,8 +195,19 @@ namespace FallGuysRecord
             saveDg.RestoreDirectory = true;
             if (saveDg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                File.WriteAllText(saveDg.FileName, list_detail.Text);
+                File.WriteAllText(saveDg.FileName, roundinfo_detail.Text);
             }
+        }
+        #endregion
+        #region [语言改变]
+        public void LaunageChange(string language)
+        {
+            ResourceDictionary resourceDictionary = System.Windows.Application.LoadComponent(new Uri(@"resources\language\" + language + ".xaml", UriKind.Relative)) as ResourceDictionary;
+            if (Resources.MergedDictionaries.Count > 0)
+            {
+                Resources.MergedDictionaries.Clear();
+            }
+            Resources.MergedDictionaries.Add(resourceDictionary);
         }
         #endregion
     }

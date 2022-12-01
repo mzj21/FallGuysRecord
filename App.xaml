@@ -5,6 +5,24 @@
              StartupUri="/view/Window_Overlay.xaml"
              ShutdownMode="OnMainWindowClose">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="resources/language/Deutsch.xaml"/>
+                <ResourceDictionary Source="resources/language/English.xaml"/>
+                <ResourceDictionary Source="resources/language/Español (Latinoamérica).xaml"/>
+                <ResourceDictionary Source="resources/language/Español.xaml"/>
+                <ResourceDictionary Source="resources/language/Français.xaml"/>
+                <ResourceDictionary Source="resources/language/Italiano.xaml"/>
+                <ResourceDictionary Source="resources/language/Polski.xaml"/>
+                <ResourceDictionary Source="resources/language/Português Brasileiro.xaml"/>
+                <ResourceDictionary Source="resources/language/Русский.xaml"/>
+                <ResourceDictionary Source="resources/language/繁體中文.xaml"/>
+                <ResourceDictionary Source="resources/language/简体中文.xaml"/>
+                <ResourceDictionary Source="resources/language/日本語.xaml"/>
+                <ResourceDictionary Source="resources/language/한국어.xaml"/>
+                <ResourceDictionary Source="dictionary/Theme.xaml"/>
+                <ResourceDictionary Source="dictionary/SwitchButton.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

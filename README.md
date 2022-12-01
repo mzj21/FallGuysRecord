@@ -1,7 +1,7 @@
 # FallGuysRecord
   读取本地log数据，展示各种信息
 ## 说明
-  **SS3时间戳回来了。**
+  **SS3时间戳回来了。**\
   没有时间戳后最精确的糖豆人计时器，流畅不卡顿，详细的信息可用于自用、直播、比赛等形式。\
   浮窗的形式展现（胜场，PING值，回合名称、类型，计时器等）。\
   回合信息窗口（鼠标右键浮窗开启，实时玩家剩余数，各平台玩家数量，具体排名，服务器IP等）。\
@@ -12,19 +12,22 @@
   - 单独资源更新包 [background SS3.7z](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/background SS3.7z)
   - 语言包 [语言包.7z](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/语言包.7z)
 ## 使用
-解压即用，右键浮窗有更多设置。**默认F7为浮窗显示快捷键，F8为回合信息显示快捷键。**
+解压即用，右键浮窗设置。**默认F7为浮窗显示快捷键，F8为回合信息显示快捷键。**
 ## 截图和说明
 1.1.1版本演示视频https://www.bilibili.com/video/BV14V4y137yS/
 ![简易模式](https://github.com/mzj21/FallGuysRecord/blob/main/images/1.png)
 ![正常模式](https://github.com/mzj21/FallGuysRecord/blob/main/images/2.png)
 ![回合信息](https://github.com/mzj21/FallGuysRecord/blob/main/images/3.png)
+![设置](https://github.com/mzj21/FallGuysRecord/blob/main/images/4.png)
 ## 功能预告
-  - 回合信息支持统计小队成员计分，看看谁是拖后腿的
-  - 全面支持多语言，嵌入软件内无需另外下载
-  - 一个美观的设置界面
-  (https://github.com/mzj21/FallGuysRecord/blob/main/images/设置界面预设图.png)
-  - 与FallGuysStats类似的数据库界面，图形暂未设计。
+  - 回合信息支持统计小队成员计分，看看谁是拖后腿的（版本1.3.+）
+  - 与FallGuysStats类似的数据库界面，图形暂未设计。（版本1.4.+）
 ## 更新日志
+ - 1.3.0
+>- 新增设置界面（浮窗右键进入，支持多语言实时切换，热键支持单一组合键）
+>- 新增连胜，位于浮窗第一栏中
+>- 新增log路径设置，一般情况不用设置，复原请清空
+>- 修改回合信息中的专题为多语言
  - 1.2.0
 >- 时间戳回来了，计时精确，适配时间戳形式。
 >- 修复log读取指针问题

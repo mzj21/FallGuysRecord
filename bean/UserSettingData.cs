@@ -1,26 +1,23 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
 public class UserSettingData
 {
-    public UserSettingData()
-    {
-    }
-    public String OverlayBackground { get; set; }
+    public UserSettingData() { }
+    public string OverlayBackground { get; set; }
     public double X { get; set; }
     public double Y { get; set; }
     public double Width { get; set; }
     public double Height { get; set; }
-    public String levelPath { get; set; }
     public Color TextColor { get; set; }
     public Font TextFont { get; set; }
     public double X_Info { get; set; }
     public double Y_Info { get; set; }
     public double Width_Info { get; set; }
     public double Height_Info { get; set; }
-    public Boolean isShowFastestName { get; set; }
-    public Boolean isOriginalViewMode { get; set; } = true;
-    public String OverlayHotkey { get; set; } = "F7";
-    public String RoundInfoHotkey { get; set; } = "F8";
-    public String RoundInfoBackground { get; set; }
+    public bool isShowFastestName { get; set; }
+    public bool isOriginalViewMode { get; set; } = true;
+    public string OverlayHotkey { get; set; } = "F7";
+    public string RoundInfoHotkey { get; set; } = "F8";
+    public string RoundInfoBackground { get; set; }
+    public string Language { get; set; }
 }

@@ -134,8 +134,57 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="bean\Dpi.cs" />
+    <Compile Include="bean\Round.cs" />
+    <Compile Include="bean\Shows.cs" />
     <Compile Include="bean\RoundCompletedEpisodeDto.cs" />
     <Compile Include="bean\UserSettingData.cs" />
+    <Resource Include="resources\language\Deutsch.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="resources\language\Русский.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="resources\language\Español.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="resources\language\Português Brasileiro.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="resources\language\Polski.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="resources\language\Italiano.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="resources\language\Français.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="resources\language\Español %28Latinoamérica%29.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="resources\language\日本語.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="resources\language\English.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="resources\language\한국어.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="resources\language\繁體中文.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="resources\language\简体中文.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Page Include="dictionary\SwitchButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="dictionary\Theme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="view\Window_Overlay.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -147,16 +196,20 @@
     <Compile Include="interface\LogListener.cs" />
     <Compile Include="reader\LogReader.cs" />
     <Compile Include="interface\ReaderListener.cs" />
-    <Compile Include="bean\LevelMap.cs" />
+    <Compile Include="bean\Levels.cs" />
     <Compile Include="bean\Player.cs" />
     <Compile Include="utils\HotkeyUtil.cs" />
-    <Compile Include="view\Window_ListView.xaml.cs">
-      <DependentUpon>Window_ListView.xaml</DependentUpon>
+    <Compile Include="utils\KeyboardHook.cs" />
+    <Compile Include="view\Window_RoundInfo.xaml.cs">
+      <DependentUpon>Window_RoundInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="view\Window_Setting.xaml.cs">
+      <DependentUpon>Window_Setting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Xing.cs" />
     <Compile Include="utils\Util.cs" />
@@ -164,7 +217,11 @@
       <DependentUpon>Window_Overlay.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="view\Window_ListView.xaml">
+    <Page Include="view\Window_RoundInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="view\Window_Setting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -189,6 +246,19 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <EmbeddedResource Include="resources\round_Deutsch.json" />
+    <EmbeddedResource Include="resources\round_English.json" />
+    <EmbeddedResource Include="resources\round_Español %28Latinoamérica%29.json" />
+    <EmbeddedResource Include="resources\round_Español.json" />
+    <EmbeddedResource Include="resources\round_Français.json" />
+    <EmbeddedResource Include="resources\round_Italiano.json" />
+    <EmbeddedResource Include="resources\round_Polski.json" />
+    <EmbeddedResource Include="resources\round_Português Brasileiro.json" />
+    <EmbeddedResource Include="resources\round_Русский.json" />
+    <EmbeddedResource Include="resources\round_日本語.json" />
+    <EmbeddedResource Include="resources\round_简体中文.json" />
+    <EmbeddedResource Include="resources\round_繁體中文.json" />
+    <EmbeddedResource Include="resources\round_한국어.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -206,12 +276,22 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\background.png" />
+    <Resource Include="resources\background_overlay.png" />
     <EmbeddedResource Include="resources\Newtonsoft.Json.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\FallGuysRecord.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\background_roundinfo.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <ProjectExtensions />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties resources_4round_3简体中文_1json__JsonSchema="json" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>Copy $(TargetPath) $(ProjectDir)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

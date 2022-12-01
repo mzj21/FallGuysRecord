@@ -1,10 +1,10 @@
-﻿<Window x:Class="FallGuysRecord.Window_Overlay"
+﻿<Window x:Class="FallGuysRecord.view.Window_Overlay"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="FallGuysRecord"
+        Title="{DynamicResource Overlay}" 
         x:Name="overlay_window"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -24,19 +24,7 @@
 
     <Window.Resources>
         <ContextMenu x:Key="ContextMenu">
-            <MenuItem Header="OverlayBackground" Click="MenuItem_Click_0"/>
-            <Separator/>
-            <MenuItem Header="Font" Click="MenuItem_Click_1"/>
-            <Separator/>
-            <MenuItem Header="TextColor" Click="MenuItem_Click_2"/>
-            <Separator/>
-            <MenuItem Header="LevelLanguage" Click="MenuItem_Click_3"/>
-            <Separator/>
-            <MenuItem Header="RoundInfo" Click="MenuItem_Click_4"/>
-            <Separator/>
-            <MenuItem Header="ChangeViewMode" Click="MenuItem_Click_5"/>
-            <Separator/>
-            <MenuItem Header="RoundInfoBackground" Click="MenuItem_Click_6"/>
+            <MenuItem Header="{DynamicResource Setting}" Click="MenuItem_Click_Setting"/>
         </ContextMenu>
     </Window.Resources>
 
@@ -47,7 +35,7 @@
     <Viewbox Stretch="Fill" ContextMenu="{StaticResource ContextMenu}">
         <Grid Width="303" Height="83">
             <Border BorderThickness="1" BorderBrush="Transparent"  CornerRadius="12,12,12,12"  />
-            <Image x:Name="overlay_background" Source="/resources/background.png" Stretch="UniformToFill">
+            <Image x:Name="overlay_background" Source="/resources/background_overlay.png" Stretch="UniformToFill">
                 <Image.Clip>
                     <RectangleGeometry RadiusX="5" RadiusY="5" Rect="0,0,303,83"/>
                 </Image.Clip>
@@ -60,9 +48,9 @@
             </WrapPanel>
             <WrapPanel x:Name="l1" Orientation="Vertical" ItemHeight="17" Height="68" Margin="101,8,80,7" ItemWidth="101"
                        Visibility="Hidden">
-                <TextBlock x:Name="t1" Text="win(0/0)" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t1}"/>
+                <TextBlock x:Name="t1" Text="win(0/0|0)" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t1}"/>
                 <TextBlock x:Name="t3"  Text="------" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t3}"/>
-                <TextBlock x:Name="t5"  Text="--:--:---" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t5}"/>
+                <TextBlock x:Name="t5"  Text="--:--" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t5}"/>
                 <TextBlock x:Name="t7"  Text="--:--:---" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t7}"/>
             </WrapPanel>
             <WrapPanel x:Name="c1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40,0,0,0" ItemHeight="20">

@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="Overlay">Overlay</s:String>
+    <s:String x:Key="RoundInfo">RundInfo</s:String>
+    <s:String x:Key="Setting">Einstellungen</s:String>
+    <s:String x:Key="Change">Veränderung</s:String>
+    <s:String x:Key="EasyMode">EinfacherModus</s:String>
+    <s:String x:Key="Language">Sprache</s:String>
+    <s:String x:Key="Font">Schriftart</s:String>
+    <s:String x:Key="FontColor">Schriftfarbe</s:String>
+    <s:String x:Key="HotKey_Overlay">HotKeyOverlay</s:String>
+    <s:String x:Key="HotKey_RoundInfo">HotKeyRundInfo</s:String>
+    <s:String x:Key="ALL">Alle</s:String>
+    <s:String x:Key="Copy">Kopie</s:String>
+    <s:String x:Key="Save">Save</s:String>
+</ResourceDictionary>

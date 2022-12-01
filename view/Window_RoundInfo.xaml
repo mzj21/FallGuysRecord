@@ -1,11 +1,11 @@
-﻿<Window x:Class="FallGuysRecord.Window_ListView"
+﻿<Window x:Class="FallGuysRecord.view.Window_RoundInfo"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Window ListView"
-        x:Name="window_listview"
+        Title="{DynamicResource RoundInfo}"
+        x:Name="window_roundinfo"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="White"
@@ -46,19 +46,19 @@
     </WindowChrome.WindowChrome>
 
     <Grid >
-        <Image x:Name="roundinfo_background" Stretch="UniformToFill"/>
-        <TextBlock x:Name="list_header" VerticalAlignment="Top" Height="20" Margin="5,5,5,5" Background="Transparent"/>
-        <TextBox x:Name="list_detail" Margin="5,30,5,5" VerticalScrollBarVisibility="Visible"  Background="Transparent" TextChanged="list_detail_TextChanged" Loaded="list_detail_Loaded" FontFamily="{Binding FontFamily, ElementName=window_listview}" FontSize="{Binding FontSize, ElementName=window_listview}" FontWeight="{Binding FontWeight, ElementName=window_listview}" FontStyle="{Binding FontStyle, ElementName=window_listview}" Foreground="{Binding Foreground, ElementName=window_listview}" Cursor="Hand" IsReadOnly="True" ScrollViewer.ScrollChanged="list_detail_ScrollChanged">
+        <Image x:Name="roundinfo_background" Source="/resources/background_roundinfo.png" Stretch="UniformToFill"/>
+        <TextBlock x:Name="roundinfo_header" VerticalAlignment="Top" Height="20" Margin="5,5,5,5" Background="Transparent"/>
+        <TextBox x:Name="roundinfo_detail" Margin="5,30,5,5" VerticalScrollBarVisibility="Visible"  Background="Transparent" TextChanged="roundinfo_detail_TextChanged" Loaded="roundinfo_detail_Loaded" FontFamily="{Binding FontFamily, ElementName=window_roundinfo}" FontSize="{Binding FontSize, ElementName=window_roundinfo}" FontWeight="{Binding FontWeight, ElementName=window_roundinfo}" FontStyle="{Binding FontStyle, ElementName=window_roundinfo}" Foreground="{Binding Foreground, ElementName=window_roundinfo}" Cursor="Hand" IsReadOnly="True" ScrollViewer.ScrollChanged="roundinfo_detail_ScrollChanged">
             <TextBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="All" Click="MenuItem_Click_All"/>
+                    <MenuItem Header="{DynamicResource ALL}" Click="MenuItem_Click_All"/>
                     <Separator/>
-                    <MenuItem Header="Copy" Click="MenuItem_Click_Copy"/>
+                    <MenuItem Header="{DynamicResource Copy}" Click="MenuItem_Click_Copy"/>
                     <Separator/>
-                    <MenuItem Header="Save" Click="MenuItem_Click_Save"/>
+                    <MenuItem Header="{DynamicResource Save}" Click="MenuItem_Click_Save"/>
                 </ContextMenu>
             </TextBox.ContextMenu>
         </TextBox>
-        <Button x:Name="list_bottom" Content="↓" Style="{StaticResource RoundButton}" Click="list_down_Click" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,10" BorderBrush="Black" Background="White" FontWeight="Bold" FontSize="24" IsTabStop="False"/>
+        <Button x:Name="roundinfo_bottom" Content="↓" Style="{StaticResource RoundButton}" Click="roundinfo_down_Click" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,10" BorderBrush="Black" Background="White" FontWeight="Bold" FontSize="24" IsTabStop="False"/>
     </Grid>
 </Window>

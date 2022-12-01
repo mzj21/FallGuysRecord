@@ -1,6 +1,4 @@
-﻿using System;
-
-public class Dpi
+﻿public class Dpi
 {
     public double X { get; set; }
     public double Y { get; set; }

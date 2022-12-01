@@ -1,0 +1,83 @@
+﻿<Window x:Class="FallGuysRecord.view.Window_Setting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FallGuysRecord.view"
+        mc:Ignorable="d"
+        x:Name="window_setting"
+        ResizeMode="NoResize"
+        Title="{DynamicResource Setting}" Width="500" Height="310"
+        Deactivated="Window_Deactivated"
+        PreviewLostKeyboardFocus="Window_PreviewLostKeyboardFocus">
+
+    <Grid x:Name="g1">
+        <WrapPanel Orientation="Vertical" ItemWidth="500" >
+            <Separator/>
+            <Grid Height="25">
+                <Image x:Name="overlay_background" Source="/resources/background_overlay.png" Stretch="UniformToFill" Width="80" Height="20" HorizontalAlignment="Left"
+                       Margin="5,0,0,0"/>
+                <TextBlock x:Name="overlay_background_path" HorizontalAlignment="Left" VerticalAlignment="Center" Width="260" Margin="100,0,0,0">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.GrayTextColorKey}}"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+                <Button Width="100" Content="{DynamicResource Change}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Click="Button_Click_overlay_background"/>
+            </Grid>
+            <Separator/>
+            <Grid Height="25">
+                <Image x:Name="roundinfo_background" Source="/resources/background_roundinfo.png" Stretch="UniformToFill" Width="80" Height="20" HorizontalAlignment="Left"
+                       Margin="5,0,0,0"/>
+                <TextBlock x:Name="roundinfo_background_path" HorizontalAlignment="Left" VerticalAlignment="Center" Width="260" Margin="100,0,0,0">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.GrayTextColorKey}}"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+                <Button Width="100" Content="{DynamicResource Change}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Click="Button_Click_roundinfo_background"/>
+            </Grid>
+            <Separator/>
+            <Grid Height="25">
+                <TextBlock Text="{DynamicResource EasyMode}" VerticalAlignment="Center" Width="150" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                <CheckBox x:Name="setting_easymode" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Style="{StaticResource ToggleButtonSwitchBaseStyle}" Checked="setting_easymode_Checked"
+                          Unchecked="setting_easymode_Unchecked"/>
+            </Grid>
+            <Separator/>
+            <Grid Height="25">
+                <TextBlock Text="{DynamicResource Language}" VerticalAlignment="Center" Width="90" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                <ComboBox x:Name="setting_language" Width="150" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Loaded="setting_language_Loaded" SelectionChanged="setting_language_SelectionChanged"/>
+            </Grid>
+            <Separator/>
+            <Grid Height="25">
+                <TextBlock Text="{DynamicResource Font}" VerticalAlignment="Center" Width="90" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                <TextBlock x:Name="setting_font" HorizontalAlignment="Left" VerticalAlignment="Center" Width="260" Margin="100,0,0,0">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.GrayTextColorKey}}"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+                <Button Width="100" Content="{DynamicResource Change}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Click="Button_Click_setting_font"/>
+            </Grid>
+            <Separator/>
+            <Grid Height="25">
+                <TextBlock Text="{DynamicResource FontColor}" VerticalAlignment="Center" Width="200" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                <TextBlock x:Name="setting_color" HorizontalAlignment="Left" VerticalAlignment="Center" Width="80" Margin="280,0,0,0"/>
+                <Button Width="100" Content="{DynamicResource Change}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Click="Button_Click_setting_color"/>
+            </Grid>
+            <Separator/>
+            <Grid Height="25">
+                <TextBlock Text="{DynamicResource HotKey_Overlay}" VerticalAlignment="Center" Width="200" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                <TextBox x:Name="setting_hotkey_overlay" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" LostFocus="setting_hotkey_overlay_LostFocus" GotFocus="setting_hotkey_overlay_GotFocus" IsReadOnly="True"/>
+            </Grid>
+            <Separator/>
+            <Grid Height="25">
+                <TextBlock Text="{DynamicResource HotKey_RoundInfo}" VerticalAlignment="Center" Width="200" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                <TextBox x:Name="setting_hotkey_roundinfo" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" LostFocus="setting_hotkey_roundinfo_LostFocus" GotFocus="setting_hotkey_roundinfo_GotFocus" IsReadOnly="True"/>
+            </Grid>
+            <Separator/>
+            <Grid Height="25">
+                <TextBlock Text="logPath" VerticalAlignment="Center" Width="90" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                <TextBox x:Name="setting_logpath" Width="300" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" TextChanged="setting_log_TextChanged"/>
+            </Grid>
+            <Separator/>
+        </WrapPanel>
+    </Grid>
+</Window>

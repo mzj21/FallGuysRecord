@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class RoundCompletedEpisodeDto
 {
@@ -13,7 +12,7 @@ public class RoundCompletedEpisodeDto
     {
         public int RoundNum { get; set; }
         public string RoundName { get; set; }
-        public Boolean Qualified { get; set; }
+        public bool Qualified { get; set; }
         public int Position { get; set; }
         public int Kudos { get; set; }
         public int Fame { get; set; }
@@ -50,6 +49,4 @@ public class RoundCompletedEpisodeDto
     {
         return $"{{{nameof(Kudos)}={Kudos.ToString()}, {nameof(Fame)}={Fame.ToString()}, {nameof(Crowns)}={Crowns.ToString()}, {nameof(CurrentCrownShards)}={CurrentCrownShards.ToString()}, {nameof(ListRound)}={ListRound}}}";
     }
-
-
 }

@@ -1,10 +1,8 @@
-﻿using System;
-
-public class Player
+﻿public class Player
 {
     public string playerName { get; set; }
-    public String name { get; set; }
-    public String platform { get; set; }
+    public string name { get; set; }
+    public string platform { get; set; }
     public int partyId { get; set; }
     public int squadID { get; set; }
     public int playerId { get; set; }
@@ -32,7 +30,7 @@ public class Player
 
     public string ToLog()
     {
-        String r = playerName + " (" + platform + ") ";
+        string r = playerName + " (" + platform + ") ";
         if (partyId > 0)
         {
             r += " partyId=" + partyId;
