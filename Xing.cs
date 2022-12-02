@@ -11,7 +11,7 @@ public class Xing
     public static string pattern_ShowName = "\\[HandleSuccessfulLogin\\] Selected show is ([^\\s]+)";
     public static string pattern_RoundName = "\\[StateGameLoading\\] Loading game level scene ([^\\s]+) - frame (\\d+)";
     public static string pattern_LoadedRound = "\\[StateGameLoading\\] Finished loading game level, assumed to be ([^.]+)\\.";
-    public static string pattern_PlayerSpawn = "\\[CameraDirector\\] Adding Spectator target (.+) with Party ID: (\\d*)  Squad ID: (\\d+) and playerID: (\\d+)";
+    public static string pattern_PlayerSpawn = "\\[CameraDirector\\] Adding Spectator target (.+) \\((.+)\\) with Party ID: (\\d*)  Squad ID: (\\d+) and playerID: (\\d+)";
     public static string pattern_PlayerObjectId = "\\[ClientGameManager\\] Handling bootstrap for [^ ]+ player FallGuy \\[(\\d+)\\].+, playerID = (\\d+)";
     public static string pattern_PlayerResult = "ClientGameManager::HandleServerPlayerProgress PlayerId=(\\d+) is succeeded=([^\\s]+)";
     public static string pattern_PlayerResult2 = "-playerId:(\\d+) points:(\\d+) isfinal:([^\\s]+) name:";

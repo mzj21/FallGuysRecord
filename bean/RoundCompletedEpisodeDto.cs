@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Documents;
 
 public class RoundCompletedEpisodeDto
 {
@@ -47,6 +48,6 @@ public class RoundCompletedEpisodeDto
 
     public override string ToString()
     {
-        return $"{{{nameof(Kudos)}={Kudos.ToString()}, {nameof(Fame)}={Fame.ToString()}, {nameof(Crowns)}={Crowns.ToString()}, {nameof(CurrentCrownShards)}={CurrentCrownShards.ToString()}, {nameof(ListRound)}={ListRound}}}";
+        return $"{{{nameof(Kudos)}={Kudos.ToString()}, {nameof(Fame)}={Fame.ToString()}, {nameof(Crowns)}={Crowns.ToString()}, {nameof(CurrentCrownShards)}={CurrentCrownShards.ToString()}, {nameof(ListRound)}={string.Join(",", ListRound)}}}";
     }
 }

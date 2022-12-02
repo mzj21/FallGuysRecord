@@ -8,9 +8,8 @@
 （糖豆人新赛季更新导致计时器出现了问题，FallGuysStats没有修复计时器的问题，我就着手汉化了shinq的FallGuysRecord，但是用起来很不方便，Java的界面实在是难言。后来我还用Java+JavaFX写了一个，但是打包出现了问题，和汉化的FallGuysRecord一样需要Java环境文件。在这之后我就新写了这个WPF项目。）
 ## 下载
   - 更新 [FallGuysRecord.exe](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/FallGuysRecord.exe)
-  - 单独资源包 [FallGuysRecord资源包(2022.11.12).7z](https://github.com/mzj21/FallGuysRecord/blob/main/FallGuysRecord资源包(2022.11.12).7z)<br>
-  - 单独资源更新包 [background SS3.7z](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/background SS3.7z)
-  - 语言包 [语言包.7z](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/语言包.7z)
+  - 单独图片资源包 [FallGuysRecord资源包(2022.11.12).7z](https://github.com/mzj21/FallGuysRecord/blob/main/FallGuysRecord资源包(2022.11.12).7z)<br>
+  - 单独图片资源更新包 [background SS3.7z](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/background SS3.7z)
 ## 使用
 解压即用，右键浮窗设置。**默认F7为浮窗显示快捷键，F8为回合信息显示快捷键。**
 ## 截图和说明
@@ -23,6 +22,8 @@
   - 回合信息支持统计小队成员计分，看看谁是拖后腿的（版本1.3.+）
   - 与FallGuysStats类似的数据库界面，图形暂未设计。（版本1.4.+）
 ## 更新日志
+ - 1.3.1
+>- 修复奖励结算后，不再统计的问题
  - 1.3.0
 >- 新增设置界面（浮窗右键进入，支持多语言实时切换，热键支持单一组合键）
 >- 新增连胜，位于浮窗第一栏中
