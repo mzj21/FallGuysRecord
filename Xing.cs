@@ -18,6 +18,8 @@ public class Xing
     public static string pattern_Time = "(\\d{2}):(\\d{2}):(\\d{2}).(\\d{3})";
     public static string pattern_VictoryScene = "VictoryScene::winnerPlayerId:(\\d*) name:([^\\s]+) squadId:(\\d*) teamId:(-?\\d*)";
     public static string pattern_PrivateLobby = "\\[GameStateMachine\\] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby";
+    public static string pattern_Squad = "SquadId:(\\d*) TotalPoints:(\\d*) numPendingScores:(\\d*)";
+    public static string pattern_SquadDetail = "-playerId:(\\d*) points:(\\d*) isfinal:([^\\s]+)";
     public static List<Levels> list_Levels;
     public static List<Shows> list_Shows;
 }

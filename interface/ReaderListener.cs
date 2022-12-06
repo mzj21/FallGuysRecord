@@ -49,17 +49,25 @@
     /// <param name="winstreak">连胜数</param>
     /// <param name="wins">获胜人数</param>
     void RoundExit(int match, int win, int winstreak, string wins);
+   /// <summary>
+   /// 奖励结算
+   /// </summary>
+   /// <param name="crown">皇冠</param>
+   /// <param name="crownShard">皇冠碎片</param>
+    void RoundCompletedEpisodeDto(int crown, int crownShard);
     /// <summary>
-    /// 回合结算
-    /// <param name="match">比赛场次</param>
-    /// <param name="win">获胜数</param>
-    /// <param name="winstreak">连胜数</param>
-    /// <param name="wins">获胜人数</param>
+    /// 个人记录
     /// </summary>
-    void RoundCompletedEpisodeDto(int match, int win, int winstreak, string wins);
+    /// <param name="levelMap">当前回合信息</param>
+    /// <param name="time">PB时间</param>
+    void RoundPB(Levels levelMap, string time);
     /// <summary>
     /// 更新PING
     /// </summary>
     /// <param name="ping"></param>
     void Ping(string ping);
+    /// <summary>
+    /// 还原初始状态
+    /// </summary>
+    void Clear();
 }

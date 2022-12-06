@@ -34,10 +34,12 @@
         if (partyId > 0)
         {
             r += " partyId=" + partyId;
+            //r += " P(" + partyId + ")";
         }
         if (squadID > 0)
         {
-            r += " squadID=" + squadID;
+            r += " squadID=" + squadID ;
+            //r += " S(" + squadID + ")";
         }
         return r;
     }

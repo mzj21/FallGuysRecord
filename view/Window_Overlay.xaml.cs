@@ -70,12 +70,21 @@ namespace FallGuysRecord.view
             r1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
             c1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Hidden : Visibility.Visible;
 
-            ResourceDictionary resourceDictionary = System.Windows.Application.LoadComponent(new Uri(@"resources\language\" + userSettingData.Language + ".xaml", UriKind.Relative)) as ResourceDictionary;
-            if (Resources.MergedDictionaries.Count > 0)
+            if (App.Current.Resources.MergedDictionaries.Count > 0)
             {
-                Resources.MergedDictionaries.Clear();
+                for (int i = App.Current.Resources.MergedDictionaries.Count - 1; i >= 0; i--)
+                {
+                    ResourceDictionary item = App.Current.Resources.MergedDictionaries[i];
+                    if (item.Source.ToString().Contains(userSettingData.Language))
+                    {
+                        continue;
+                    }
+                    if (item.Source.ToString().Contains("resources/language"))
+                    {
+                        App.Current.Resources.MergedDictionaries.Remove(item);
+                    }
+                }
             }
-            Resources.MergedDictionaries.Add(resourceDictionary);
         }
         #region [窗口置顶]
         private void Window_Deactivated(object sender, EventArgs e)
@@ -173,17 +182,18 @@ namespace FallGuysRecord.view
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="win">'s' Win:1/1</param>
-        /// <param name="ping">'s' PING</param>
-        /// <param name="roundShowName">'s' 回合名</param>
-        /// <param name="roundType">'s' 回合类型</param>
-        /// <param name="timeAll">'s' 计时器时间(回合结束关闭)</param>
-        /// <param name="timeMe">'s' 自己的时间</param>
-        /// <param name="timeFirst">'s' 第一时间</param>
-        /// <param name="firstName">'s' 第一名字</param>
+        /// <param name="win">Win:1/1</param>
+        /// <param name="ping">PING</param>
+        /// <param name="roundShowName">回合名</param>
+        /// <param name="roundType">回合类型</param>
+        /// <param name="timeAll">计时器时间(回合结束关闭)</param>
+        /// <param name="timeMe">自己的时间</param>
+        /// <param name="crown">皇冠</param>
+        /// <param name="crownshard">皇冠碎片</param>
+        /// <param name="PB">第一名字</param>
         /// /
         /// 
-        public void SetText(string win, string ping, string roundShowName, string roundType, string timeAll, string timeMe, string timeFirst, string firstName)
+        public void SetText(string win, string ping, string roundShowName, string roundType, string timeAll, string timeMe, string crown, string crownshard, string PB)
         {
             App.Current.Dispatcher.BeginInvoke(new Action(delegate
             {
@@ -199,10 +209,13 @@ namespace FallGuysRecord.view
                     t5.Text = timeAll;
                 if (!string.IsNullOrEmpty(timeMe))
                     t6.Text = timeMe;
-                if (!string.IsNullOrEmpty(timeFirst))
-                    t7.Text = timeFirst;
-                if (!string.IsNullOrEmpty(firstName))
-                    t8.Text = firstName;
+                if (!string.IsNullOrEmpty(crown) && !string.IsNullOrEmpty(crownshard))
+                {
+                    t7.Text = crown;
+                    t11.Text = crownshard;
+                }
+                if (!string.IsNullOrEmpty(PB))
+                    t8.Text = PB;
             }));
         }
         private void SetTextEasy(string time1, string time2)
@@ -221,7 +234,7 @@ namespace FallGuysRecord.view
         {
             this.num = num;
             roundName = levelMap.name;
-            SetText("", "", levelMap.showname + "(" + num + ")", levelMap.typename, "--:--", "--:--:---", "--:--:---", "------");
+            SetText("", "", $"{levelMap.showname}({num})", levelMap.typename, "--:--", "--:--:---", "", "", "");
             SetTextEasy("--:--", "--:--:---");
         }
 
@@ -230,19 +243,19 @@ namespace FallGuysRecord.view
             startTime = roundStartTime;
             timer.Interval = 1000;
             timer.Start();
-            SetText("", "", "", "", "00:00", isPlayerMEAlive ? "00:00:000" : "--:--:---", "00:00:000", "");
+            SetText("", "", "", "", "00:00", isPlayerMEAlive ? "00:00:000" : "--:--:---", "", "", "");
             SetTextEasy("00:00", "--:--:---");
         }
 
         public void RoundUpdateFirst(Player player, string time)
         {
-            SetText("", "", "", "", "", "", time, userSettingData.isShowFastestName ? player.playerName : "(" + player.platform + ")");
+            //SetText("", "", "", "", "", "", time, userSettingData.isShowFastestName ? player.playerName : $"({player.platform})");
         }
 
         public void RoundUpdateMe(Player player, string time, int rank)
         {
-            SetText("", "", "", "", "", "#" + rank + " - " + time, "", "");
-            SetTextEasy("", "#" + rank + " - " + time);
+            SetText("", "", "", "", "", $"#{rank}-{time}", "", "", "");
+            SetTextEasy("", $"#{rank}-{time}");
         }
 
         public void RoundUpdateTotal(string time)
@@ -251,30 +264,35 @@ namespace FallGuysRecord.view
 
         public void RoundBalance(string balance)
         {
-            SetText("", "", "", balance, "", "", "", "");
+            SetText("", "", "", balance, "", "", "", "", "");
         }
 
         public void RoundEnd(string endtime, bool isPlaying)
         {
             timer.Stop();
-            SetText("", "", "", "", endtime, isPlaying ? "--:--:---" : "", "", "");
+            SetText("", "", "", "", endtime, isPlaying ? "--:--:---" : "", "", "", "");
             SetTextEasy(endtime.Substring(0, 5), "");
         }
 
         public void RoundExit(int match, int win, int winstreak, string wins)
         {
             timer.Stop();
-            SetText("win(" + win + "/" + match + "|" + winstreak + ")", "", "", wins, "", "", "", "");
+            SetText($"win({win}/{match}|{winstreak})", "", "", wins, "", "", "", "", "");
         }
 
-        public void RoundCompletedEpisodeDto(int match, int win, int winstreak, string wins)
+        public void RoundCompletedEpisodeDto(int crown, int crownShard)
         {
-            SetText("win(" + win + "/" + match + "|" + winstreak + ")", "", "", wins, "", "", "", "");
+            SetText("", "", "", "", "", "", crown.ToString(), crownShard.ToString(), "");
+        }
+
+        public void RoundPB(Levels levelMap, string time)
+        {
+            SetText("", "", "", "", "", "", "", "", $"PB-{time}");
         }
 
         public void Ping(string ping)
         {
-            SetText("", "Ping:" + ping + "ms", "", "", "", "", "", "");
+            SetText("", $"Ping:{ping}ms", "", "", "", "", "", "", "");
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -289,6 +307,11 @@ namespace FallGuysRecord.view
                 t5.Text = string.Format("{0:00}:{1:00}", timeSpan.Minutes, timeSpan.Seconds);
             }));
             SetTextEasy(string.Format("{0:00}:{1:00}", timeSpan.Minutes, timeSpan.Seconds), "");
+        }
+
+        public void Clear()
+        {
+            SetText("win(0/0|0)", "Ping:ms", "------", "------", "--:--", "--:--:---", "0", "0", "------");
         }
         #endregion
         #region [注册快捷键]

@@ -14,4 +14,7 @@
     <s:String x:Key="ALL">Todos</s:String>
     <s:String x:Key="Copy">Cópia</s:String>
     <s:String x:Key="Save">Salvar</s:String>
+    <s:String x:Key="Player">Jogador</s:String>
+    <s:String x:Key="Points">Pontos</s:String>
+    <s:String x:Key="Qualify">Classifique</s:String>
 </ResourceDictionary>

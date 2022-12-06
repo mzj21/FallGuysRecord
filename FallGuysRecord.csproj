@@ -137,6 +137,7 @@
     <Compile Include="bean\Round.cs" />
     <Compile Include="bean\Shows.cs" />
     <Compile Include="bean\RoundCompletedEpisodeDto.cs" />
+    <Compile Include="bean\Squad.cs" />
     <Compile Include="bean\UserSettingData.cs" />
     <Resource Include="resources\language\Deutsch.xaml">
       <SubType>Designer</SubType>
@@ -284,6 +285,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\background_roundinfo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\crown.png" />
+    <Resource Include="resources\crownshard.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

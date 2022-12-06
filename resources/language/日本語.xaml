@@ -14,4 +14,7 @@
     <s:String x:Key="ALL">すべて選択</s:String>
     <s:String x:Key="Copy">レプリケーション</s:String>
     <s:String x:Key="Save">保存</s:String>
+    <s:String x:Key="Player">プレイヤー</s:String>
+    <s:String x:Key="Points">ポイント</s:String>
+    <s:String x:Key="Qualify">クリアする</s:String>
 </ResourceDictionary>

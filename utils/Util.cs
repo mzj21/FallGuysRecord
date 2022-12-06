@@ -81,7 +81,7 @@ public class Util
 
     public static void ReadRound(string Language)
     {
-        var resources = "FallGuysRecord.resources.round_" + Language + ".json";
+        var resources = $"FallGuysRecord.resources.round_{Language}.json";
         using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resources))
         {
             using (StreamReader reader = new StreamReader(stream))
@@ -212,5 +212,27 @@ public class Util
     public static bool isFallGuysAlive()
     {
         return Process.GetProcessesByName("FallGuys_client_game").Length != 0;
+    }
+
+    /// <summary>
+    /// 获取字典中的string值
+    /// </summary>
+    /// <param name="key">key</param>
+    /// <returns>string值</returns>
+    public static string getResourcesString(string key)
+    {
+        return (string)System.Windows.Application.Current.Resources[key];
+    }
+
+    /// <summary>
+    /// 补齐数字，使得对齐
+    /// </summary>
+    /// <param name="totallength">需要对齐的总长度</param>
+    /// <param name="length">自身长度</param>
+    /// <returns></returns>
+    public static string NumPadRight(int totallength, int length)
+    {
+        string re = string.Empty;
+        return re.PadRight(totallength - length, '0');
     }
 }

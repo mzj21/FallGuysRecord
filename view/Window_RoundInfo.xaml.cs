@@ -190,24 +190,13 @@ namespace FallGuysRecord.view
         {
             SaveFileDialog saveDg = new SaveFileDialog();
             saveDg.Filter = @"(*.txt)|*.txt";
-            saveDg.FileName = "log_save " + DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss") + "";
+            saveDg.FileName = $"log_save {DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}";
             saveDg.AddExtension = true;
             saveDg.RestoreDirectory = true;
             if (saveDg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 File.WriteAllText(saveDg.FileName, roundinfo_detail.Text);
             }
-        }
-        #endregion
-        #region [语言改变]
-        public void LaunageChange(string language)
-        {
-            ResourceDictionary resourceDictionary = System.Windows.Application.LoadComponent(new Uri(@"resources\language\" + language + ".xaml", UriKind.Relative)) as ResourceDictionary;
-            if (Resources.MergedDictionaries.Count > 0)
-            {
-                Resources.MergedDictionaries.Clear();
-            }
-            Resources.MergedDictionaries.Add(resourceDictionary);
         }
         #endregion
     }

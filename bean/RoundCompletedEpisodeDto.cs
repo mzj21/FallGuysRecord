@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Documents;
 
 public class RoundCompletedEpisodeDto
 {
@@ -13,6 +12,7 @@ public class RoundCompletedEpisodeDto
     {
         public int RoundNum { get; set; }
         public string RoundName { get; set; }
+        public string RoundShowName { get; set; }
         public bool Qualified { get; set; }
         public int Position { get; set; }
         public int Kudos { get; set; }
@@ -26,6 +26,7 @@ public class RoundCompletedEpisodeDto
         {
             RoundNum = 0;
             RoundName = "";
+            RoundShowName = "";
             Qualified = false;
             Position = 0;
             Kudos = 0;
@@ -34,6 +35,11 @@ public class RoundCompletedEpisodeDto
             BonusKudos = 0;
             BonusFame = 0;
             BadgeId = "";
+        }
+
+        public override string ToString()
+        {
+            return $"{{{nameof(RoundNum)}={RoundNum.ToString()}, {nameof(RoundName)}={RoundName}, {nameof(RoundShowName)}={RoundShowName}, {nameof(Qualified)}={Qualified.ToString()}, {nameof(Position)}={Position.ToString()}, {nameof(Kudos)}={Kudos.ToString()}, {nameof(Fame)}={Fame.ToString()}, {nameof(BonusTier)}={BonusTier.ToString()}, {nameof(BonusKudos)}={BonusKudos.ToString()}, {nameof(BonusFame)}={BonusFame.ToString()}, {nameof(BadgeId)}={BadgeId}}}";
         }
     }
 

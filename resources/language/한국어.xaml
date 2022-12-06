@@ -14,4 +14,7 @@
     <s:String x:Key="ALL">모두선택</s:String>
     <s:String x:Key="Copy">복제</s:String>
     <s:String x:Key="Save">저장</s:String>
+    <s:String x:Key="Player">플레이어</s:String>
+    <s:String x:Key="Points">점수</s:String>
+    <s:String x:Key="Qualify">승리</s:String>
 </ResourceDictionary>

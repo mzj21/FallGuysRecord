@@ -14,4 +14,7 @@
     <s:String x:Key="ALL">全選</s:String>
     <s:String x:Key="Copy">複製</s:String>
     <s:String x:Key="Save">保存</s:String>
+    <s:String x:Key="Player">玩家</s:String>
+    <s:String x:Key="Points">得分</s:String>
+    <s:String x:Key="Qualify">合格</s:String>
 </ResourceDictionary>

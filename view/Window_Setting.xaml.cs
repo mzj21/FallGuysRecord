@@ -30,7 +30,7 @@ namespace FallGuysRecord.view
             this.roundinfo = roundinfo;
             initView();
         }
-
+        #region [初始化界面元素]
         private void initView()
         {
             userSettingData = Util.Read_UserSettingData();
@@ -49,6 +49,7 @@ namespace FallGuysRecord.view
             setting_hotkey_roundinfo.Text = userSettingData.RoundInfoHotkey;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
+        #endregion
         #region [置顶]
         private void Window_Deactivated(object sender, EventArgs e)
         {
@@ -82,16 +83,22 @@ namespace FallGuysRecord.view
         private void setting_language_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             ResourceDictionary resourceDictionary = System.Windows.Application.LoadComponent(new Uri(@"resources\language\" + setting_language.SelectedValue + ".xaml", UriKind.Relative)) as ResourceDictionary;
-            if (Resources.MergedDictionaries.Count > 0)
+            Debug.WriteLine(App.Current.Resources.MergedDictionaries.Count);
+            if (App.Current.Resources.MergedDictionaries.Count > 0)
             {
-                Resources.MergedDictionaries.Clear();
+                for (int i = App.Current.Resources.MergedDictionaries.Count - 1; i >= 0; i--)
+                {
+                    ResourceDictionary item = App.Current.Resources.MergedDictionaries[i];
+                    if (item.Source == null || item.Source.ToString().Contains("resources/language"))
+                    {
+                        App.Current.Resources.MergedDictionaries.Remove(item);
+                    }
+                }
             }
-            Resources.MergedDictionaries.Add(resourceDictionary);
+            App.Current.Resources.MergedDictionaries.Add(resourceDictionary);
             userSettingData.Language = (string)setting_language.SelectedValue;
             Util.Save_UserSettingData(userSettingData);
             Util.ReadRound(userSettingData.Language);
-
-            roundinfo.LaunageChange(userSettingData.Language);
 
             overlay.logReader.ChangelevelMap();
             Levels levelMap = Util.GetLevels(overlay.roundName);
@@ -100,7 +107,7 @@ namespace FallGuysRecord.view
             {
                 nn = overlay.t4.Text.Substring(overlay.t4.Text.IndexOf('('));
             }
-            overlay.SetText("", "", levelMap.showname + (overlay.num > 0 ? "(" + overlay.num + ")" : ""), levelMap.typename + nn, "", "", "", "");
+            overlay.SetText("", "", levelMap.showname + (overlay.num > 0 ? "(" + overlay.num + ")" : ""), levelMap.typename + nn, "", "", "", "", "");
         }
         #endregion
         #region [修改浮窗背景]

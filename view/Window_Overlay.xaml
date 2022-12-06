@@ -4,19 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="{DynamicResource Overlay}" 
+        Title="{DynamicResource Overlay}"
         x:Name="overlay_window"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-        Width="303" 
+        Width="303"
         Height="83"
         FontFamily="Segoe UI"
         FontSize="9pt"
         Cursor="Hand"
         InputMethod.IsInputMethodEnabled="False"
         LocationChanged="Overlay_window_LocationChanged"
-        SizeChanged="Overlay_window_SizeChanged" FontWeight="Bold"
+        SizeChanged="Overlay_window_SizeChanged"
+        FontWeight="Bold"
         Deactivated="Window_Deactivated"
         PreviewLostKeyboardFocus="overlay_window_PreviewLostKeyboardFocus"
         MouseLeftButtonDown="overlay_window_MouseLeftButtonDown"
@@ -34,28 +35,32 @@
 
     <Viewbox Stretch="Fill" ContextMenu="{StaticResource ContextMenu}">
         <Grid Width="303" Height="83">
-            <Border BorderThickness="1" BorderBrush="Transparent"  CornerRadius="12,12,12,12"  />
+            <Border BorderThickness="1" BorderBrush="Transparent" CornerRadius="12,12,12,12"/>
             <Image x:Name="overlay_background" Source="/resources/background_overlay.png" Stretch="UniformToFill">
                 <Image.Clip>
                     <RectangleGeometry RadiusX="5" RadiusY="5" Rect="0,0,303,83"/>
                 </Image.Clip>
             </Image>
-            <WrapPanel x:Name="r1" Orientation="Vertical" Height="68" Margin="0,8,10,7" Width="125" HorizontalAlignment="Right" ItemHeight="17" ItemWidth="125" Visibility="Hidden">
+            <WrapPanel x:Name="r1" Orientation="Vertical" Height="68" Margin="0,8,10,7" Width="125" HorizontalAlignment="Right" ItemHeight="17" ItemWidth="125">
                 <TextBlock x:Name="t2" Text="Ping:ms" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t2}" TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
-                <TextBlock x:Name="t4"  Text="------" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t4}"  TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
-                <TextBlock x:Name="t6"  Text="--:--:---" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t6}"  TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
-                <TextBlock x:Name="t8"  Text="------" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t8}"  TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
+                <TextBlock x:Name="t4" Text="------" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t4}" TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
+                <TextBlock x:Name="t6" Text="--:--:---" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t6}" TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
+                <TextBlock x:Name="t8" Text="------" VerticalAlignment="Center" ToolTip="{Binding Text, ElementName=t8}" TextDecorations="{Binding TextDecorations, ElementName=t1}" HorizontalAlignment="Right"/>
             </WrapPanel>
-            <WrapPanel x:Name="l1" Orientation="Vertical" ItemHeight="17" Height="68" Margin="101,8,80,7" ItemWidth="101"
-                       Visibility="Hidden">
+            <WrapPanel x:Name="l1" Orientation="Vertical" ItemHeight="17" Height="68" Margin="101,8,80,7" ItemWidth="101">
                 <TextBlock x:Name="t1" Text="win(0/0|0)" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t1}"/>
-                <TextBlock x:Name="t3"  Text="------" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t3}"/>
-                <TextBlock x:Name="t5"  Text="--:--" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t5}"/>
-                <TextBlock x:Name="t7"  Text="--:--:---" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t7}"/>
+                <TextBlock x:Name="t3" Text="------" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t3}"/>
+                <TextBlock x:Name="t5" Text="--:--" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t5}"/>
+                <WrapPanel HorizontalAlignment="Left" Width="101" Orientation="Horizontal">
+                    <Image Source="/resources/crown.png" Stretch="Fill" Width="18"/>
+                    <TextBlock x:Name="t7" Text="0" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t7}" Margin="5,0,0,0"/>
+                    <Image Source="/resources/crownshard.png" Stretch="Fill" Width="12" Margin="5,0,0,0"/>
+                    <TextBlock x:Name="t11" Text="0" VerticalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" ToolTip="{Binding Text, ElementName=t11}" Margin="5,0,0,0"/>
+                </WrapPanel>
             </WrapPanel>
-            <WrapPanel x:Name="c1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40,0,0,0" ItemHeight="20">
-                <TextBlock x:Name="t9" Text="--:--:---" VerticalAlignment="Center"  HorizontalAlignment="Center"  TextDecorations="{Binding TextDecorations, ElementName=t1}"/>
-                <TextBlock x:Name="t10"  Text="--:--:---" HorizontalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" VerticalAlignment="Center"/>
+            <WrapPanel x:Name="c1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40,0,0,0" ItemHeight="20" Visibility="Hidden">
+                <TextBlock x:Name="t9" Text="--:--:---" VerticalAlignment="Center" HorizontalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}"/>
+                <TextBlock x:Name="t10" Text="--:--:---" HorizontalAlignment="Center" TextDecorations="{Binding TextDecorations, ElementName=t1}" VerticalAlignment="Center"/>
             </WrapPanel>
         </Grid>
     </Viewbox>

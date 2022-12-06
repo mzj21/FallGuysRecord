@@ -4,7 +4,7 @@
   **SS3时间戳回来了。**\
   没有时间戳后最精确的糖豆人计时器，流畅不卡顿，详细的信息可用于自用、直播、比赛等形式。\
   浮窗的形式展现（胜场，PING值，回合名称、类型，计时器等）。\
-  回合信息窗口（鼠标右键浮窗开启，实时玩家剩余数，各平台玩家数量，具体排名，服务器IP等）。\
+  回合信息窗口（设置中快捷键开启，实时玩家剩余数，各平台玩家数量，具体排名，服务器IP等）。\
 （糖豆人新赛季更新导致计时器出现了问题，FallGuysStats没有修复计时器的问题，我就着手汉化了shinq的FallGuysRecord，但是用起来很不方便，Java的界面实在是难言。后来我还用Java+JavaFX写了一个，但是打包出现了问题，和汉化的FallGuysRecord一样需要Java环境文件。在这之后我就新写了这个WPF项目。）
 ## 下载
   - 更新 [FallGuysRecord.exe](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/FallGuysRecord.exe)
@@ -19,9 +19,14 @@
 ![回合信息](https://github.com/mzj21/FallGuysRecord/blob/main/images/3.png)
 ![设置](https://github.com/mzj21/FallGuysRecord/blob/main/images/4.png)
 ## 功能预告
-  - 回合信息支持统计小队成员计分，看看谁是拖后腿的（版本1.3.+）
   - 与FallGuysStats类似的数据库界面，图形暂未设计。（版本1.4.+）
 ## 更新日志
+ - 1.3.2
+>- 所有数据都未存储，需要1.4.x版本添加数据库后支持
+>- 第一名时间修改为皇冠和碎片
+>- 第一名昵称修改为PB（暂时未做，1.4.x制作）
+>- 回合信息中增加自己小队分数详情
+>- 修复小队连胜时错误
  - 1.3.1
 >- 修复奖励结算后，不再统计的问题
  - 1.3.0

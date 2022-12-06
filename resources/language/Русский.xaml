@@ -14,4 +14,7 @@
     <s:String x:Key="ALL">Весь</s:String>
     <s:String x:Key="Copy">Копировать</s:String>
     <s:String x:Key="Save">Сохранить</s:String>
+    <s:String x:Key="Player">Игрок</s:String>
+    <s:String x:Key="Points">Баллы</s:String>
+    <s:String x:Key="Qualify">Пройдите отбор</s:String>
 </ResourceDictionary>
