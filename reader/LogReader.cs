@@ -571,10 +571,18 @@ public class LogReader
         if (line.Contains("> Crowns: ") && !isAnalysisRound) //皇冠
         {
             roundCompletedEpisodeDto.Crowns = int.Parse(line.Substring("> Crowns: ".Length));
+            crown += roundCompletedEpisodeDto.Crowns;
         }
         if (line.Contains("> CurrentCrownShards: ") && !isAnalysisRound) //皇冠碎片
         {
             roundCompletedEpisodeDto.CurrentCrownShards = int.Parse(line.Substring("> CurrentCrownShards: ".Length));
+            if (roundCompletedEpisodeDto.CurrentCrownShards < crownShard)
+            {
+                crown++;
+                Debug.WriteLine("crown = " + crown);
+            }
+            crownShard = roundCompletedEpisodeDto.CurrentCrownShards;
+            readerListener.RoundCompletedEpisodeDto(crown, crownShard);
         }
         if (line.Contains("[Round ")) //回合
         {
@@ -623,13 +631,6 @@ public class LogReader
             }
             roundCompletedEpisodeDto.ListRound.Add(roundDto);
             isAnalysisRound = false;
-            if (roundCompletedEpisodeDto.CurrentCrownShards < crownShard)
-            {
-                crown++;
-            }
-            crownShard = roundCompletedEpisodeDto.CurrentCrownShards;
-            crown += roundCompletedEpisodeDto.Crowns;
-            readerListener.RoundCompletedEpisodeDto(crown, crownShard);
         }
     }
 
