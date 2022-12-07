@@ -525,26 +525,6 @@ public class LogReader
                 //}
                 if (line.Contains("[StateQualificationScreen] Reloading for next round"))
                 {
-                    if (list_squad.Count > 0)
-                    {
-                        foreach (Squad squad in list_squad)
-                        {
-                            if (squad.SquadId == player_me.squadID)
-                            {
-                                logListener.Detail($"{Util.getResourcesString("Points")}={squad.TotalPoints}");
-                                foreach (SquadDetail squadDetail in squad.list_SquadDetail)
-                                {
-                                    Player player = list_player_RoundAll.Find(p => p.playerId == squadDetail.playerId);
-                                    if (player != null)
-                                    {
-                                        logListener.Detail($"{Util.getResourcesString("Points")}={Util.NumPadRight(squad.TotalPoints.ToString().Length, squadDetail.points.ToString().Length)}{squadDetail.points} {player.playerName}");
-                                        //logListener.Detail($"{player.playerName} {Util.getResourcesString("Points")}={squadDetail.points} {Util.getResourcesString("Qualify")}={squadDetail.isfinal}");
-                                    }
-                                }
-                                logListener.Detail("--------------------");
-                            }
-                        }
-                    }
                     readState = ReadState.ROUND_INIT;
                     Debug.WriteLine("准备下一回合");
                     break;
@@ -689,6 +669,26 @@ public class LogReader
         {
             isAnalysisSquad = false;
             squad_temp = null;
+            if (list_squad.Count > 0)
+            {
+                foreach (Squad squad in list_squad)
+                {
+                    if (squad.SquadId == player_me.squadID)
+                    {
+                        logListener.Detail($"{Util.getResourcesString("Points")}={squad.TotalPoints}");
+                        foreach (SquadDetail squadDetail in squad.list_SquadDetail)
+                        {
+                            Player player = list_player_RoundAll.Find(p => p.playerId == squadDetail.playerId);
+                            if (player != null)
+                            {
+                                logListener.Detail($"{Util.getResourcesString("Points")}={Util.NumPadRight(squad.TotalPoints.ToString().Length, squadDetail.points.ToString().Length)}{squadDetail.points} {player.playerName}");
+                                //logListener.Detail($"{player.playerName} {Util.getResourcesString("Points")}={squadDetail.points} {Util.getResourcesString("Qualify")}={squadDetail.isfinal}");
+                            }
+                        }
+                        logListener.Detail("--------------------");
+                    }
+                }
+            }
         }
     }
 }
