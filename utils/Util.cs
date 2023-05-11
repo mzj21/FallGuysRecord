@@ -107,6 +107,10 @@ public class Util
                 }
             }
         }
+        if (roundName.Contains("ugc-"))
+        {
+            level.showname = roundName.Replace("ugc-", "");
+        }
         return level;
     }
 
