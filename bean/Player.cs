@@ -38,7 +38,7 @@
         }
         if (squadID > 0)
         {
-            r += " squadID=" + squadID ;
+            r += " squadID=" + squadID;
             //r += " S(" + squadID + ")";
         }
         return r;

@@ -21,4 +21,5 @@ public class Xing
     public static string pattern_SquadDetail = "-playerId:(\\d*) points:(\\d*) isfinal:([^\\s]+)";
     public static List<Levels> list_Levels;
     public static List<Shows> list_Shows;
+    public static UserSettingData userSettingData;
 }

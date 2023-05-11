@@ -16,7 +16,6 @@ namespace FallGuysRecord.view
 {
     public partial class Window_Overlay : Window, ReaderListener
     {
-        private UserSettingData userSettingData;
         private System.Timers.Timer timer;
         private DateTime startTime;
         private TimeSpan timeSpan;
@@ -45,37 +44,36 @@ namespace FallGuysRecord.view
         #endregion
         public void initView()
         {
-            userSettingData = Util.Read_UserSettingData();
-            if (!string.IsNullOrEmpty(userSettingData.OverlayBackground) && File.Exists(userSettingData.OverlayBackground))
-                overlay_background.Source = new BitmapImage(new Uri(userSettingData.OverlayBackground));
-            overlay_window.Left = userSettingData.X;
-            overlay_window.Top = userSettingData.Y;
-            overlay_window.Width = userSettingData.Width;
-            overlay_window.Height = userSettingData.Height;
+            if (!string.IsNullOrEmpty(Xing.userSettingData.OverlayBackground) && File.Exists(Xing.userSettingData.OverlayBackground))
+                overlay_background.Source = new BitmapImage(new Uri(Xing.userSettingData.OverlayBackground));
+            overlay_window.Left = Xing.userSettingData.X;
+            overlay_window.Top = Xing.userSettingData.Y;
+            overlay_window.Width = Xing.userSettingData.Width;
+            overlay_window.Height = Xing.userSettingData.Height;
             changeLocation();///防止超出屏幕找不到
-            SolidBrush sb = new SolidBrush(userSettingData.TextColor);
+            SolidBrush sb = new SolidBrush(Xing.userSettingData.TextColor);
             overlay_window.Foreground = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
-            overlay_window.FontFamily = new FontFamily(userSettingData.TextFont.FontFamily.Name);
-            overlay_window.FontWeight = userSettingData.TextFont.Bold ? FontWeights.Bold : FontWeights.Regular;
-            overlay_window.FontStyle = userSettingData.TextFont.Italic ? FontStyles.Italic : FontStyles.Normal;
+            overlay_window.FontFamily = new FontFamily(Xing.userSettingData.TextFont.FontFamily.Name);
+            overlay_window.FontWeight = Xing.userSettingData.TextFont.Bold ? FontWeights.Bold : FontWeights.Regular;
+            overlay_window.FontStyle = Xing.userSettingData.TextFont.Italic ? FontStyles.Italic : FontStyles.Normal;
             TextDecorationCollection textDecorations = new TextDecorationCollection();
-            if (userSettingData.TextFont.Underline)
+            if (Xing.userSettingData.TextFont.Underline)
                 textDecorations.Add(TextDecorations.Underline);
-            if (userSettingData.TextFont.Strikeout)
+            if (Xing.userSettingData.TextFont.Strikeout)
                 textDecorations.Add(TextDecorations.Strikethrough);
             t1.TextDecorations = textDecorations;
-            overlay_window.FontSize = userSettingData.TextFont.Size;
-            t9.FontSize = userSettingData.TextFont.Size + 2;
-            l1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
-            r1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
-            c1.Visibility = userSettingData.isOriginalViewMode ? Visibility.Hidden : Visibility.Visible;
+            overlay_window.FontSize = Xing.userSettingData.TextFont.Size;
+            t9.FontSize = Xing.userSettingData.TextFont.Size + 2;
+            l1.Visibility = Xing.userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
+            r1.Visibility = Xing.userSettingData.isOriginalViewMode ? Visibility.Visible : Visibility.Hidden;
+            c1.Visibility = Xing.userSettingData.isOriginalViewMode ? Visibility.Hidden : Visibility.Visible;
 
             if (App.Current.Resources.MergedDictionaries.Count > 0)
             {
                 for (int i = App.Current.Resources.MergedDictionaries.Count - 1; i >= 0; i--)
                 {
                     ResourceDictionary item = App.Current.Resources.MergedDictionaries[i];
-                    if (item.Source.ToString().Contains(userSettingData.Language))
+                    if (item.Source.ToString().Contains(Xing.userSettingData.Language))
                     {
                         continue;
                     }
@@ -165,24 +163,24 @@ namespace FallGuysRecord.view
         #region [位置移动监听]
         private void Overlay_window_LocationChanged(object sender, EventArgs e)
         {
-            userSettingData.X = overlay_window.Left;
-            userSettingData.Y = overlay_window.Top;
-            Util.Save_UserSettingData(userSettingData);
+            Xing.userSettingData.X = overlay_window.Left;
+            Xing.userSettingData.Y = overlay_window.Top;
+            Util.Save_UserSettingData(Xing.userSettingData);
         }
         #endregion
         #region [大小改变监听]
         private void Overlay_window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            userSettingData.Width = overlay_window.Width;
-            userSettingData.Height = overlay_window.Height;
-            Util.Save_UserSettingData(userSettingData);
+            Xing.userSettingData.Width = overlay_window.Width;
+            Xing.userSettingData.Height = overlay_window.Height;
+            Util.Save_UserSettingData(Xing.userSettingData);
         }
         #endregion
         #region [修改文本]
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="win">Win:1/1</param>
+        /// <param name="win">Win:获胜数/比赛场数|连胜</param>
         /// <param name="ping">PING</param>
         /// <param name="roundShowName">回合名</param>
         /// <param name="roundType">回合类型</param>
@@ -249,7 +247,7 @@ namespace FallGuysRecord.view
 
         public void RoundUpdateFirst(Player player, string time)
         {
-            //SetText("", "", "", "", "", "", time, userSettingData.isShowFastestName ? player.playerName : $"({player.platform})");
+            //SetText("", "", "", "", "", "", time, Xing.userSettingData.isShowFastestName ? player.playerName : $"({player.platform})");
         }
 
         public void RoundUpdateMe(Player player, string time, int rank)
@@ -327,11 +325,10 @@ namespace FallGuysRecord.view
         public void RegisterHotKey()
         {
             HotkeyUtil.UnRegist();
-            userSettingData = Util.Read_UserSettingData();
-            if (!string.IsNullOrEmpty(userSettingData.OverlayHotkey))
+            if (!string.IsNullOrEmpty(Xing.userSettingData.OverlayHotkey))
             {
                 string ModifierKeys = "None";
-                string key = userSettingData.OverlayHotkey;
+                string key = Xing.userSettingData.OverlayHotkey;
                 if (key.Contains("+"))
                 {
                     ModifierKeys = key.Substring(0, key.IndexOf("+")).Trim();
@@ -350,11 +347,11 @@ namespace FallGuysRecord.view
                     }
                 });
             }
-            if (!string.IsNullOrEmpty(userSettingData.RoundInfoHotkey))
+            if (!string.IsNullOrEmpty(Xing.userSettingData.RoundInfoHotkey))
             {
                 string ModifierKeys = "None";
-                string key = userSettingData.RoundInfoHotkey;
-                if (userSettingData.RoundInfoHotkey.Contains("+"))
+                string key = Xing.userSettingData.RoundInfoHotkey;
+                if (Xing.userSettingData.RoundInfoHotkey.Contains("+"))
                 {
                     ModifierKeys = key.Substring(0, key.IndexOf("+")).Trim();
                     key = key.Substring(key.IndexOf("+") + 1, key.Length - key.IndexOf("+") - 1).Trim();

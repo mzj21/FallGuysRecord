@@ -58,8 +58,7 @@ public class LogReader
     private Squad.SquadDetail squadDetail_temp;
     private bool isAnalysisSquad; //是否开始解析小队积分统计
     private bool isCustomShows; //是否是自定义专题
-    private bool isDisconnect; //是否断开连接，防止多次
-    
+
     enum ReadState
     {
         ROUND_INIT, ROUND_START, ROUND_UPDATED, ROUND_END, ROUND_EXIT
@@ -188,7 +187,6 @@ public class LogReader
             isMatchStart = false;
             isRoundStart = false;
             isCustomShows = false;
-            isDisconnect = true;
         }
         if (Util.isFallGuysAlive())
         {
@@ -252,15 +250,13 @@ public class LogReader
             }
         }
         if (!isCustomShows && line.Contains("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby"))
-        { 
+        {
             isCustomShows = true;
-            isDisconnect = false;
             Debug.WriteLine("切换至自定义模式");
         }
         if (isCustomShows && (line.Contains("to FGClient.StateMainMenu") || line.Contains("with FGClient.StateMainMenu")))
-        { 
+        {
             isCustomShows = false;
-            isDisconnect = false;
             Debug.WriteLine("切换至主界面");
         }
         m = Regex.Match(line, Xing.pattern_Server);
@@ -301,7 +297,7 @@ public class LogReader
             Debug.WriteLine(m.Groups[0].Value);
             Debug.WriteLine("获胜界面");
         }
-        if (!isDisconnect && (line.Contains("FG_NetworkManager commencing shutdown") || line.Contains("Client has been disconnected") || line.Contains("[FG_UnityInternetNetworkManager] client quit")))
+        if (line.Contains("FG_NetworkManager commencing shutdown") || line.Contains("Client has been disconnected") || line.Contains("[FG_UnityInternetNetworkManager] client quit"))
         {
             if ((isMatchStart && roundCompletedEpisodeDto != null && roundCompletedEpisodeDto.ListRound.Count == 0) || (roundCompletedEpisodeDto != null && roundCompletedEpisodeDto.ListRound.Count > 0 && roundCompletedEpisodeDto.ListRound.Last().Qualified == false))
             {
@@ -324,7 +320,6 @@ public class LogReader
             readerListener.RoundExit(match, win, winstreak, level.typename + (list_player_Winner.Count > 0 ? $"({list_player_Winner.Count})" : ""));
             //Debug.WriteLine(roundCompletedEpisodeDto);
             isAnalysisCompletedEpisodeDto = false;
-            isDisconnect = true;
             Debug.WriteLine("中断连接");
         }
         if (line.Contains("Final Squads Positions"))
@@ -398,7 +393,7 @@ public class LogReader
                     int partyId = string.IsNullOrEmpty(m.Groups[3].Value) ? 0 : int.Parse(m.Groups[3].Value);
                     int squadId = int.Parse(m.Groups[4].Value);
                     int playerId = int.Parse(m.Groups[5].Value);
-                    if (playerName.Equals(("..."))) 
+                    if (playerName.Equals(("...")))
                         playerName = "Player " + playerId;
                     Player player = new Player(playerName, name, platform, partyId, squadId, playerId, PlayerState.PLAYING);
                     if (!list_player.Contains(player))
@@ -559,7 +554,7 @@ public class LogReader
     private void CompletedEpisodeDto(string line)
     {
         if (!isAnalysisCompletedEpisodeDto)
-        { 
+        {
             return;
         }
         if (line.Contains("> Kudos: ") && !isAnalysisRound) //总紫币

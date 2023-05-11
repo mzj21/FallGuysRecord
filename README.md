@@ -8,8 +8,7 @@
 （糖豆人新赛季更新导致计时器出现了问题，FallGuysStats没有修复计时器的问题，我就着手汉化了shinq的FallGuysRecord，但是用起来很不方便，Java的界面实在是难言。后来我还用Java+JavaFX写了一个，但是打包出现了问题，和汉化的FallGuysRecord一样需要Java环境文件。在这之后我就新写了这个WPF项目。）
 ## 下载
   - 更新 [FallGuysRecord.exe](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/FallGuysRecord.exe)
-  - 单独图片资源包 [FallGuysRecord资源包(2022.11.12).7z](https://github.com/mzj21/FallGuysRecord/blob/main/FallGuysRecord资源包(2022.11.12).7z)<br>
-  - 单独图片资源更新包 [background SS3.7z](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/background SS3.7z)
+  - 单独图片资源包 [糖豆人资源包 SS4 2023-05-10.7z](https://raw.githubusercontent.com/mzj21/FallGuysRecord/main/糖豆人资源包%20SS4%202023-05-10.7z)
 ## 使用
 解压即用，右键浮窗设置。**默认F7为浮窗显示快捷键，F8为回合信息显示快捷键。**
 ## 截图和说明
@@ -21,6 +20,10 @@
 ## 功能预告
   - 与FallGuysStats类似的数据库界面，图形暂未设计。（版本1.4.+）
 ## 更新日志
+ - 1.3.8
+ >- 修复场次计数错误
+ >- 更新第四赛季(SS4)资源包
+ >- 修复设置没有正确保存的情况
  - 1.3.7
 >- 修复关卡名问题
 >- 修复自定义模式

@@ -38,8 +38,8 @@ public class Util
             userSettingData.Language = "English";
             File.WriteAllText(settingFile, JsonConvert.SerializeObject(userSettingData, Formatting.Indented));
         }
-        UserSettingData data = Read_UserSettingData();
-        ReadRound(data.Language);
+        Xing.userSettingData = Read_UserSettingData();
+        ReadRound(Xing.userSettingData.Language);
     }
 
     public static UserSettingData Read_UserSettingData()

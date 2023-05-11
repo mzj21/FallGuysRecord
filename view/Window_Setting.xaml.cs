@@ -18,7 +18,6 @@ namespace FallGuysRecord.view
     /// </summary>
     public partial class Window_Setting : Window
     {
-        private UserSettingData userSettingData;
         private Window_Overlay overlay;
         private Window_RoundInfo roundinfo;
         private KeyboardHook hook_setting_hotkey_overlay, hook_setting_hotkey_roundinfo;
@@ -33,20 +32,19 @@ namespace FallGuysRecord.view
         #region [初始化界面元素]
         private void initView()
         {
-            userSettingData = Util.Read_UserSettingData();
-            if (!string.IsNullOrEmpty(userSettingData.OverlayBackground) && File.Exists(userSettingData.OverlayBackground))
-                overlay_background.Source = new BitmapImage(new Uri(userSettingData.OverlayBackground));
-            overlay_background_path.Text = userSettingData.OverlayBackground;
-            if (!string.IsNullOrEmpty(userSettingData.RoundInfoBackground) && File.Exists(userSettingData.RoundInfoBackground))
-                roundinfo_background.Source = new BitmapImage(new Uri(userSettingData.RoundInfoBackground));
-            roundinfo_background_path.Text = userSettingData.RoundInfoBackground;
-            setting_easymode.IsChecked = !userSettingData.isOriginalViewMode;
-            setting_language.SelectedItem = userSettingData.Language;
-            setting_font.Text = userSettingData.TextFont.ToString();
-            SolidBrush sb = new SolidBrush(userSettingData.TextColor);
+            if (!string.IsNullOrEmpty(Xing.userSettingData.OverlayBackground) && File.Exists(Xing.userSettingData.OverlayBackground))
+                overlay_background.Source = new BitmapImage(new Uri(Xing.userSettingData.OverlayBackground));
+            overlay_background_path.Text = Xing.userSettingData.OverlayBackground;
+            if (!string.IsNullOrEmpty(Xing.userSettingData.RoundInfoBackground) && File.Exists(Xing.userSettingData.RoundInfoBackground))
+                roundinfo_background.Source = new BitmapImage(new Uri(Xing.userSettingData.RoundInfoBackground));
+            roundinfo_background_path.Text = Xing.userSettingData.RoundInfoBackground;
+            setting_easymode.IsChecked = !Xing.userSettingData.isOriginalViewMode;
+            setting_language.SelectedItem = Xing.userSettingData.Language;
+            setting_font.Text = Xing.userSettingData.TextFont.ToString();
+            SolidBrush sb = new SolidBrush(Xing.userSettingData.TextColor);
             setting_color.Background = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
-            setting_hotkey_overlay.Text = userSettingData.OverlayHotkey;
-            setting_hotkey_roundinfo.Text = userSettingData.RoundInfoHotkey;
+            setting_hotkey_overlay.Text = Xing.userSettingData.OverlayHotkey;
+            setting_hotkey_roundinfo.Text = Xing.userSettingData.RoundInfoHotkey;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
         #endregion
@@ -96,9 +94,9 @@ namespace FallGuysRecord.view
                 }
             }
             App.Current.Resources.MergedDictionaries.Add(resourceDictionary);
-            userSettingData.Language = (string)setting_language.SelectedValue;
-            Util.Save_UserSettingData(userSettingData);
-            Util.ReadRound(userSettingData.Language);
+            Xing.userSettingData.Language = (string)setting_language.SelectedValue;
+            Util.Save_UserSettingData(Xing.userSettingData);
+            Util.ReadRound(Xing.userSettingData.Language);
 
             overlay.logReader.ChangelevelMap();
             Levels levelMap = Util.GetLevels(overlay.roundName);
@@ -115,15 +113,15 @@ namespace FallGuysRecord.view
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                InitialDirectory = userSettingData.OverlayBackground,
+                InitialDirectory = Xing.userSettingData.OverlayBackground,
                 Filter = @"(*.jpg,*.png,)|*.jpeg;*.jpg;*.png"
             };
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 overlay.overlay_background.Source = new BitmapImage(new Uri(openFileDialog.FileName));
                 overlay_background.Source = new BitmapImage(new Uri(openFileDialog.FileName));
-                userSettingData.OverlayBackground = openFileDialog.FileName;
-                Util.Save_UserSettingData(userSettingData);
+                Xing.userSettingData.OverlayBackground = openFileDialog.FileName;
+                Util.Save_UserSettingData(Xing.userSettingData);
             }
         }
         #endregion
@@ -132,31 +130,31 @@ namespace FallGuysRecord.view
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                InitialDirectory = userSettingData.OverlayBackground,
+                InitialDirectory = Xing.userSettingData.OverlayBackground,
                 Filter = @"(*.jpg,*.png,)|*.jpeg;*.jpg;*.png"
             };
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 roundinfo.roundinfo_background.Source = new BitmapImage(new Uri(openFileDialog.FileName));
                 roundinfo_background.Source = new BitmapImage(new Uri(openFileDialog.FileName));
-                userSettingData.RoundInfoBackground = openFileDialog.FileName;
-                Util.Save_UserSettingData(userSettingData);
+                Xing.userSettingData.RoundInfoBackground = openFileDialog.FileName;
+                Util.Save_UserSettingData(Xing.userSettingData);
             }
         }
         #endregion
         #region [简易模式]
         private void setting_easymode_Checked(object sender, RoutedEventArgs e)
         {
-            userSettingData.isOriginalViewMode = false;
-            Util.Save_UserSettingData(userSettingData);
+            Xing.userSettingData.isOriginalViewMode = false;
+            Util.Save_UserSettingData(Xing.userSettingData);
             overlay.l1.Visibility = Visibility.Hidden;
             overlay.r1.Visibility = Visibility.Hidden;
             overlay.c1.Visibility = Visibility.Visible;
         }
         private void setting_easymode_Unchecked(object sender, RoutedEventArgs e)
         {
-            userSettingData.isOriginalViewMode = true;
-            Util.Save_UserSettingData(userSettingData);
+            Xing.userSettingData.isOriginalViewMode = true;
+            Util.Save_UserSettingData(Xing.userSettingData);
             overlay.l1.Visibility = Visibility.Visible;
             overlay.r1.Visibility = Visibility.Visible;
             overlay.c1.Visibility = Visibility.Hidden;
@@ -167,7 +165,7 @@ namespace FallGuysRecord.view
         {
             FontDialog fontDialog = new FontDialog
             {
-                Font = userSettingData.TextFont
+                Font = Xing.userSettingData.TextFont
             };
             if (fontDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -186,10 +184,10 @@ namespace FallGuysRecord.view
                 overlay.t1.TextDecorations = textDecorations;
                 overlay.overlay_window.FontSize = f.Size;
                 roundinfo.window_roundinfo.FontSize = f.Size;
-                userSettingData.TextFont = f;
+                Xing.userSettingData.TextFont = f;
                 overlay.t9.FontSize = f.Size + 2;
                 setting_font.Text = f.ToString();
-                Util.Save_UserSettingData(userSettingData);
+                Util.Save_UserSettingData(Xing.userSettingData);
             }
         }
         #endregion
@@ -198,7 +196,7 @@ namespace FallGuysRecord.view
         {
             ColorDialog colorDialog = new ColorDialog
             {
-                Color = userSettingData.TextColor
+                Color = Xing.userSettingData.TextColor
             };
             if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -207,8 +205,8 @@ namespace FallGuysRecord.view
                 overlay.overlay_window.Foreground = solidColorBrush;
                 roundinfo.window_roundinfo.Foreground = solidColorBrush;
                 setting_color.Background = solidColorBrush;
-                userSettingData.TextColor = colorDialog.Color;
-                Util.Save_UserSettingData(userSettingData);
+                Xing.userSettingData.TextColor = colorDialog.Color;
+                Util.Save_UserSettingData(Xing.userSettingData);
             }
         }
         #endregion
@@ -242,8 +240,8 @@ namespace FallGuysRecord.view
                 ModifierKeys = ModifierKeys + " + ";
             }
             setting_hotkey_overlay.Text = ModifierKeys + e.KeyCode.ToString();
-            userSettingData.OverlayHotkey = ModifierKeys + e.KeyCode.ToString();
-            Util.Save_UserSettingData(userSettingData);
+            Xing.userSettingData.OverlayHotkey = ModifierKeys + e.KeyCode.ToString();
+            Util.Save_UserSettingData(Xing.userSettingData);
             overlay.RegisterHotKey();
         }
 
@@ -274,9 +272,9 @@ namespace FallGuysRecord.view
                 }
                 ModifierKeys = ModifierKeys + " + ";
             }
-            setting_hotkey_roundinfo.Text = ModifierKeys +  e.KeyCode.ToString();
-            userSettingData.RoundInfoHotkey = ModifierKeys + e.KeyCode.ToString();
-            Util.Save_UserSettingData(userSettingData);
+            setting_hotkey_roundinfo.Text = ModifierKeys + e.KeyCode.ToString();
+            Xing.userSettingData.RoundInfoHotkey = ModifierKeys + e.KeyCode.ToString();
+            Util.Save_UserSettingData(Xing.userSettingData);
             overlay.RegisterHotKey();
         }
 

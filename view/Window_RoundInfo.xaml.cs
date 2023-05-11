@@ -13,31 +13,29 @@ namespace FallGuysRecord.view
 {
     public partial class Window_RoundInfo : Window, LogListener
     {
-        UserSettingData userSettingData;
         private bool isBottom;
         public Window_RoundInfo()
         {
             InitializeComponent();
-            userSettingData = Util.Read_UserSettingData();
-            window_roundinfo.Left = userSettingData.X_Info;
-            window_roundinfo.Top = userSettingData.Y_Info;
-            window_roundinfo.Width = userSettingData.Width_Info;
-            window_roundinfo.Height = userSettingData.Height_Info;
+            window_roundinfo.Left = Xing.userSettingData.X_Info;
+            window_roundinfo.Top = Xing.userSettingData.Y_Info;
+            window_roundinfo.Width = Xing.userSettingData.Width_Info;
+            window_roundinfo.Height = Xing.userSettingData.Height_Info;
             changeLocation();///防止超出屏幕找不到
-            SolidBrush sb = new SolidBrush(userSettingData.TextColor);
+            SolidBrush sb = new SolidBrush(Xing.userSettingData.TextColor);
             window_roundinfo.Foreground = new SolidColorBrush(Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B));
-            window_roundinfo.FontFamily = new FontFamily(userSettingData.TextFont.FontFamily.Name);
-            window_roundinfo.FontWeight = userSettingData.TextFont.Bold ? FontWeights.Bold : FontWeights.Regular;
-            window_roundinfo.FontStyle = userSettingData.TextFont.Italic ? FontStyles.Italic : FontStyles.Normal;
+            window_roundinfo.FontFamily = new FontFamily(Xing.userSettingData.TextFont.FontFamily.Name);
+            window_roundinfo.FontWeight = Xing.userSettingData.TextFont.Bold ? FontWeights.Bold : FontWeights.Regular;
+            window_roundinfo.FontStyle = Xing.userSettingData.TextFont.Italic ? FontStyles.Italic : FontStyles.Normal;
             TextDecorationCollection textDecorations = new TextDecorationCollection();
-            if (userSettingData.TextFont.Underline)
+            if (Xing.userSettingData.TextFont.Underline)
                 textDecorations.Add(TextDecorations.Underline);
-            if (userSettingData.TextFont.Strikeout)
+            if (Xing.userSettingData.TextFont.Strikeout)
                 textDecorations.Add(TextDecorations.Strikethrough);
             roundinfo_detail.TextDecorations = textDecorations;
-            window_roundinfo.FontSize = userSettingData.TextFont.Size;
-            if (!string.IsNullOrEmpty(userSettingData.RoundInfoBackground) && File.Exists(userSettingData.RoundInfoBackground))
-                roundinfo_background.Source = new BitmapImage(new Uri(userSettingData.RoundInfoBackground));
+            window_roundinfo.FontSize = Xing.userSettingData.TextFont.Size;
+            if (!string.IsNullOrEmpty(Xing.userSettingData.RoundInfoBackground) && File.Exists(Xing.userSettingData.RoundInfoBackground))
+                roundinfo_background.Source = new BitmapImage(new Uri(Xing.userSettingData.RoundInfoBackground));
         }
         #region [窗口置顶]
         private void window_listview_Deactivated(object sender, EventArgs e)
@@ -108,17 +106,17 @@ namespace FallGuysRecord.view
         #region [位置移动监听]
         private void window_listview_LocationChanged(object sender, EventArgs e)
         {
-            userSettingData.X_Info = window_roundinfo.Left;
-            userSettingData.Y_Info = window_roundinfo.Top;
-            Util.Save_UserSettingData(userSettingData);
+            Xing.userSettingData.X_Info = window_roundinfo.Left;
+            Xing.userSettingData.Y_Info = window_roundinfo.Top;
+            Util.Save_UserSettingData(Xing.userSettingData);
         }
         #endregion
         #region [大小改变监听]
         private void window_listview_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            userSettingData.Width_Info = window_roundinfo.Width;
-            userSettingData.Height_Info = window_roundinfo.Height;
-            Util.Save_UserSettingData(userSettingData);
+            Xing.userSettingData.Width_Info = window_roundinfo.Width;
+            Xing.userSettingData.Height_Info = window_roundinfo.Height;
+            Util.Save_UserSettingData(Xing.userSettingData);
         }
         #endregion
         #region [监听事件]

@@ -49,11 +49,11 @@
     /// <param name="winstreak">连胜数</param>
     /// <param name="wins">获胜人数</param>
     void RoundExit(int match, int win, int winstreak, string wins);
-   /// <summary>
-   /// 奖励结算
-   /// </summary>
-   /// <param name="crown">皇冠</param>
-   /// <param name="crownShard">皇冠碎片</param>
+    /// <summary>
+    /// 奖励结算
+    /// </summary>
+    /// <param name="crown">皇冠</param>
+    /// <param name="crownShard">皇冠碎片</param>
     void RoundCompletedEpisodeDto(int crown, int crownShard);
     /// <summary>
     /// 个人记录
