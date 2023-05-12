@@ -84,16 +84,6 @@ namespace FallGuysRecord.view
                 }
             }
         }
-        #region [窗口置顶]
-        private void Window_Deactivated(object sender, EventArgs e)
-        {
-            Util.Show(this);
-        }
-        private void overlay_window_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            Util.Show(this);
-        }
-        #endregion
         #region [拖动窗口,禁止最大化]
         private void overlay_window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -156,7 +146,7 @@ namespace FallGuysRecord.view
             if (window_Setting == null || PresentationSource.FromVisual(window_Setting) == null)
             {
                 window_Setting = new Window_Setting(this, roundinfo);
-                window_Setting.Show();
+                window_Setting.ShowDialog();
             }
         }
         #endregion

@@ -8,8 +8,7 @@
         x:Name="window_setting"
         ResizeMode="NoResize"
         Title="{DynamicResource Setting}" Width="500" Height="310"
-        Deactivated="Window_Deactivated"
-        PreviewLostKeyboardFocus="Window_PreviewLostKeyboardFocus">
+        Topmost="True">
 
     <Grid x:Name="g1">
         <WrapPanel Orientation="Vertical" ItemWidth="500" >

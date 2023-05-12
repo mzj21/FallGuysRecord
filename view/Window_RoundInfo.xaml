@@ -16,12 +16,11 @@
         FontWeight="Bold"
         Cursor="Hand"
         InputMethod.IsInputMethodEnabled="False"
-        Deactivated="window_listview_Deactivated"
-        PreviewLostKeyboardFocus="window_listview_PreviewLostKeyboardFocus"
         MouseLeftButtonDown="window_listview_MouseLeftButtonDown"
         MouseLeftButtonUp="window_listview_MouseLeftButtonUp"
         LocationChanged="window_listview_LocationChanged"
-        SizeChanged="window_listview_SizeChanged">
+        SizeChanged="window_listview_SizeChanged"
+        Topmost="True">
 
     <Window.Resources>
         <Style x:Key="RoundButton" TargetType="Button" >

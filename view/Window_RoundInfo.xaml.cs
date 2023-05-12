@@ -37,16 +37,6 @@ namespace FallGuysRecord.view
             if (!string.IsNullOrEmpty(Xing.userSettingData.RoundInfoBackground) && File.Exists(Xing.userSettingData.RoundInfoBackground))
                 roundinfo_background.Source = new BitmapImage(new Uri(Xing.userSettingData.RoundInfoBackground));
         }
-        #region [窗口置顶]
-        private void window_listview_Deactivated(object sender, EventArgs e)
-        {
-            Util.Show(this);
-        }
-        private void window_listview_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            Util.Show(this);
-        }
-        #endregion
         #region [拖动窗口,禁止最大化]
         private void window_listview_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

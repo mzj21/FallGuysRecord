@@ -48,17 +48,6 @@ namespace FallGuysRecord.view
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
         #endregion
-        #region [置顶]
-        private void Window_Deactivated(object sender, EventArgs e)
-        {
-            Util.Show(this);
-        }
-
-        private void Window_PreviewLostKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
-        {
-            Util.Show(this);
-        }
-        #endregion
         #region [语言选项加载]
         private void setting_language_Loaded(object sender, RoutedEventArgs e)
         {

@@ -96,20 +96,22 @@ public class Util
     public static Levels GetLevels(string roundName)
     {
         Levels level = new Levels();
+        bool isUGC = false;
         if (Xing.list_Levels != null && Xing.list_Levels.Count > 0)
         {
+            if (roundName != null && roundName.Contains("ugc-"))
+            {
+                level.showname = roundName.Replace("ugc-", "");
+                isUGC = true;
+            }
             foreach (Levels l in Xing.list_Levels)
             {
-                if (l.name.Equals(roundName))
+                if ((isUGC && l.sharecode.Equals(level.showname)) || l.name.Equals(roundName))
                 {
                     level = l;
                     break;
                 }
             }
-        }
-        if (roundName.Contains("ugc-"))
-        {
-            level.showname = roundName.Replace("ugc-", "");
         }
         return level;
     }
