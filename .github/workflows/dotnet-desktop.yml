@@ -1,0 +1,29 @@
+name: 自动构建
+run-name: 自动构建
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    name: 创建 FallGuysRecord.zip
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.3.1
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v1.1.1
+      - name: Restore Packages
+        run: nuget restore FallGuysRecord.sln
+      - name: Build
+        run: msbuild /t:build /p:configuration=Release /p:platform="Any CPU"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: FallGuysRecord
+          path: |
+            FallGuysRecord.exe
+            糖豆人资源包 SS4 2023-05-10.7z
