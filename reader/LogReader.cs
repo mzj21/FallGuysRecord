@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -368,7 +369,14 @@ public class LogReader
                     list_player_ELIMINATED.Clear();
                     level = Util.GetLevels(m.Groups[1].Value);
                     level.matchname = matchname;
-                    logListener.Detail(level.showname + "(" + round + ")");
+                    if (level.sharecode == String.Empty)
+                    {
+                        logListener.Detail(level.showname + "(" + round + ")");
+                    }
+                    else
+                    {
+                        logListener.Detail(level.showname + " " + level.sharecode + " (" + round + ")");
+                    }
                     LogHeader();
                     readerListener.RoundInit(round, level);
                     list_RoundName.Add(level.showname);
